@@ -50,7 +50,7 @@ function App() {
 
     const submitConfession = async () => {
         setFetching(true);
-        postData('http://confessions.link/api/confession/', { confession } )
+        postData('https://confessions.link/api/confession/', { confession } )
             .then(data => {
                 setConfession('');
                 setConfessionId(data.id);
