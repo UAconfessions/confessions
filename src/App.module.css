@@ -1,5 +1,10 @@
 body{
   background-color: #212735;
+  font-size: 16px;
+}
+h1{
+  font-family: 'Alef', sans-serif;
+  color: #867f7f;
 }
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
@@ -25,6 +30,7 @@ input[type=number] {
 
 .logo{
   height: 100%;
+  user-select: none;
 }
 
 .content{
@@ -127,11 +133,9 @@ input[type=number] {
 }
 .loading{
   margin-top: 1rem;
-
 }
-@keyframes spin { 100% { transform:rotate(360deg); } }
 
-.cta:hover *{
+.cta:disabled *{
   transform: translateY(-2.5rem);
 }
 .cta:disabled{
@@ -161,4 +165,32 @@ input[type=number] {
   background-color: #2a3143;
   border-radius: 11px;
   margin-top: .5rem;
+}
+
+@media only screen and (max-width: 600px) {
+  .confession {
+    flex-direction: column;
+    width: 100%;
+  }
+  .confessActions{
+    flex-direction: row;
+  }
+  .confessActions span{
+    line-height: 4rem;
+    margin-right: .5rem;
+  }
+  .action{
+    margin-top: .5rem;
+    margin-right: .5rem;
+    width: 5rem;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  body{
+    font-size: 10px;
+  }
+  .header {
+    height: 3rem;
+  }
 }

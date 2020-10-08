@@ -81,6 +81,7 @@ function App() {
                 <img className={style.logo} src={logo} alt={'fluisterlogo uantwerpen confessions'}/>
             </header>
             <section className={style.content}>
+                <h1>The truth will set you free</h1>
                 {/* <label htmlFor={'reactionId'} className={style.label}>
                     reageer op een confession:
                     <span className={style.at}>
@@ -106,7 +107,7 @@ function App() {
                     <textarea
                         className={style.confessionField}
                         onChange={e => setConfession(e.target.value)}
-                        placeholder={'laat hier je hart uit'}
+                        placeholder={'Jouw anonieme confession hier ...'}
                         value={confession}
                     />
 
@@ -117,7 +118,7 @@ function App() {
                         {hasImage && (
                             <button className={style.action} onClick={() => setHasImage(false)}><img src={noImage}/>
                             </button>)*/}
-                        {confession.length < 10 && (<span>{10 - confession.length}</span>)}
+                        {confession.length < 10 && (<span>- {10 - confession.length}</span>)}
                         <button className={style.cta} onClick={submitConfession} disabled={isFetching || confession.length < 10} ><img className={style.send} src={send}/><img className={style.loading} src={loading}/></button>
                     </div>
                 </div>
@@ -128,12 +129,6 @@ function App() {
                             type={'file'}
                         />
                     </div>
-                )}
-                {confessionId && (
-                    <>
-                    <h2>Je confession is ingediend.</h2>
-                    <p>Als je wilt weten wat er met je confession is gebeurt, gebruik dan de ID {confessionId}</p>
-                    </>
                 )}
             </section>
         </>
