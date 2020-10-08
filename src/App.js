@@ -117,7 +117,8 @@ function App() {
                         {hasImage && (
                             <button className={style.action} onClick={() => setHasImage(false)}><img src={noImage}/>
                             </button>)*/}
-                        <button className={style.cta} onClick={submitConfession} disabled={isFetching} ><img className={style.send} src={send}/><img className={style.loading} src={loading}/></button>
+                        {confession.length < 10 && (<span>{10 - confession.length}</span>)}
+                        <button className={style.cta} onClick={submitConfession} disabled={isFetching || confession.length < 10} ><img className={style.send} src={send}/><img className={style.loading} src={loading}/></button>
                     </div>
                 </div>
                 {hasImage && (
