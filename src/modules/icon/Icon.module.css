@@ -1,0 +1,11 @@
+
+.spin {
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+    animation-name: rotateClockwise;
+    animation-timing-function: ease-in-out;
+}
+@keyframes rotateClockwise {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}

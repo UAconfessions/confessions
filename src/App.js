@@ -32,13 +32,3 @@ export default function App() {
         </>
     );
 }
-/*
-
-
-            </section>
-        </>
-    );
-}
-
-export default App;
-*/

@@ -85,15 +85,14 @@
 .cta:hover{
     background-color: #8a2a28;
 }
-.cta *{
+.cta div{
     transition: .2s;
-    display: block;
 }
-.loading{
+.cta div *:nth-child(n+2){
     margin-top: 1rem;
 }
 
-.cta:disabled *{
+.cta:disabled div{
     transform: translateY(-2.5rem);
 }
 .cta:disabled{
@@ -126,24 +125,26 @@
     box-sizing: border-box;
     position: relative;
 }
-.uploadInput{
-    border: 2px dashed #212735;
-    width: 100%;
-    height: 100%;
+.imgUpload input[type=file]{
+    border: 2px dashed #3d465d;
+    position: absolute;
+    left: 1rem;
+    right: 1rem;
+    top: 1rem;
+    bottom: 1rem;
     box-sizing: border-box;
+    cursor: pointer;
 }
-.spin {
-    animation-duration: 1s;
-    animation-iteration-count: infinite;
-    animation-name: rotateClockwise;
-    animation-timing-function: ease-in-out;
+.imgUpload span{
+    position: absolute;
+    color: #505b7a;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    display: grid;
+    place-content: center;
 }
-@keyframes rotateClockwise {
-    0% { transform: translateY(-2.5rem) rotate(0deg); }
-    100% { transform: translateY(-2.5rem) rotate(360deg); }
-}
-
-
 
 @media only screen and (max-width: 600px) {
     .confession {
