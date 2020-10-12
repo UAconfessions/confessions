@@ -16,6 +16,7 @@ const searchEncode = obj => {
     const paramString = Object.entries(obj)
         .map(([key, value]) => `${key}=${value}`)
         .join('&');
+    if(!paramString) return '';
     const uri = `?${paramString}`;
     return encodeURI(uri);
 };
@@ -28,19 +29,27 @@ const bodyEncode = obj => {
 };
 const endpointToApi = (api, [name, {url /* ,methods */}] ) => {
     api[name] = {
-        get: (urlData = {}, success = (res) => {if(!res) throw res}, fail = (e) => {console.log(e)}) => {
+        get: (urlData = {}, success = (res) => {if(!res) throw res}, fail = (e) => {console.log(e)}, pwd = '') => {
             url.search = searchEncode(urlData);
             fetch(url, {
                 ...FETCH_CONFIG,
+                headers: {
+                    ...FETCH_CONFIG.headers,
+                    Token: pwd
+                },
                 method: 'GET',
             })
                 .then(res=>res.json())
                 .then(success)
                 .catch(fail);
         },
-        post: (postData = {}, success = (res) => {if(!res) throw res}, fail = (e) => {console.log(e)}) => {
+        post: (postData = {}, success = (res) => {if(!res) throw res}, fail = (e) => {console.log(e)}, pwd = '') => {
             fetch(url, {
                 ...FETCH_CONFIG,
+                headers: {
+                    ...FETCH_CONFIG.headers,
+                    Token: pwd
+                },
                 method: 'POST',
                 body: bodyEncode(postData)
             })
