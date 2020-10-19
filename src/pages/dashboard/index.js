@@ -1,5 +1,7 @@
 import React, {useState} from 'react';
 import Api from "../../utils/api";
+import style from './Dashboard.module.css';
+import Icon from './../../modules/icon';
 
 export default function Dashboard() {
     const [freshConfession, setFreshConfession] = useState(null);
@@ -27,6 +29,9 @@ export default function Dashboard() {
     const rejectConfession = () => {
         handleConfession(parseInt(freshConfession.id), 'reject');
     }
+    const archiveConfession = () => {
+        handleConfession(parseInt(freshConfession.id), 'archive');
+    }
     const handleConfession = (id, action) => {
         if (posting) return;
         setPosting(true);
@@ -47,17 +52,23 @@ export default function Dashboard() {
             <input type={'text'} placeholder={'paswoord'} value={pwd} onChange={(e) => setPwd(e.target.value)}/>
             <button onClick={fetchConfession}>Start</button>
             {freshConfession && (
-                <div>
-                    {freshConfession.text}
-                    <div>
-                        <button onClick={rejectConfession}>reject</button>
-                        <button onClick={acceptConfession}>accept</button>
+                <>
+                    <div className={style.confession}>
+                        {freshConfession.text}
+
                     </div>
-                </div>
+                    <div className={style.actions}>
+                        <button onClick={rejectConfession}><Icon.reject /></button>
+                        <button onClick={archiveConfession}><Icon.archive /></button>
+                        <button onClick={acceptConfession}><Icon.accept /></button>
+                    </div>
+                </>
             )}
-            {error && (
+            {error?.length > 0 && (
                 <div>
-                    {JSON.stringify(error)}
+                    <ul>
+                        {error.map(e => (<li>{JSON.stringify(e)}</li>))}
+                    </ul>
                 </div>
             )}
         </>

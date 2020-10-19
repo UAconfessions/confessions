@@ -1,0 +1,4 @@
+TODO: handle multiple concurrent users
+TODO: image upload
+TODO: correctly encode the confessions
+TODO: changelist

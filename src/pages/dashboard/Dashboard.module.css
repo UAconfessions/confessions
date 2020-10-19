@@ -1,0 +1,35 @@
+.input{
+    border-radius: 11px;
+    border: none;
+    padding: 1rem;
+    background-color: #2a3143;
+    color: white;
+}
+.confession{
+    max-width: 30rem;
+    border-radius: 11px;
+    padding: .4rem 1.5rem .2rem;
+    background-color: #2a3143;
+    white-space: pre-wrap;
+    margin-top: 2rem;
+    position: relative;
+    line-height: 1.5rem;
+}
+.actions{
+    display: flex;
+    flex-direction: row;
+}
+.actions button{
+    border-radius: 11px;
+    border: none;
+    background-color: #2a3143;
+    color: white;
+    display: block;
+    padding: .8rem 1.5rem;
+    margin-top: .5rem;
+    cursor: pointer;
+    width: 100%;
+}
+.actions button + button{
+    margin-left: .5rem;
+}
