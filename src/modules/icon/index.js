@@ -9,6 +9,8 @@ import blockedSrc from './blocked.svg';
 import trashSrc from './trash.svg';
 import publishSrc from './publish.svg';
 import archiveSrc from './archive.svg';
+import playSrc from './play.svg';
+import stopSrc from './stop.svg';
 
 function send(){
     return <img src={sendSrc} alt={'versturen'} />
@@ -44,4 +46,12 @@ function archive(){
     return <img src={archiveSrc} alt={'accept'} />
 }
 
-export default { send, setImage, loading, blocked, poll, reject, accept, archive};
+function start(){
+    return <img src={playSrc} alt={'start'} />
+}
+
+function stop(){
+    return <img src={stopSrc} alt={'stop'} />
+}
+
+export default { send, setImage, loading, blocked, poll, reject, accept, archive, start, stop};
