@@ -78,7 +78,7 @@
 
 .cta{
     composes: action;
-    background-color: #b53632;
+    background-color: #807255;
     height: 3.225rem;
     overflow: hidden;
 }
