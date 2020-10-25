@@ -1,12 +1,9 @@
-import React, {useState} from 'react';
+import {useState} from 'react';
 import Api from "../../utils/api";
 import style from './Dashboard.module.css';
 import Icon from './../../modules/icon';
 
-export default function Dashboard() {
-    const [freshConfession, setFreshConfession] = useState(null);
-    const [pwd, setPwd] = useState('');
-    const [usr, setUsr] = useState('');
+export default function Dashboard({setIsAdmin, pwd, setPwd, usr, setUsr, freshConfession, setFreshConfession}) {
     const [fetching, setFetching] = useState(false);
     const [posting, setPosting] = useState(false);
     const [error, setError] = useState([]);
@@ -15,6 +12,7 @@ export default function Dashboard() {
         setFreshConfession(null);
         setPwd('');
         setUsr('');
+        setIsAdmin(false);
     }
     const fetchConfession = () => {
         if (fetching) return;
@@ -23,6 +21,7 @@ export default function Dashboard() {
             setFetching(false);
             if (data.message === 'unauthorised') return setError([...error, data]);
             setFreshConfession(data);
+            setIsAdmin(true);
         };
         const fail = e => {
             setFetching(false);
@@ -82,7 +81,7 @@ export default function Dashboard() {
             {error?.length > 0 && (
                 <div>
                     <ul>
-                        {error.map(e => (<li>{JSON.stringify(e)}</li>))}
+                        {error.map(e => (<li key={JSON.stringify(new Date())}>{JSON.stringify(e)}</li>))}
                     </ul>
                 </div>
             )}

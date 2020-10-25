@@ -19,15 +19,25 @@ input::-webkit-file-upload-button {
 input[type=number] {
   -moz-appearance: textfield;
 }
-.header {
-  background-color: #161923;
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  justify-content: flex-start;
-  height: 6rem;
+.navItem{
+  height: 100%;
+  box-sizing: border-box;
+  transition: .2s;
 }
-
+.navItem + .navItem{
+  padding: 0 3rem;
+  color: white;
+  font-family: 'Alef', sans-serif;
+  text-decoration: none;
+  display: grid;
+  place-items: center;
+}
+.navItem + .navItem:hover{
+  background-color: #2a3143;
+}
+.navItemActive{
+  background-color: #212735;
+}
 .logo{
   height: 100%;
   user-select: none;
@@ -46,8 +56,5 @@ input[type=number] {
 @media only screen and (max-width: 400px) {
   body{
     font-size: 10px;
-  }
-  .header {
-    height: 3rem;
   }
 }
