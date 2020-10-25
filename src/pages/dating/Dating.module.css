@@ -1,0 +1,166 @@
+.input{
+    border-radius: 11px;
+    border: none;
+    padding: 1rem;
+    background-color: #2a3143;
+    color: white;
+}
+.reactionId{
+    composes: input;
+    margin-left: 1rem;
+    width: 3rem;
+    padding-left: 2.2rem;
+}
+.at{
+    position: relative;
+    line-height: 1rem;
+}
+.at::after{
+    padding: 1rem;
+    position: absolute;
+    height: 100%;
+    content: '@';
+    left: 1rem;
+    color: white;
+}
+
+.reactingOn{
+    max-width: 30rem;
+    border-radius: 11px;
+    padding: .4rem 1.5rem .2rem;
+    background-color: #2a3143;
+    white-space: pre-wrap;
+    margin-top: 2rem;
+    position: relative;
+}
+
+.reactingOnInfo{
+    position:absolute;
+    background-color: #212735;
+    border: 2px solid #2a3143;
+    padding: .4rem .7rem;
+    border-radius: 11px;
+    top: -1rem;
+    left: .7rem;
+}
+.reactingOn + .confession .confessionField{
+    margin-left: 1rem;
+}
+.confessionField{
+    display: block;
+    composes: input;
+    height: 9rem;
+    margin-top: .5rem;
+    position: relative;
+    margin-right: .5rem;
+    flex: 1 1 0;
+    font-size: 1rem;
+}
+.action{
+    display: block;
+    composes: input;
+    padding: .8rem 1.5rem;
+    margin-top: .5rem;
+    cursor: pointer;
+    width: 100%;
+}
+
+.confessActions{
+    flex: 0 0 4rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.action:hover{
+    background-color: #353d54;
+}
+
+.cta{
+    composes: action;
+    background-color: #807255;
+    height: 3.225rem;
+    overflow: hidden;
+}
+.cta:hover{
+    background-color: #8a2a28;
+}
+.cta div{
+    transition: .2s;
+}
+.cta div *:nth-child(n+2){
+    margin-top: 1rem;
+}
+
+.cta:disabled div{
+    transform: translateY(-2.5rem);
+}
+.cta:disabled{
+    background-color: #5b5453;
+    cursor: initial;
+}
+
+.confession{
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    width: 33rem;
+}
+.reactingOn + .confession::before{
+    position: absolute;
+    content: '';
+    width: 2px;
+    left: 0;
+    top: .5rem;
+    bottom: 0;
+    background-color: #2a3143;
+}
+.imgUpload{
+    width: 33rem;
+    height: 5rem;
+    background-color: #2a3143;
+    border-radius: 11px;
+    margin-top: .5rem;
+    padding: 1rem;
+    box-sizing: border-box;
+    position: relative;
+}
+.imgUpload input[type=file]{
+    border: 2px dashed #3d465d;
+    position: absolute;
+    left: 1rem;
+    right: 1rem;
+    top: 1rem;
+    bottom: 1rem;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+.imgUpload span{
+    position: absolute;
+    color: #505b7a;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    display: grid;
+    place-content: center;
+}
+
+@media only screen and (max-width: 600px) {
+    .confession {
+        flex-direction: column;
+        width: 100%;
+    }
+    .confessActions{
+        flex-direction: row;
+    }
+    .confessActions span{
+        line-height: 4rem;
+        margin-right: .5rem;
+    }
+    .action{
+        margin-top: .5rem;
+        margin-right: .5rem;
+        width: 5rem;
+    }
+}

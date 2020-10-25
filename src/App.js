@@ -7,15 +7,20 @@ import logo from './logo.jpg';
 import style from './App.module.css';
 import {useState} from "react";
 import {Navigate} from "react-router";
+import Store from "./pages/store";
+import Dating from "./pages/dating";
 
 function Structure({isAdmin}) {
     const {pathname} = useLocation();
+    const features = ['submit', 'admin'];
     return (
         <>
             <Nav type={'icon links'} class={style.header}>
                 <Link to={''} className={style.navItem}><img className={style.logo} src={logo} alt={'fluisterlogo uantwerpen confessions'}/></Link>
-                <NavLink to={'submit'} className={style.navItem} activeClassName={style.navItemActive} end>confess</NavLink>
-                { (isAdmin || pathname === '/admin') && (<NavLink to={'admin'} className={style.navItem} activeClassName={style.navItemActive} end>judge</NavLink>)}
+                { features.includes('submit') && (<NavLink to={'submit'} className={style.navItem} activeClassName={style.navItemActive} end>Confess</NavLink>)}
+                { features.includes('kotkit') && (<NavLink to={'kotkit'} className={style.navItem} activeClassName={style.navItemActive} end>Kot Kit</NavLink>)}
+                { features.includes('wingit') && (<NavLink to={'wingit'} className={style.navItem} activeClassName={style.navItemActive} end>Wing It</NavLink>)}
+                { features.includes('admin') && (isAdmin || pathname === '/admin') && (<NavLink to={'admin'} className={style.navItem} activeClassName={style.navItemActive} end>Judge</NavLink>)}
             </Nav>
             <section className={style.content}>
                 <Outlet/>
@@ -34,6 +39,8 @@ export default function App() {
             <Routes>
                 <Route path="/" element={<Structure isAdmin={isAdmin} />}>
                     <Route path="submit" element={<Submit/>}/>
+                    <Route path="kotkit" element={<Store/>}/>
+                    <Route path="wingit" element={<Dating/>}/>
                     <Route path="admin" element={
                         <Dashboard
                             setIsAdmin={setIsAdmin}
