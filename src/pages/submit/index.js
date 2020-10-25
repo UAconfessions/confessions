@@ -96,8 +96,8 @@ export default function Submit() {
                         disabled={isFetching || confession.length < 10}
                     >
                         <div>
-                            <Icon.send/>
-                            <Icon.blocked loading={isFetching}/>
+                            <Icon.Send/>
+                            <Icon.Blocked loading={isFetching}/>
                         </div>
                     </button>
                 </div>

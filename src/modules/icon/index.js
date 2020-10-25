@@ -12,46 +12,46 @@ import archiveSrc from './archive.svg';
 import playSrc from './play.svg';
 import stopSrc from './stop.svg';
 
-function send(){
-    return <img src={sendSrc} alt={'versturen'} />
-}
+const Send = () => (
+    <img src={sendSrc} alt={'versturen'} />
+);
 
-function setImage({cancel}){
-    if(!cancel)
-        return <img src={imgSrc} alt={'zet een afbeelding'} />
+const SetImage = ({cancel}) => {
+   if(!cancel) return <img src={imgSrc} alt={'zet een afbeelding'} />
     return <img src={noImgSrc} alt={'afbeeldingselectie anuleren'} />
 }
 
-function loading(){
-    return <img src={blockedSrc} alt={'wachten'} className={style.spin} />
-}
+const Loading = () => (
+    <img src={blockedSrc} alt={'wachten'} className={style.spin} />
+);
 
-function blocked({loading}){
-    return <img src={blockedSrc} alt={'nog niet beschikbaar'} className={loading ? style.spin : ''} />
-}
+const Blocked = ({loading}) => (
+    <img src={blockedSrc} alt={'nog niet beschikbaar'} className={loading ? style.spin : ''} />
+);
 
-function poll(){
-    return <img src={pollSrc} alt={'poll'} />
-}
+const Poll = () => (
+    <img src={pollSrc} alt={'poll'} />
+);
 
-function reject(){
-    return <img src={trashSrc} alt={'reject'} />
-}
+const Reject = () => (
+    <img src={trashSrc} alt={'reject'} />
+);
 
-function accept(){
-    return <img src={publishSrc} alt={'accept'} />
-}
+const Accept = () => (
+    <img src={publishSrc} alt={'accept'} />
+);
 
-function archive(){
-    return <img src={archiveSrc} alt={'accept'} />
-}
+const Archive = () => (
+    <img src={archiveSrc} alt={'accept'} />
+);
 
-function start(){
-    return <img src={playSrc} alt={'start'} />
-}
+const Start = () => (
+    <img src={playSrc} alt={'start'} />
+);
 
-function stop(){
-    return <img src={stopSrc} alt={'stop'} />
-}
+const Stop = () => (
+    <img src={stopSrc} alt={'stop'} />
+);
 
-export default { send, setImage, loading, blocked, poll, reject, accept, archive, start, stop};
+const icons = { Send, SetImage, Loading, Blocked, Poll, Reject, Accept, Archive, Start, Stop};
+export default icons;

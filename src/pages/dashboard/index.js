@@ -62,20 +62,20 @@ export default function Dashboard() {
                            onChange={(e) => setUsr(e.target.value)}/>
                     <input className={style.input} type={'password'} placeholder={'paswoord'} value={pwd}
                            onChange={(e) => setPwd(e.target.value)}/>
-                    <button className={style.green} onClick={fetchConfession}>{}<Icon.start/></button>
+                    <button className={style.green} onClick={fetchConfession}>{}<Icon.Start/></button>
                 </form>
             )}
             {freshConfession && (
                 <>
-                    <button className={style.red} onClick={stop}>{}<Icon.stop/></button>
+                    <button className={style.red} onClick={stop}>{}<Icon.Stop/></button>
                     <div className={style.confession}>
                         {freshConfession.text}
 
                     </div>
                     <div className={style.actions}>
-                        <button className={style.red} onClick={rejectConfession}><Icon.reject/></button>
-                        <button className={style.action} onClick={archiveConfession}><Icon.archive/></button>
-                        <button className={style.green} onClick={acceptConfession}><Icon.accept/></button>
+                        <button className={style.red} onClick={rejectConfession}><Icon.Reject/></button>
+                        <button className={style.action} onClick={archiveConfession}><Icon.Archive/></button>
+                        <button className={style.green} onClick={acceptConfession}><Icon.Accept/></button>
                     </div>
                 </>
             )}
