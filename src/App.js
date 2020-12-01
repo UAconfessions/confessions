@@ -12,7 +12,7 @@ import Dating from "./pages/dating";
 
 function Structure({isAdmin}) {
     const {pathname} = useLocation();
-    const features = ['submit', 'admin'];
+    const features = ['submit'];
     return (
         <>
             <Nav type={'icon links'} class={style.header}>

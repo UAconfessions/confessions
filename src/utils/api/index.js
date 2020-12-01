@@ -1,4 +1,4 @@
-const API_BASE_URL = new URL('https://confessions.link/api/');
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 const GET = 'get';
 const POST = 'post';
 const FETCH_CONFIG = {
@@ -11,27 +11,14 @@ const FETCH_CONFIG = {
     redirect: 'follow',
     referrerPolicy: 'no-referrer'
 }
-
-const searchEncode = obj => {
-    const paramString = Object.entries(obj)
-        .map(([key, value]) => `${key}=${value}`)
-        .join('&');
-    if(!paramString) return '';
-    const uri = `?${paramString}`;
-    return encodeURI(uri);
-};
-const bodyEncode = obj => {
-    return Object.entries(obj)
-        .reduce((formData, [key, value]) => {
-            formData.append(key, JSON.stringify(value));
-            return formData;
-        }, new FormData());
-};
+const replaceUrlData = (url, urlData) => {
+    return Object.entries(urlData).reduce( (href, [key, value]) =>  href.replace(`:${key}`, value), url.href);
+}
 const endpointToApi = (api, [name, {url /* ,methods */}] ) => {
     api[name] = {
-        get: (urlData = {}, success = (res) => {if(!res) throw res}, fail = (e) => {console.log(e)}, pwd = '') => {
-            url.search = searchEncode(urlData);
-            fetch(url, {
+        get: ({urlData = {}, success = (res) => {if(!res) throw res}, fail = (e) => {console.log(e)}, pwd = ''}) => {
+
+            fetch(replaceUrlData(url, urlData), {
                 ...FETCH_CONFIG,
                 headers: {
                     ...FETCH_CONFIG.headers,
@@ -43,15 +30,16 @@ const endpointToApi = (api, [name, {url /* ,methods */}] ) => {
                 .then(success)
                 .catch(fail);
         },
-        post: (postData = {}, success = (res) => {if(!res) throw res}, fail = (e) => {console.log(e)}, pwd = '') => {
-            fetch(url, {
+        post: ({postData = {}, urlData = {}, success = (res) => {if(!res) throw res}, fail = (e) => {console.log(e)}, pwd = ''}) => {
+
+            fetch(replaceUrlData(url, urlData), {
                 ...FETCH_CONFIG,
                 headers: {
                     ...FETCH_CONFIG.headers,
                     Token: pwd
                 },
                 method: 'POST',
-                body: bodyEncode(postData)
+                body: JSON.stringify(postData)
             })
                 .then(res=>res.json())
                 .then(success)
@@ -70,9 +58,9 @@ const endpoint = (url, methods = [GET, POST]) => {
     };
 }
 const endpoints = {
-    confession: endpoint('confession/'),
-    handle: endpoint('confession/handle/'),
-    image: endpoint('image/')
+    confession: endpoint('confess'),
+    reaction: endpoint('confess/:id'),
+    handle: endpoint('confession/handle')
 }
 const apis = reduceEndpointsToApis(endpoints);
 export default apis;
