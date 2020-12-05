@@ -2,9 +2,8 @@ import '../styles/globals.css';
 import Nav from '../components/nav/nav';
 import style from '../styles/App.module.css';
 import NavItem from '../components/navItem/navItem';
-// import NavLogo from '../components/navLogo/navLogo';
+import NavLogo from '../components/navLogo/navLogo';
 // import {useUser} from "../utils/firebase/useUser";
-import Head from "../components/head/head";
 
 
 export default function MyApp({ Component, pageProps }) {
@@ -13,7 +12,7 @@ export default function MyApp({ Component, pageProps }) {
 	return (
 		<>
 			<Nav type={'icon links'}>
-				{/*<NavLogo href={'/'}><img className={style.logo} src="/images/logo.jpg" alt={'fluisterlogo UAntwerpen confessions'}/></NavLogo>*/}
+				<NavLogo href={'/'}><img className={style.logo} src="/images/logo.jpg" alt={'fluisterlogo UAntwerpen confessions'}/></NavLogo>
 				{ features.includes('submit') && (<NavItem href={'/'}>Confess</NavItem>)}
 				{ features.includes('confessions') && (<NavItem href={'/confessions'}>Confessions</NavItem>)}
 
