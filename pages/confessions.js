@@ -1,4 +1,4 @@
-import style from '../styles/confessions.module.css';
+import style from '../styles/Confessions.module.css';
 import { getConfessions } from '../utils/firebase/firebase';
 
 
