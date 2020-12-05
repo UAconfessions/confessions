@@ -1,0 +1,22 @@
+.navItem{
+    height: 100%;
+    box-sizing: border-box;
+    transition: .2s;
+    padding: 0 3rem;
+    color: white;
+    font-family: 'Alef', sans-serif;
+    text-decoration: none;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+}
+.navItem:hover{
+    background-color: #2a3143;
+}
+.navItemActive{
+    background-color: #212735;
+}
+
+.navItemRight{
+    margin-left: auto;
+}

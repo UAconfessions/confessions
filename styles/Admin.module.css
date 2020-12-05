@@ -1,0 +1,41 @@
+.input{
+    border-radius: 11px;
+    border: none;
+    padding: 1rem;
+    background-color: #2a3143;
+    color: white;
+    cursor: text;
+    display: block;
+    width: 100%;
+    margin-top: .5rem;
+    box-sizing: border-box;
+}
+.confession{
+    border-radius: 11px;
+    padding: 1rem 1.5rem 1rem;
+    background-color: #2a3143;
+    white-space: pre-wrap;
+    margin-top: .5rem;
+    position: relative;
+    line-height: 1.5rem;
+}
+.actions{
+    display: flex;
+    flex-direction: row;
+}
+.action{
+    composes: input;
+    padding: .8rem 1.5rem;
+    cursor: pointer;
+}
+.actions button + button{
+    margin-left: .5rem;
+}
+.red{
+    composes: action;
+    background-color: #a63737;
+}
+.green {
+    composes: action;
+    background-color: #807255;
+}
