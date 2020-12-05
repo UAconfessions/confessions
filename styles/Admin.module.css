@@ -28,6 +28,9 @@
     padding: .8rem 1.5rem;
     cursor: pointer;
 }
+.action:disabled{
+    filter: brightness(0.8);
+}
 .actions button + button{
     margin-left: .5rem;
 }

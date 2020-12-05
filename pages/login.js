@@ -46,7 +46,7 @@ const Login = () => {
 
 					<div className={style.inputWrapper}>
 						<input className={style.input} id={'change-name'} placeholder={' '} type={'text'} value={username ?? ''} onChange={(e) => setUsername(e.target.value) }/>
-						<label for={'change-name'} className={style.label}>Username</label>
+						<label htmlFor={'change-name'} className={style.label}>Username</label>
 					</div>
 					<button className={style.button} disabled={fetching} onClick={() => saveName()}>save</button>
 				</div>
