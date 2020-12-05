@@ -14,7 +14,7 @@ export default function MyApp({ Component, pageProps }) {
 		<>
 			<Head />
 			<Nav type={'icon links'}>
-				<NavLogo href={'/'}><img className={style.logo} src="/images/logo.jpg" alt={'fluisterlogo UAntwerpen confessions'}/></NavLogo>
+				{/*<NavLogo href={'/'}><img className={style.logo} src="/images/logo.jpg" alt={'fluisterlogo UAntwerpen confessions'}/></NavLogo>*/}
 				{ features.includes('submit') && (<NavItem href={'/'}>Confess</NavItem>)}
 				{ features.includes('confessions') && (<NavItem href={'/confessions'}>Confessions</NavItem>)}
 
