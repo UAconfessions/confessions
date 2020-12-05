@@ -1,8 +1,6 @@
 import style from '../styles/Confessions.module.css';
 import { getConfessions } from '../utils/firebase/firebase';
 
-
-// TODO: trigger rebuild hook on confession post, and switch this out for getStaticProps
 // TODO: pagination
 
 export async function getStaticProps() {

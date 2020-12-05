@@ -1,5 +1,6 @@
 import admin from 'firebase-admin';
 import {postToFacebook} from "../facebook/facebook";
+import {rebuildProject} from "../vercel/vercel";
 
 try {
 	admin.initializeApp({
@@ -52,8 +53,8 @@ export const publishItemFromQueue = async (hash) => {
 	const id = +prev_id + 1;
 	const facebook_post_id = await postToFacebook({value, id});
 	await confessions.doc(`${id}`).set({ value, facebook_post_id, id});
-
 	await removeItemFromQueue(hash);
+	await rebuildProject();
 };
 
 export const removeItemFromQueue = async (id) => {
@@ -108,7 +109,7 @@ export const getUser = async id => {
 
 export const setUserName = async (id, username) => {
 	try{
-		const writeResult = await users.doc(`${id}`).update( { name: username});
+		await users.doc(`${id}`).update( { name: username});
 	}catch(error){
 		console.error(error.code);
 	}

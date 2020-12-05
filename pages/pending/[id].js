@@ -6,10 +6,6 @@ export async function getServerSideProps({params}) {
 	return { props: {  confession } };
 }
 
-// TODO: search
-// TODO: reacting
-// TODO: hotlink (with media cover image)
-
 export default function Confessions({confession}) {
 	return (
 		<div className={style.confession}>
