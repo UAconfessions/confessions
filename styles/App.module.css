@@ -1,0 +1,16 @@
+
+.logo{
+  height: 100%;
+  user-select: none;
+}
+
+.content{
+  max-width: 37rem;
+  margin: 0 auto;
+  background-color: #212735;
+  color: white;
+  padding: 2rem;
+  box-sizing: border-box;
+}
+
+

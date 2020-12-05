@@ -1,0 +1,91 @@
+html,
+body {
+	padding: 0;
+	margin: 0;
+	font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+	Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+	background-color: #212735;
+	font-size: 16px;
+}
+
+a {
+	color: inherit;
+	text-decoration: none;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+h1{
+	font-family: 'Alef', sans-serif;
+	color: #867f7f;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+input::-webkit-file-upload-button {
+	display: none;
+}
+
+/* Firefox */
+input[type=number] {
+	-moz-appearance: textfield;
+}
+
+
+@media only screen and (max-width: 400px) {
+	body{
+		font-size: 10px;
+	}
+}
+input:-webkit-autofill  {
+	 -webkit-text-fill-color: white !important;
+	 -webkit-box-shadow: 0 0 0 1rem #2a3143 inset !important;
+	 background-clip: content-box !important;
+ }
+
+.firebaseui-container{
+	background: #2a3143 !important;
+	border-radius: 11px !important;
+	color: white !important;
+}
+.firebaseui-title{
+	color: white !important;
+}
+
+#ui-sign-in-email-input, #ui-sign-in-password-input, #ui-sign-in-new-password-input, #ui-sign-in-name-input{
+	color: white !important;
+	border-bottom-width: 2px !important;
+}
+
+.firebaseui-id-password-toggle{
+	color: white !important;
+	transform: translateX(-2rem);
+}
+
+.firebaseui-label{
+	color: white !important;
+}
+.firebaseui-label:after{
+	left: 0 !important;
+	height: 2px !important;
+}
+.firebaseui-form-links{
+	display: none !important;
+}
+
+.firebaseui-button{
+	border-radius: 11px !important;
+	border: none !important;
+	background-color: #222836 !important;
+	box-shadow: none !important;
+	color: white !important;
+	box-sizing: border-box !important;
+	height: 50px !important;
+	cursor: pointer;
+	width: 100%;
+	margin: 0 !important;
+}
