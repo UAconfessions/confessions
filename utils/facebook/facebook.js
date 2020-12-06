@@ -2,10 +2,10 @@ export const postToFacebook = async ({value, id}) => {
 	try{
 		const message = `#${id} ${value}`;
 		const { id } =  await request('feed', {message});
-		return id;
+		return {facebook_post_id: id};
 	}catch(error){
 		console.error(error);
-		return '';
+		return {facebook_post_error: JSON.stringify(error)};
 	}
 };
 
