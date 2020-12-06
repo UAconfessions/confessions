@@ -54,7 +54,7 @@ export const publishItemFromQueue = async (hash) => {
 	const facebook_answer = await postToFacebook({value, id});
 	await confessions.doc(`${id}`).set({ value, id, ...facebook_answer });
 	await removeItemFromQueue(hash);
-	//await rebuildProject();
+	await rebuildProject();
 };
 
 export const removeItemFromQueue = async (id) => {
