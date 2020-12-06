@@ -14,8 +14,9 @@ const request = async (endpoint, searchParams) => {
 	const url = new URL(`v9.0/${process.env.FACEBOOK_PAGE_ID}/${endpoint}`, `https://graph.facebook.com`);
 	url.search = new URLSearchParams({...searchParams, access_token});
 	return await fetch(url,{method: 'POST'}).then(res => {
-	console.log(res.json());
-	return res.json();
+	const answer = res.json();
+	console.log(answer);
+	return answer;
 	});
 	
 };
