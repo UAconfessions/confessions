@@ -51,10 +51,10 @@ export const publishItemFromQueue = async (hash) => {
 
 	const {docs: [{id: prev_id}]} = await confessions.orderBy('id', 'desc').limit(1).get();
 	const id = +prev_id + 1;
-	const facebook_post_id = await postToFacebook({value, id});
-	await confessions.doc(`${id}`).set({ value, facebook_post_id, id});
+	const facebook_answer = await postToFacebook({value, id});
+	await confessions.doc(`${id}`).set({ value, id, ...facebook_answer });
 	await removeItemFromQueue(hash);
-	await rebuildProject();
+	//await rebuildProject();
 };
 
 export const removeItemFromQueue = async (id) => {
