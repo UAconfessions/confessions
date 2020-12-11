@@ -1,4 +1,5 @@
 import style from './Confession.module.css';
+import Id from '../id/Id';
 
 export default function Confession(props) {
 	return (
