@@ -82,7 +82,7 @@ export const getConfession = async id => {
 	const confession = await confessions.doc(`${id}`).get();
 	if (confession.exists) {
 		const data = confession.data();
-		return {...data, posted: data.posted.toDate()};
+		return {...data, posted: data.posted?.toDate() ?? 'unknown data'};
 	}
 }
 // TODO: pagination ( .startAfter(lastId) )

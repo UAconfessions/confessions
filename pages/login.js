@@ -11,10 +11,11 @@ const Login = () => {
 	if (!user?.id) {
 		return (
 			<>
-				<p>Hi there!</p>
+				<h1 className={style.greeting}>Welcome!</h1>
+				<h3 className={style.greeting}>Login or create an account.</h3>
 				<FirebaseAuth />
 			</>
-		)
+		);
 	}
 
 	const saveName = async () => {
@@ -29,7 +30,7 @@ const Login = () => {
 		setUsername(null);
 		await mutate([`api/admin/user/${user.email}`, user.token]);
 		setFetching(false);
-	}
+	};
 
 	return (
 		<div>

@@ -4,13 +4,13 @@ import Confession from '../../components/confession/Confession';
 
 export async function getServerSideProps({params}) {
 	const confession = await getQueuedConfession(params.id);
-	return { props: {  confession } };
+	return { props: {  confession, queueId: params.id } };
 }
 
-export default function Pending({confession}) {
+export default function Pending({confession, queueId }) {
 	return (
 		<div className={style.confession}>
-			<Confession {...confession} />
+			<Confession {...confession} queueId={queueId} />
 		</div>
 	);
 }

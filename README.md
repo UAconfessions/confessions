@@ -34,6 +34,8 @@ roadmap
 - chat
 - studentenwijzer
 - open universiteit
+- hashtagmap
+- muilgraph
 
 legal
 ----
