@@ -18,6 +18,18 @@
 	width: 100%;
 	box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12);
 }
+.button + .button{
+	margin-top: 1rem;
+}
+.smallButton{
+	display: block;
+	composes: button;
+	background-color: #2a3143;
+	padding: 1rem 2rem;
+	margin: 0 auto 24px;
+	max-width: 360px;
+
+}
 .header{
 	padding: 0 0 0;
 }
@@ -68,6 +80,28 @@
 	font-size: 16px;
 	padding: 4px 0;
 	width: 100%;
+}
+.fileInputWrapper{
+	composes: inputWrapper;
+	cursor: pointer;
+}
+.fileInput{
+	font-size: 16px;
+	opacity: 0;
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	cursor: pointer;
+}
+.fileField{
+	display: block;
+	width: 100%;
+	box-sizing: border-box;
+	cursor: pointer;
+	border: 2px dashed #222836;
+	padding: 1rem 2rem;
 }
 
 .input:focus{

@@ -1,4 +1,4 @@
-import { verifyIdToken, getQueuedConfession } from '../../../../utils/firebase/firebase'
+import {verifyIdToken, getQueuedConfession, getQueuedConfessionsAmount} from '../../../../utils/firebase/firebase'
 
 module.exports = async ({ headers: { token }}, res) => {
 	try {
@@ -8,7 +8,8 @@ module.exports = async ({ headers: { token }}, res) => {
 	}
 	try {
 		const confession = await getQueuedConfession();
-		return res.status(200).json({confession});
+		const amount = await getQueuedConfessionsAmount();
+		return res.status(200).json({confession, amount});
 	}catch (error){
 		return res.status(404).send('no queued confessions found');
 	}

@@ -7,7 +7,7 @@ import {useState} from 'react';
 
 export default function Dashboard({}) {
 	const { user } = useUser();
-	const { data, error } = useSWR(user?.token ? ['api/admin/confession', user.token] : null, fetcher)
+	const { data, error } = useSWR(user?.token ? ['api/admin/confession', user.token] : null, fetcher);
 	const [fetching, setFetching] = useState(false);
 	const actions = {
 		reject: { ActionIcon: Icon.Reject, actionStyle: style.red},
@@ -26,7 +26,7 @@ export default function Dashboard({}) {
 
 	return (
 		<>
-			<h1>Dashboard</h1>
+			<h1>Dashboard {data?.amount ? (<span>[{data?.amount} pending]</span>) : null}</h1>
 			{data?.confession && (
 				<>
 					<div className={style.confession}>
