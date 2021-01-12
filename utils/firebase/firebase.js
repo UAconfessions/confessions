@@ -25,7 +25,7 @@ try {
 
 export const firestore = admin.firestore();
 export const auth = admin.auth();
-export const storage = admin.storage().bucket(process.env.FIREBASE_STORAGE_BUCKET_NAME);
+export const storage = admin.storage().bucket();
 
 const queue = firestore.collection('queue');
 const bin = firestore.collection('bin');
