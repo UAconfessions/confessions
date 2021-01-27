@@ -115,6 +115,11 @@ export const getConfessions = async () => {
 	return posted.docs.map(post => post.data());
 }
 
+export const getBinnedConfessions = async () => {
+	const unfiltered = await bin.orderBy('submitted', 'desc').limit(200).get();
+	return unfiltered.docs.map(post => ({ value: post.data().value }));
+}
+
 export const getUser = async id => {
 	try {
 		const user = await users.doc(`${id}`).get();

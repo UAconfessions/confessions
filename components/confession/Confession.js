@@ -16,14 +16,14 @@ export default function Confession(props) {
 				<Id {...props} />{props.value}
 			</section>
 			<footer>
-				<span onClick={toClipBoard}>copy link</span>
+				{(props.queueId || props.id) && (
+					<span onClick={toClipBoard}>copy link</span>
+				)}
 				{props.facebook_post_id && (
 					<a href={`https://www.facebook.com/UAntwerpenConfessions/posts/${props.facebook_post_id?.split('_')[1]}`} target="_blank">
 						show on facebook
 					</a>
 				)}
-
-
 			</footer>
 		</div>
 	);
