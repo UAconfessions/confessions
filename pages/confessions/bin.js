@@ -16,7 +16,7 @@ export default function Bin({confessions}) {
 	return (
 		<>
 			<Head title={'UA Confessions bin'} />
-			{ confessions?.map((confession, index) => <Confession {...confession} key={index} />) && null }
+			{ confessions?.map((confession, index) => <Confession {...confession} key={index} />) }
 		</>
 	);
 }
