@@ -8,14 +8,16 @@
     "start": "next start"
   },
   "dependencies": {
-    "firebase": "^8.2.2",
-    "firebase-admin": "^9.4.2",
+    "firebase": "^8.2.9",
+    "firebase-admin": "^9.5.0",
     "js-cookie": "^2.2.1",
-    "next": "^10.0.5",
-    "next-images": "^1.6.2",
+    "mic-recorder-to-mp3": "^2.2.2",
+    "next": "^10.0.7",
+    "next-images": "^1.7.0",
     "react": "17.0.1",
     "react-dom": "17.0.1",
-    "swr": "^0.4.0"
+    "swr": "^0.4.2",
+    "wavesurfer.js": "^4.5.0"
   },
   "devDependencies": {
     "react-firebaseui": "^4.1.0"
