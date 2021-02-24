@@ -6,3 +6,11 @@
 .navItemActive{
     background-color: #212735;
 }
+
+
+@media only screen and (max-width: 600px) {
+    .navItem {
+        height: unset;
+        width: 100%;
+    }
+}

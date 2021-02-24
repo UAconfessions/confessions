@@ -2,7 +2,7 @@
     height: 100%;
     box-sizing: border-box;
     transition: .2s;
-    padding: 0 3rem;
+    padding: 0 2rem;
     color: white;
     font-family: 'Alef', sans-serif;
     text-decoration: none;
@@ -19,4 +19,14 @@
 
 .navItemRight{
     margin-left: auto;
+}
+
+@media only screen and (max-width: 600px) {
+    .navItem {
+        height: unset;
+        width: 100%;
+        writing-mode: vertical-lr;
+        transform: rotate(180deg);
+        padding: 2rem 0;
+    }
 }

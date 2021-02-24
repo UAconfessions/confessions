@@ -32,12 +32,14 @@ const bin = firestore.collection('bin');
 const confessions = firestore.collection('confessions');
 const users = firestore.collection('users');
 
-export const getPresignedUrl = async (_file) => {
-	const file = storage.file(_file);
+export const getPresignedUrl = async (_file, folder, userId) => {
+	const file = storage.file(`${folder}/${_file}`);
 	const options = {
-		expires: Date.now() + 1 * 60 * 1000, //  1 minute,
-		fields: { 'x-goog-meta-test': 'data' },
+		expires: Date.now() + 1 * 60 * 1000, //  1 minute
 	};
+	if (userId){
+		options.fields = { 'x-goog-meta-user': userId };
+	}
 	const [response] = await file.generateSignedPostPolicyV4(options);
 	return response;
 

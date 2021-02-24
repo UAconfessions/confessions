@@ -51,7 +51,7 @@
 .confessionField{
   display: block;
   composes: input;
-  height: 9rem;
+  height: 14rem;
   margin-top: .5rem;
   position: relative;
   margin-right: .5rem;
