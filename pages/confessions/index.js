@@ -1,5 +1,6 @@
 import { getConfessions } from '../../utils/firebase/firebase';
 import Confession from '../../components/confession/Confession';
+import Head from "../../components/head/head";
 
 // TODO: pagination
 
@@ -12,5 +13,10 @@ export async function getStaticProps() {
 // TODO: reacting
 
 export default function Index({confessions}) {
-    return confessions?.map(Confession);
+    return (
+        <>
+            <Head title={'UA Confessions'} />
+            { confessions?.map((confession, index) => <Confession {...confession} key={index} />) && null }
+        </>
+    );
 }

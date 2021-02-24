@@ -3,6 +3,7 @@ import style from '../styles/Home.module.css';
 import Icon from '../components/icon/icon';
 import { dateStringToReadable } from '../utils/dateHelper';
 import {useRouter} from "next/router";
+import Head from "../components/head/head";
 
 
 export default function Home() {
@@ -56,6 +57,7 @@ export default function Home() {
 
 	return (
 		<>
+			<Head title={'Confess'} />
 			<h1>The truth will set you free</h1>
 			<div className={style.confession}>
 				<div className={style.confessionData}>

@@ -4,6 +4,7 @@ import useSWR, {mutate} from 'swr';
 import fetcher from '../utils/api/fetcher';
 import {useUser} from '../utils/firebase/useUser';
 import {useState} from 'react';
+import Head from "../components/head/head";
 
 export default function Dashboard({}) {
 	const { user } = useUser();
@@ -26,6 +27,7 @@ export default function Dashboard({}) {
 
 	return (
 		<>
+			<Head title={'UA Admin'} />
 			<h1>Dashboard {data?.amount ? (<span>[{data?.amount} pending]</span>) : null}</h1>
 			{data?.confession && (
 				<>
@@ -41,6 +43,7 @@ export default function Dashboard({}) {
 			)}
 			{error && (
 				<div>
+					<span>An error occurred, try reloading this page.</span>
 					{JSON.stringify(error)}
 				</div>
 			)}

@@ -3,6 +3,7 @@ import FirebaseAuth from "../components/firebaseAuth/firebaseAuth";
 import {useState} from "react";
 import {mutate} from "swr";
 import style from "../styles/Login.module.css";
+import Head from "../components/head/head";
 
 const Login = () => {
 	const { user, logout } = useUser()
@@ -69,6 +70,7 @@ const Login = () => {
 
 	return (
 		<div>
+			<Head />
 			<div>
 				<h1 className={style.greeting}>Hi {user.name ?? user.email}</h1>
 				{!changingUsername && (<button className={style.smallButton} onClick={() => setChangingUsername(true)}>change username</button>)}
