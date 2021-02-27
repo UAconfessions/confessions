@@ -25,8 +25,8 @@ export default function MyApp({ Component, pageProps }) {
 			</Nav>
 			<section className={style.radio}>
 				<audio controls preload="auto">
-					<source src={mp3} type="audio/mpeg" />
 					<source src={mp3redirect} type="audio/mpeg" />
+					<source src={mp3} type="audio/mpeg" />
 					Your browser does not support inline audio
 				</audio>
 			</section>
