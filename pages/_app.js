@@ -7,8 +7,6 @@ import {useUser} from "../utils/firebase/useUser";
 
 
 export default function MyApp({ Component, pageProps }) {
-	const mp3 = 'https://22723.live.streamtheworld.com/NRJBELGIE.mp3';
-	const mp3redirect = 'https://playerservices.streamtheworld.com/api/livestream-redirect/NRJBELGIE.mp3';
 	const { user } = useUser();
 	const features = ['submit', 'admin', 'confessions', 'voicemail'];
 	return (
@@ -23,13 +21,6 @@ export default function MyApp({ Component, pageProps }) {
 				{ features.includes('admin') && (user?.isAdmin) && (<NavItem href={'/admin'}>Admin</NavItem>)}
 				{ features.includes('login') && (<NavItem href={'/login'} right>{user?.id ? user.name ?? user.email : 'Login'}</NavItem>)}
 			</Nav>
-			<section className={style.radio}>
-				<audio controls preload="auto">
-					<source src={mp3redirect} type="audio/mpeg" />
-					<source src={mp3} type="audio/mpeg" />
-					Your browser does not support inline audio
-				</audio>
-			</section>
 
 			<section className={style.content}>
 				<Component {...pageProps} />
