@@ -1,0 +1,13 @@
+.image{
+    height: 6rem;
+}
+
+.list{
+    display: grid;
+    grid-template-columns: 1fr 5rem;
+}
+
+.download{
+    color: blue;
+    text-decoration: underline;
+}
