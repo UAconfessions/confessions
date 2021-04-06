@@ -16,10 +16,10 @@
     "next-images": "^1.7.0",
     "react": "17.0.1",
     "react-dom": "17.0.1",
-    "swr": "^0.4.2",
-    "wavesurfer.js": "^4.5.0"
+    "swr": "^0.4.2"
   },
   "devDependencies": {
-    "react-firebaseui": "^4.1.0"
+    "react-firebaseui": "^4.1.0",
+    "request": "^2.88.2"
   }
 }

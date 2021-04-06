@@ -1,6 +1,8 @@
 import Head from "../components/head/head";
 import MicRecorder from 'mic-recorder-to-mp3';
 import { useState, useEffect } from 'react';
+import styles from '../styles/Voicemail.module.css';
+import Icon from "../components/icon/icon";
 
 
 export default function Voicemail() {
@@ -17,8 +19,8 @@ export default function Voicemail() {
 			setBlocked(false);
 		};
 
-		const errorHandler = () => {
-			console.log('Permission Denied');
+		const errorHandler = (e) => {
+			console.log('Permission Denied', e);
 			setBlocked(true);
 		};
 
@@ -96,6 +98,20 @@ export default function Voicemail() {
 		}
 	};
 
+	const stage = (!isRecording && !blobURL) ? 'record' : (isRecording ? 'recording' : (uploading ? 'uploading' : 'recorded' ) );
+	const buttonAction = () => {
+		if (!isRecording && !blobURL) {
+			start();
+		}
+		if (isRecording) {
+			stop();
+		}
+		if (blobURL) {
+			uploadFile(file);
+		}
+	};
+
+	console.log(stage);
 	const stop = () => {
 		recorder
 			.stop()
@@ -113,39 +129,41 @@ export default function Voicemail() {
 		<>
 			<Head title={'Confess voicemail'} />
 			<h1>The truth will set you free</h1>
+			<span>
+				This saturday [Admin] will be making radio. Leave him a voicemail confession and he'll play it on Radio NRJ.
+			</span>
 			{isBlocked && (
 				<>
-					<span>Before recording a voicemail you need to provide access to your microphone.</span>
-					<button onClick={getPermission}>Get permission</button>
+					<span>Before recording a voicemail you need to provide access to your microphone. Refresh this page or check your browser settings to give access.</span>
+					{/*<button onClick={getPermission}>Get permission</button>*/}
 				</>
 			)}
-			{!isBlocked && !uploading && (
+			{!isBlocked && (
 				<>
-					{!isRecording && !blobURL && (
-						<button onClick={start} disabled={isRecording}>
-							Record
-						</button>
-					)}
-					{isRecording && (
-						<button onClick={stop} disabled={!isRecording}>
-							Stop
-						</button>
-					)}
-					{blobURL && (
-						<>
-							<button onClick={() => setBlobURL()} disabled={isRecording}>
-								Reset
-							</button>
-							<button onClick={() => uploadFile(file)}>
-								Upload
-							</button>
-							<audio src={blobURL} controls="controls" />
-						</>
-					)}
+					<button
+						className={styles.cancel}
+						onClick={() => setBlobURL()}
+						disabled={uploading || !blobURL || isRecording}
+					>
+						<div>
+							<Icon.Reject/>
+						</div>
+					</button>
+					<button
+						className={styles.cta}
+						onClick={buttonAction}
+						data-stage={stage}
+						disabled={uploading}
+					>
+						<div>
+							<Icon.Start/>
+							<Icon.Stop loading={isRecording}/>
+							<Icon.Send />
+							<Icon.Blocked loading={uploading}/>
+						</div>
+					</button>
+					<audio src={blobURL} controls="controls"  className={styles.audio} />
 				</>
-			)}
-			{uploading && (
-				<span>uploading...</span>
 			)}
 		</>
 	);

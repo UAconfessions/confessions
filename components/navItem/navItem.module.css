@@ -1,7 +1,7 @@
 .navItem{
     height: 100%;
     box-sizing: border-box;
-    transition: .2s;
+    transition: .2s background-color;
     padding: 0 2rem;
     color: white;
     font-family: 'Alef', sans-serif;
@@ -26,7 +26,7 @@
         height: unset;
         width: 100%;
         writing-mode: vertical-lr;
-        transform: rotate(180deg);
+        transform: rotate(-180deg);
         padding: 2rem 0;
     }
 }
