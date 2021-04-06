@@ -71,6 +71,8 @@
   margin-top: .5rem;
   cursor: pointer;
   width: 100%;
+  position: relative;
+  overflow: hidden;
 }
 
 .confessActions{
@@ -84,6 +86,21 @@
   background-color: #353d54;
 }
 
+.imageUpload{
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+.imageDisplay{
+  width: 33rem;
+}
+.imageDisplay img{
+  width: 100%;
+}
 .cta{
   composes: action;
   background-color: #807255;

@@ -16,7 +16,8 @@ initFirebase()
 
 const useUser = () => {
 	const [user, setUser] = useState();
-	const { data } = useSWR(user?.token ? [`api/admin/user/${user.email}`, user.token] : null, fetcher);
+	const { data, error } = useSWR(user?.token ? [`api/admin/user`, user.token] : null, fetcher);
+
 	const router = useRouter()
 
 	const logout = async () => {

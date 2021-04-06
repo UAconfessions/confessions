@@ -26,41 +26,44 @@ const Login = () => {
 	const saveName = async () => {
 		if(!username || username === '') return alert('cannot set username empty');
 		setFetching(true);
-		const response = await fetch(`/api/admin/user/${user.email}`, {
+		const response = await fetch(`/api/admin/user`, {
 			method: 'POST',
 			headers: new Headers({'Content-Type': 'application/json', token: user.token}),
 			body: JSON.stringify({username}),
 			credentials: 'same-origin',
 		});
 		setUsername(null);
-		await mutate([`api/admin/user/${user.email}`, user.token]);
+		await mutate([`api/admin/user`, user.token]);
 		setFetching(false);
 	};
 
 	const uploadVerification = async ([file]) => {
 		setVerificationUploading(true);
+		try{
+			const filename = encodeURIComponent(file.name);
+			const response = await fetch(`/api/upload?file=${filename}&type=verification`, {
+				headers: new Headers({token: user.token}),
+				credentials: 'same-origin',
+			});
+			const { url, fields } = await response.json();
+			const formData = new FormData();
 
-		const filename = encodeURIComponent(file.name);
-		const response = await fetch(`/api/upload?file=${filename}`, {
-			headers: new Headers({token: user.token}),
-			credentials: 'same-origin',
-		});
-		const { url, fields } = await response.json();
-		const formData = new FormData();
+			Object.entries({ ...fields, file }).forEach(([key, value]) => {
+				formData.append(key, value);
+			});
 
-		Object.entries({ ...fields, file }).forEach(([key, value]) => {
-			formData.append(key, value);
-		});
+			const upload = await fetch(url, {
+				method: 'POST',
+				body: formData,
+			});
 
-		const upload = await fetch(url, {
-			method: 'POST',
-			body: formData,
-		});
-
-		if (upload.ok) {
-			console.log('Uploaded successfully!');
-		} else {
-			console.error('Upload failed.');
+			if (upload.ok) {
+				console.log('Uploaded successfully!');
+			} else {
+				console.error('Upload failed.');
+			}
+		}catch(error){
+			console.error(error);
 		}
 
 		setInputVersion(Date.now());

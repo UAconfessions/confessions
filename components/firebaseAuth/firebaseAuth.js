@@ -27,12 +27,19 @@ const firebaseAuthConfig = {
 }
 
 const FirebaseAuth = () => {
-	return (
-		<StyledFirebaseAuth
-			uiConfig={firebaseAuthConfig}
-			firebaseAuth={firebase.auth()}
-		/>
-	)
+	if(!firebaseAuthConfig) return null;
+	if(!firebase.auth()) return null;
+	try{
+		return (
+			<StyledFirebaseAuth
+				uiConfig={firebaseAuthConfig}
+				firebaseAuth={firebase.auth()}
+			/>
+		);
+	}catch(e){
+		return null;
+	}
+
 }
 
 export default FirebaseAuth

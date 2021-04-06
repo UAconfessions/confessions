@@ -7,7 +7,7 @@ export async function getServerSideProps({params}) {
 	const confession = await getQueuedConfession(params.id);
 	return { props: {  confession, queueId: params.id } };
 }
-
+// handle confession no longer pending
 export default function Pending({confession, queueId }) {
 	return (
 		<div className={style.confession}>

@@ -10,15 +10,6 @@
     margin-top: .5rem;
     box-sizing: border-box;
 }
-.confession{
-    border-radius: 11px;
-    padding: 1rem 1.5rem 1rem;
-    background-color: #2a3143;
-    white-space: pre-wrap;
-    margin-top: .5rem;
-    position: relative;
-    line-height: 1.5rem;
-}
 .actions{
     display: flex;
     flex-direction: row;

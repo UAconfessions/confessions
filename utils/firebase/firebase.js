@@ -34,8 +34,9 @@ const users = firestore.collection('users');
 
 export const getPresignedUrl = async (_file, folder, userId) => {
 	const file = storage.file(`${folder}/${_file}`);
+	const validMinutes = 1; //  1 minute
 	const options = {
-		expires: Date.now() + 1 * 60 * 1000, //  1 minute
+		expires: Date.now() + validMinutes * 60 * 1000,
 	};
 	if (userId){
 		options.fields = { 'x-goog-meta-user': userId };
@@ -45,8 +46,19 @@ export const getPresignedUrl = async (_file, folder, userId) => {
 
 };
 
-export const addToQueue = async (value, parentId) => {
+export const getDownloadableUrl = (fileName, folder) => {
+	const path = folder ? `${folder}/${fileName}` : `${fileName}`;
+	return `https://firebasestorage.googleapis.com/v0/b/confessions-61611.appspot.com/o/${path.split('/').join('%2F')}?alt=media`;
+};
+
+export const listFiles = async () => {
+	return storage.getFiles();
+};
+
+export const addToQueue = async (value, parentId, filename, user) => {
 	const confession = {value, submitted: new Date()};
+	if (user) confession.user = user;
+	if (filename) confession.filename = filename;
 	const parent = await confessions.doc(`${parentId}`).get();
 	if (parent.exists) {
 		confession.parent = await firestore.doc(`confessions/${parentId}`);
@@ -62,13 +74,25 @@ export const resetItemInQueue = async (id) => {
 // TODO: publish as reaction
 export const publishItemFromQueue = async (hash) => {
 	const confession = await queue.doc(`${hash}`).get();
-	const { value } = confession.data();
 
-	const {docs: [{id: prev_id}]} = await confessions.orderBy('id', 'desc').limit(1).get();
-	const id = +prev_id + 1;
-	const facebook_answer = await postToFacebook({value, id});
-	await confessions.doc(`${id}`).set({ value, id, ...facebook_answer });
+	const { value, filename, user } = confession.data();
+
+	const post = {
+		value
+	};
+
+	if(filename){
+		post.url = getDownloadableUrl(filename, `pending/${user}`);
+	}
+
+	const { docs: [{ id: prev_id }] } = await confessions.orderBy('id', 'desc').limit(1).get();
+	post.id = +prev_id + 1;
+
+	const facebook_answer = await postToFacebook(post);
+
+	await confessions.doc(`${post.id}`).set({ value: post.value, id: post.id, ...facebook_answer });
 	await removeItemFromQueue(hash);
+
 	await rebuildProject();
 };
 
@@ -89,15 +113,29 @@ export const getQueuedConfession = async (id) => {
 	if (id) {
 		try {
 			const submission = await queue.doc(`${id}`).get();
-			const { value } = await submission.data();
-			return { value };
+			const {value, filename, user} = submission.data();
+			const confession = { value };
+			if(filename){
+				confession.url = getDownloadableUrl(filename, `pending/${user}`);
+			}
+			return confession;
 		}catch(e){
+			/**
+			* this means that this confession is already posted, rejected or does not exist
+			* find out which (save this data in bin?)
+			*/
 			return {value:''};
 		}
 
 	}
 	const {docs: [post]} = await queue.orderBy('submitted', 'asc').limit(1).get();
-	return { id: post.id ,value: post.data().value};
+
+	const {value, filename, user} = post.data();
+	const confession = { queueId: post.id , value };
+	if(filename){
+		confession.url = getDownloadableUrl(filename, `pending/${user}`);
+	}
+	return confession;
 }
 
 export const getQueuedConfessionsAmount = () => {
@@ -119,7 +157,14 @@ export const getConfessions = async () => {
 
 export const getBinnedConfessions = async () => {
 	const unfiltered = await bin.orderBy('submitted', 'desc').limit(200).get();
-	return unfiltered.docs.map(post => ({ value: post.data().value }));
+	return unfiltered.docs.map(post => {
+		const { value, user, filename } = post.data();
+		if(filename){
+			const url = getDownloadableUrl(filename, `pending/${user}`);
+			return {value, url};
+		}
+		return {value};
+	});
 }
 
 export const getUser = async id => {
@@ -147,13 +192,27 @@ export const setUserName = async (id, username) => {
 }
 
 
-export const verifyIdToken = (token) => {
-	return auth
-		.verifyIdToken(token)
-		.catch((error) => {
-			console.log('unauthorised with token: ' + token)
-			throw error
-		})
+export const verifyIdToken = async (token) => {
+	try{
+		const decodedToken = await auth.verifyIdToken(token);
+		const uid = decodedToken.uid;
+		return await auth.getUser(uid);
+	}catch(error){
+		console.log('unauthorised with token: ' + token)
+		throw error;
+	}
+}
+
+export const verifyIdTokenIsAdmin = async (token) => {
+	try{
+		const userFromToken = await verifyIdToken(token);
+		const userData = await getUser(userFromToken.email);
+		if (!userData.isAdmin) throw new Error('User `' + userFromToken.email + '` is not an Admin.');
+		return true;
+	}catch(error){
+		console.log(error);
+		throw error;
+	}
 }
 
 

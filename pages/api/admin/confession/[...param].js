@@ -1,8 +1,13 @@
-import {resetItemInQueue, verifyIdToken, publishItemFromQueue, removeItemFromQueue} from '../../../../utils/firebase/firebase';
+import {
+	resetItemInQueue,
+	publishItemFromQueue,
+	removeItemFromQueue,
+	verifyIdTokenIsAdmin
+} from '../../../../utils/firebase/firebase';
 
 module.exports = async ({query: { param: [id, action] }, headers: { token }}, res) => {
 	try {
-		await verifyIdToken(token);
+		await verifyIdTokenIsAdmin(token);
 	}catch(error){
 		return res.status(401).send('You are unauthorised')
 	}

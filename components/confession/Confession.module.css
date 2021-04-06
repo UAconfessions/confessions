@@ -30,3 +30,8 @@
 .link:hover{
     background-color: #2e394c;
 }
+.image{
+    display: block;
+    margin: 1rem -1.5rem -1rem -1.5rem;
+    width: calc(100% + 3rem);
+}

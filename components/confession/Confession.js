@@ -14,6 +14,9 @@ export default function Confession(props) {
 		<div className={style.confession}>
 			<section>
 				<Id {...props} />{props.value}
+				{props?.url && (
+					<img className={style.image} src={props?.url} />
+				)}
 			</section>
 			<footer>
 				{(props.queueId || props.id) && (
