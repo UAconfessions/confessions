@@ -56,7 +56,7 @@ export const listFiles = async () => {
 };
 
 export const addToQueue = async (value, parentId, filename, user) => {
-	const confession = {value, submitted: new Date()};
+	const confession = {value, submitted: new Date(), archived: false};
 	if (user) confession.user = user;
 	if (filename) confession.filename = filename;
 	const parent = await confessions.doc(`${parentId}`).get();
@@ -68,14 +68,14 @@ export const addToQueue = async (value, parentId, filename, user) => {
 };
 
 export const resetItemInQueue = async (id) => {
-	await queue.doc(`${id}`).update({submitted: new Date()});
+	await queue.doc(`${id}`).update({archived: true});
 };
 
 // TODO: publish as reaction
 export const publishItemFromQueue = async (hash) => {
 	const confession = await queue.doc(`${hash}`).get();
 
-	const { value, filename, user } = confession.data();
+	const { value, filename, user, submitted } = confession.data();
 
 	const post = {
 		value
@@ -90,8 +90,10 @@ export const publishItemFromQueue = async (hash) => {
 
 	const facebook_answer = await postToFacebook(post);
 
-	await confessions.doc(`${post.id}`).set({ value: post.value, id: post.id, ...facebook_answer });
-	await removeItemFromQueue(hash);
+	await confessions.doc(`${post.id}`).set({ value: post.value, id: post.id, ...facebook_answer, submitted, posted: new Date() });
+
+	await bin.doc(`${hash}`).set({...confession.data(), id: post.id, handled: new Date()});
+	await queue.doc(`${hash}`).delete();
 
 	await rebuildProject();
 };
@@ -105,7 +107,7 @@ export const saveUnsavedPosts = async (up) => {
 
 export const removeItemFromQueue = async (id) => {
 	const confession = await queue.doc(`${id}`).get();
-	await bin.add(confession.data());
+	await bin.doc(`${id}`).set({...confession.data(), handled: new Date()});
 	await queue.doc(`${id}`).delete();
 };
 
@@ -113,33 +115,64 @@ export const getQueuedConfession = async (id) => {
 	if (id) {
 		try {
 			const submission = await queue.doc(`${id}`).get();
-			const {value, filename, user} = submission.data();
-			const confession = { value };
+			const { value, filename, user, submitted } = submission.data();
+			const confession = { value, submitted: submitted?.toDate()?.toISOString() ?? 'unknown data' };
 			if(filename){
 				confession.url = getDownloadableUrl(filename, `pending/${user}`);
 			}
 			return confession;
 		}catch(e){
-			/**
-			* this means that this confession is already posted, rejected or does not exist
-			* find out which (save this data in bin?)
-			*/
-			return {value:''};
+			const submission = await bin.doc(`${id}`).get();
+			const { value, filename, user, submitted, id: postId } = submission.data();
+
+			if (postId) return await getConfession(postId);
+
+			const confession = { value, submitted: submitted?.toDate()?.toISOString() ?? 'unknown data' };
+			if(filename){
+				confession.url = getDownloadableUrl(filename, `pending/${user}`);
+			}
+
+			return confession;
 		}
 
 	}
-	const {docs: [post]} = await queue.orderBy('submitted', 'asc').limit(1).get();
+	try{
+		const {docs: [post]} = await queue.where('archived', '==', false).orderBy('submitted', 'asc').limit(1).get();
 
-	const {value, filename, user} = post.data();
-	const confession = { queueId: post.id , value };
-	if(filename){
-		confession.url = getDownloadableUrl(filename, `pending/${user}`);
+		const {value, filename, user, submitted} = post.data();
+		const confession = { queueId: post.id , value, submitted: submitted?.toDate()?.toISOString() ?? 'unknown data' };
+		if(filename){
+			confession.url = getDownloadableUrl(filename, `pending/${user}`);
+		}
+		return confession;
+	}catch(e){
+		console.log(e);
+		throw(e);
 	}
-	return confession;
+
+
+}
+
+export const getArchivedConfessions = async () => {
+	try{
+		const {docs} = await queue.where('archived', '==', true).orderBy('submitted', 'asc').get();
+
+		return docs?.map(post => {
+			const {value, filename, user, submitted} = post.data();
+			const confession = {queueId: post.id, value, submitted: submitted?.toDate()?.toISOString() ?? 'unknown data'}
+			if (filename) {
+				confession.url = getDownloadableUrl(filename, `pending/${user}`);
+			}
+			return confession;
+		});
+	}catch(e){
+		console.log(e);
+		throw(e);
+	}
 }
 
 export const getQueuedConfessionsAmount = () => {
-	return queue.get().then(snap => snap.size);
+	return queue.where('archived', '==', false).get().then(snap => snap.size);
 }
 
 export const getConfession = async id => {
@@ -152,7 +185,14 @@ export const getConfession = async id => {
 // TODO: pagination ( .startAfter(lastId) )
 export const getConfessions = async () => {
 	const posted = await confessions.orderBy('id', 'desc').limit(50).get();
-	return posted.docs.map(post => post.data());
+	return posted.docs.map(post => {
+		const confession = post.data();
+		return {
+			...confession,
+			posted: confession.posted?.toDate()?.toISOString() ?? 'unknown data',
+			submitted: confession.submitted?.toDate()?.toISOString() ?? 'unknown data'
+		}
+	});
 }
 
 export const getBinnedConfessions = async () => {

@@ -14,6 +14,5 @@ const monthLUT = {
 };
 
 export const dateStringToReadable = date => {
-
 	return `${date.substr(8, 2)} ${monthLUT[date.substr(5, 2)]} ${date.substr(0, 4)}`;
 }

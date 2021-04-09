@@ -20,6 +20,7 @@ a {
 h1{
 	font-family: 'Alef', sans-serif;
 	color: #867f7f;
+	margin-top: 4rem;
 }
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {

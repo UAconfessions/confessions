@@ -4,6 +4,7 @@ import style from '../styles/App.module.css';
 import NavItem from '../components/navItem/navItem';
 import NavLogo from '../components/navLogo/navLogo';
 import { useUser } from '../utils/firebase/useUser';
+import {useRouter} from "next/router";
 
 const pages = [
 	{
@@ -12,7 +13,8 @@ const pages = [
 			href: '/',
 		},
 		isActive: () => true,
-		getTitle: () => 'Confess'
+		getTitle: () => 'Confess',
+		className: style.submit
 	},
 	{
 		navItemProps: {
@@ -20,7 +22,8 @@ const pages = [
 			href: '/confessions',
 		},
 		isActive: () => true,
-		getTitle: () => 'Confessions'
+		getTitle: () => 'Confessions',
+		className: style.confessions
 	},
 	{
 		navItemProps: {
@@ -28,7 +31,26 @@ const pages = [
 			href: '/confessions/bin',
 		},
 		isActive: () => true,
-		getTitle: () => 'Unfiltered'
+		getTitle: () => 'Unfiltered',
+		className: style.bin
+	},
+	{
+		navItemProps: {
+			key: 'wingit',
+			href: '/wingit',
+		},
+		isActive: () => false,
+		getTitle: () => 'Wing It',
+		className: style.wingIt
+	},
+	{
+		navItemProps: {
+			key: 'polls',
+			href: '/confessions/polls',
+		},
+		isActive: () => false,
+		getTitle: () => 'Polls',
+		className: style.polls
 	},
 	{
 		navItemProps: {
@@ -36,7 +58,17 @@ const pages = [
 			href: '/admin',
 		},
 		isActive: ({user}) => user?.isAdmin,
-		getTitle: () => 'Judge'
+		getTitle: () => 'Judge',
+		className: style.admin
+	},
+	{
+		navItemProps: {
+			key: 'dashboard',
+			href: '/admin/dashboard',
+		},
+		isActive: ({user}) => user?.isAdmin,
+		getTitle: () => 'Dashboard',
+		className: style.dashboard
 	},
 	{
 		navItemProps: {
@@ -49,12 +81,17 @@ const pages = [
 			if (user?.id)
 				return user.name ?? user.email;
 			return 'Login'
-		}
+		},
+		className: style.login
 	}
 ];
 
 export default function MyApp({ Component, pageProps }) {
 	const { user } = useUser();
+	const { asPath } = useRouter();
+
+	const activePage = pages.find(page => asPath === page.navItemProps.href);
+
 	return (
 		<>
 			<Nav type={'icon links'}>
@@ -71,7 +108,7 @@ export default function MyApp({ Component, pageProps }) {
 				})}
 			</Nav>
 
-			<section className={style.content}>
+			<section className={`${style.content} ${activePage?.className ?? ''}`}>
 				<Component {...pageProps} />
 			</section>
 		</>
