@@ -7,7 +7,7 @@ import {getDownloadableUrl, listFiles} from "../../utils/firebase/firebase";
 
 export async function getServerSideProps() {
 	const fileNames = (await listFiles())[0];
-	const files = await Promise.all(fileNames.map(file => getDownloadableUrl(file.name)))
+	const files = fileNames.map(file => getDownloadableUrl(file.name))
 
 	return { props: {  files: files.filter(file => !file.includes('%2F?')) } };
 }
