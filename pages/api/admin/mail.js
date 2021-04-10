@@ -16,6 +16,6 @@ module.exports = async ({ headers: { token }, body }, res) => {
 			return res.status(501).json(error);
 		}
 	} catch (error) {
-		return res.status(401).send('You are unauthorised');
+		return res.status(401).json({message:'You are unauthorised.'});
 	}
 };

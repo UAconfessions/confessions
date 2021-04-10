@@ -9,7 +9,7 @@ module.exports = async ({query: { param: [id, action] }, headers: { token }}, re
 	try {
 		await verifyIdTokenIsAdmin(token);
 	}catch(error){
-		return res.status(401).send('You are unauthorised')
+		return res.status(401).json({message:'You are unauthorised.'});
 	}
 	try {
 		switch (action) {
@@ -29,10 +29,10 @@ module.exports = async ({query: { param: [id, action] }, headers: { token }}, re
 			//case 'respond': return res.status(200).json({}); // post to facebook and post reaction as admin
 			//case 'shedule_and_respond': return res.status(200).json({}); // post to facebook at time and post reaction as admin
 			default:
-				return res.status(400).json({error: `action \`${action}\` has not been defined.`})
+				return res.status(400).json({error: `Action \`${action}\` has not been defined.`})
 		}
 	}catch(error){
 		console.error(error);
-		return res.status(500).send('Something went wrong');
+		return res.status(500).json({message:'Something went wrong.'});
 	}
 };

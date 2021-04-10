@@ -13,8 +13,8 @@ module.exports = async ({ method, headers: { token }, body }, res) => {
 			await setUserName(user.email, username);
 			return res.status(200).json({success: true});
 		}
-		return res.status(500).send('someting went wrong');
+		return res.status(500).json({message:'Something wemt wrong on our side.'});
 	} catch (error) {
-		return res.status(401).send('You are unauthorised');
+		return res.status(401).json({message:'You are unauthorised.'});
 	}
 };
