@@ -37,11 +37,11 @@ const Reject = () => (
 );
 
 const Accept = () => (
-    <img src={publishSrc} alt={'accept'} />
+    <img src={publishSrc} alt={'publish'} />
 );
 
 const Archive = () => (
-    <img src={archiveSrc} alt={'accept'} />
+    <img src={archiveSrc} alt={'archive'} />
 );
 
 const Start = () => (
