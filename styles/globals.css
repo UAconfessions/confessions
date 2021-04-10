@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Slab:wght@100;200;300;400;500;600;700&display=swap');
+
 html,
 body {
 	padding: 0;
@@ -6,6 +8,11 @@ body {
 	Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 	background-color: #212735;
 	font-size: 16px;
+}
+
+#__next{
+	position: relative;
+	min-height: 100vh;
 }
 
 a {
@@ -18,10 +25,12 @@ a {
 }
 
 h1{
-	font-family: 'Alef', sans-serif;
-	color: #867f7f;
-	margin-top: 4rem;
+	font-family: 'Josefin Slab', serif;
+	font-size: 2rem;
+	color: rgba(255, 255, 255, 0.3);
+	text-align: center;
 }
+
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
 	-webkit-appearance: none;

@@ -33,32 +33,34 @@ export default function Dashboard({}) {
 	return (
 		<>
 			<Head title={'UA Admin'} />
-			{error?.code === 404 && (
-				<h1>No pending confessions</h1>
-			)}
-			{error?.code !== 404 && (
-				<>
-					<h1>{data?.amount ?? '-'} pending</h1>
-					{data?.confession && (
-						<>
-							<Confession {...data.confession} />
 
-							<div className={style.actions}>
-								{Object.entries(actions).map( ([action, {actionStyle, ActionIcon}]) => (
-									<button key={action} disabled={fetching[data.confession.queueId]} className={actionStyle} onClick={() => handleConfession(action, data.confession)}><ActionIcon /></button>
-								))}
+			<section className={style.queue}>
+				{error?.code === 404 && (
+					<h1>No pending confessions</h1>
+				)}
+				{error?.code !== 404 && (
+					<>
+						<h1>{data?.amount ?? '-'} pending</h1>
+						{data?.confession && (
+							<>
+								<Confession {...data.confession} />
+
+								<div className={style.actions}>
+									{Object.entries(actions).map( ([action, {actionStyle, ActionIcon}]) => (
+										<button key={action} disabled={fetching[data.confession.queueId]} className={actionStyle} onClick={() => handleConfession(action, data.confession)}><ActionIcon /></button>
+									))}
+								</div>
+							</>
+						)}
+						{error && (
+							<div>
+								<span>An error occurred, try reloading this page.</span>
+								{JSON.stringify(error)}
 							</div>
-						</>
-					)}
-					{error && (
-						<div>
-							<span>An error occurred, try reloading this page.</span>
-							{JSON.stringify(error)}
-						</div>
-					)}
-				</>
-			)}
-
+						)}
+					</>
+				)}
+			</section>
 			{archiveData?.confessions?.length > 0 && (
 				<>
 					<h1>Archive</h1>

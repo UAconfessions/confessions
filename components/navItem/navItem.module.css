@@ -1,10 +1,13 @@
 .navItem{
     height: 100%;
+    line-height: 4.2rem;
     box-sizing: border-box;
     transition: .2s background-color;
     padding: 0 2rem;
-    color: white;
-    font-family: 'Alef', sans-serif;
+    color: rgba(255, 255, 255, 0.62);
+    font-family: 'Josefin Slab', serif;
+    font-weight: 500;
+    font-size: 1.2rem;
     text-decoration: none;
     display: grid;
     place-items: center;
@@ -28,5 +31,6 @@
         writing-mode: vertical-lr;
         transform: rotate(-180deg);
         padding: 2rem 0;
+        line-height: 3rem;
     }
 }

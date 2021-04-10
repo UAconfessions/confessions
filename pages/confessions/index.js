@@ -16,6 +16,7 @@ export default function Index({confessions}) {
     return (
         <>
             <Head title={'UA Confessions'} />
+            <h1>Confessions</h1>
             { confessions?.map((confession, index) => <Confession {...confession} key={index} />) }
         </>
     );
