@@ -139,6 +139,8 @@ export const getQueuedConfession = async (id) => {
 	try{
 		const {docs: [post]} = await queue.where('archived', '==', false).orderBy('submitted', 'asc').limit(1).get();
 
+		if(!post?.exists) throw new Error('No queued confessions');
+
 		const {value, filename, user, submitted} = post.data();
 		const confession = { queueId: post.id , value, submitted: submitted?.toDate()?.toISOString() ?? 'unknown data' };
 		if(filename){
@@ -146,7 +148,6 @@ export const getQueuedConfession = async (id) => {
 		}
 		return confession;
 	}catch(e){
-		console.log(e);
 		throw(e);
 	}
 
