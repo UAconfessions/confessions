@@ -22,12 +22,24 @@ export default function Dashboard({}) {
 		accept: { ActionIcon: Icon.Accept, actionStyle: style.green},
 	};
 
-	const handleConfession = async (action, confession) => {
+	const handleConfession = async (action, confession, stack) => {
 		if(!confession?.queueId) return alert('no confession is found');
 		if(!user.token) return alert('no user token found');
 		setFetching({...fetching, [confession.queueId]: true});
+
 		await handle(confession.queueId, action, user.token);
+
+		if (action === 'archive'){
+			await mutate(['api/admin/confession', user.token]);
+			await mutate(['api/admin/archive', user.token]);
+		}else if (stack === 'queue'){
+			await mutate(['api/admin/confession', user.token]);
+		}else{
+			await mutate(['api/admin/archive', user.token]);
+		}
+
 		setFetching({...fetching, [confession.queueId]: false});
+
 	};
 
 	return (
@@ -47,7 +59,7 @@ export default function Dashboard({}) {
 
 								<div className={style.actions}>
 									{Object.entries(actions).map( ([action, {actionStyle, ActionIcon}]) => (
-										<button key={action} disabled={fetching[data.confession.queueId]} className={actionStyle} onClick={() => handleConfession(action, data.confession)}><ActionIcon /></button>
+										<button key={action} disabled={fetching[data.confession.queueId]} className={actionStyle} onClick={() => handleConfession(action, data.confession, 'queue')}><ActionIcon /></button>
 									))}
 								</div>
 							</>
@@ -70,7 +82,7 @@ export default function Dashboard({}) {
 								<Confession {...confession} />
 								<div className={style.actions}>
 									{Object.entries(archiveActions).map( ([action, {actionStyle, ActionIcon}]) => (
-										<button key={action} disabled={fetching[confession.queueId]} className={actionStyle} onClick={() => handleConfession(action, confession)}><ActionIcon /></button>
+										<button key={action} disabled={fetching[confession.queueId]} className={actionStyle} onClick={() => handleConfession(action, confession, 'archive')}><ActionIcon /></button>
 									))}
 								</div>
 							</div>
@@ -90,9 +102,4 @@ const handle = async (id, action, token) => {
 		headers: new Headers({'Content-Type': 'application/json', token}),
 		credentials: 'same-origin',
 	});
-	await mutate(['api/admin/confession', token]);
-
-	if (action === 'archive'){
-		await mutate(['api/admin/archive', token]);
-	}
 }
