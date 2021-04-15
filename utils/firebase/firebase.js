@@ -180,7 +180,11 @@ export const getConfession = async id => {
 	const confession = await confessions.doc(`${id}`).get();
 	if (confession.exists) {
 		const data = confession.data();
-		return {...data, posted: data.posted?.toDate() ?? 'unknown data'};
+		return {
+			...data,
+			posted: data.posted?.toDate()?.toISOString() ?? 'unknown data',
+			submitted: data.submitted?.toDate()?.toISOString() ?? 'unknown data'
+		};
 	}
 }
 // TODO: pagination ( .startAfter(lastId) )

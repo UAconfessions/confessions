@@ -9,9 +9,10 @@ export async function getServerSideProps({params}) {
 // TODO: custom OG image
 export default function ConfessionById({confession}) {
 	return (
-		<div>
-			<Head title={`UA Confession ${confession.id}`} />
+		<>
+			<Head title={`UA Confession #${confession.id}`} />
+			<h1>Confession #{confession.id}</h1>
 		    <Confession {...confession} />
-        </div>
+        </>
 	);
 }
