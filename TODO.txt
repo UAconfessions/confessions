@@ -1,3 +1,23 @@
 TODO: image upload
 TODO: changelist
-TODO: id component with action sheet (react, share, view on facebook
+TODO: wingit
+TODO: psycholoog hulp: https://www.facebook.com/UAntwerpenConfessions/posts/2424710044341265
+TODO: notifications
+TODO: polls
+TODO: split nav for admins
+TODO: fix double render
+TODO: inbox
+TODO: presskit design pdf
+TODO: github feature requests, bug report
+TODO: explaining the website for newbies
+TODO: FAQ
+TODO: snapchat
+TODO: instagram
+TODO: twitter
+TODO: rss
+TODO: email list
+TODO: email best confessions
+TODO: merchandise
+TODO: resources for advertisers (where can they advertise, what are our numbers)
+TODO: setup payconiq subscriptions and one time tips
+TODO: asynchronous admin actions
