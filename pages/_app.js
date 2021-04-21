@@ -5,6 +5,7 @@ import NavItem from '../components/nav/navItem/navItem';
 import NavLogo from '../components/navLogo/navLogo';
 import { useUser } from '../utils/firebase/useUser';
 import {useRouter} from "next/router";
+import Icon from './../components/icon/icon';
 
 const pages = [
 	{

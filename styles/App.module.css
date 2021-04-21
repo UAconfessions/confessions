@@ -8,7 +8,7 @@
   margin: 0 auto;
   background-color: #212735;
   color: white;
-  padding: 2rem;
+  padding: 6rem 2rem 1rem 2rem;
   box-sizing: border-box;
   min-height: 100vh;
   display: grid;
@@ -21,16 +21,6 @@
 .adminContent{
   composes: content;
   padding: 6rem 2rem 1rem 6rem;
-}
-
-@media(max-width: 600px){
-  .logo{
-    height: 3rem;
-    user-select: none;
-  }
-  .content{
-    padding: 1rem 1rem 1rem 4rem;
-  }
 }
 
 
@@ -65,4 +55,120 @@
 
 .wingIt{
 
+}
+
+.footer{
+  border-radius: 13px;
+  margin: auto auto 1rem;
+
+  background-color: #2a3143;
+  overflow: hidden;
+
+  padding: 1rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.footer section{
+  /*border: 1px solid rgba(255, 255, 255, 0.42);*/
+  margin: .5rem;
+  padding: .5rem 3rem .5rem 2rem;
+  border-radius: 7px;
+}
+
+.footer section h2 {
+  color: rgba(255, 255, 255, 0.7);
+  font-family: 'Josefin Slab', serif;
+  font-weight:500;
+  font-size: 2rem;
+  margin: 1rem 0;
+}
+
+.footer section a{
+  font-family: 'Josefin Slab', serif;
+  color: rgba(255, 255, 255, 0.51);
+  border-left: 2px solid rgba(255, 255, 255, 0.51);
+  margin: .5rem 0;
+  padding: .5rem .6rem .3rem .6rem;
+  transition: .2s;
+  cursor: pointer;
+  font-size: 1.2rem;
+  display: block;
+}
+
+
+.footer section a:hover{
+  color: rgba(255, 255, 255, 0.7);
+  border-left: 2px solid rgba(255, 255, 255, 0.7);
+  padding: .5rem .7rem .3rem .5rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 0 7px 7px 0;
+}
+
+.column{
+  display: inline-flex;
+  flex-direction: column;
+}
+
+.column + .column{
+  margin-left: 4rem;
+}
+
+
+.footer section span{
+  display: block;
+  margin-top: .5rem;
+}
+
+.textInput{
+  border-radius: 11px 0 0 11px;
+  border: none;
+  padding: 0 1rem;
+  line-height: 3rem;
+  height: 3rem;
+  background-color: rgba(64, 202, 246, 0.08);
+  color: white;
+  cursor: text;
+  display: inline-block;
+  box-sizing: border-box;
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12);
+  transition: .2s;
+  flex: 1;
+  position: relative;
+  font-size: 1rem;
+}
+
+.inputButton{
+  border-radius: 0 11px 11px 0;
+  border: none;
+  line-height: 3rem;
+  height: 3rem;
+  width: 3rem;
+  background-color: rgba(64, 134, 33, 0.38);
+  color: white;
+  cursor: text;
+  display: inline-block;
+  box-sizing: border-box;
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12);
+  transition: .2s;
+}
+.inputButton img{
+  transform: translate(-.1rem, .4rem) rotate(90deg);
+
+}
+
+@media(max-width: 600px){
+  .logo{
+    height: 3rem;
+    user-select: none;
+  }
+
+  .content{
+    padding: 1rem 1rem 1rem 4rem;
+  }
+
+  .adminContent{
+    padding: 4rem 1rem 1rem 4rem;
+  }
 }
