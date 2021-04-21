@@ -1,15 +1,95 @@
-.header {
-    background-color: #161923;
+.header{
     display: flex;
     flex-direction: row;
+    background-color: #161923;
     height: 4rem;
+    width: 100%;
+    position: fixed;
+    z-index: 9999;
+}
+
+.navItem{
+    height: 100%;
+    line-height: 4.2rem;
+    box-sizing: border-box;
+    transition: .2s background-color;
+    padding: 0 2rem;
+    color: rgba(255, 255, 255, 0.62);
+    font-family: 'Josefin Slab', serif;
+    font-weight: 500;
+    font-size: 1.2rem;
+    text-decoration: none;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+}
+.navItem:hover{
+    background-color: #2a3143;
+}
+.navItemActive{
+    background-color: #212735;
+}
+
+.navItemRight{
+    margin-left: auto;
+    margin-top: auto;
+}
+
+.adminHeader{
+    background-color: rgb(124, 49, 53);
+    height: 100vh;
+    top: 4rem;
+    width: 4rem;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    z-index: 9999;
+}
+
+.adminHeader .navItem{
+    height: unset;
+    width: 100%;
+    writing-mode: vertical-lr;
+    transform: rotate(-180deg);
+    padding: 2rem 0;
+    line-height: 3rem;
+}
+
+.adminHeader .navItem:hover {
+
+    background-color: rgba(0,0,0, 0.12);
+}
+.adminHeader .navItemActive{
+    background-color: rgba(0,0,0, 0.2);
 }
 
 @media only screen and (max-width: 600px) {
     .header {
         height: 100vh;
         width: 3rem;
-        position: fixed;
         flex-direction: column;
+    }
+    .adminHeader{
+        height: 3rem;
+        width: 100%;
+        flex-direction: row;
+        top: 0;
+        left: 3rem;
+    }
+    .header .navItem {
+        height: unset;
+        width: 100%;
+        writing-mode: vertical-lr;
+        transform: rotate(-180deg);
+        padding: 2rem 0;
+        line-height: 3rem;
+    }
+    .adminHeader .navItem {
+        writing-mode: unset;
+        transform: unset;
+        height: 3rem;
+        width: unset;
+        line-height: 3.2rem;
+        padding: 0 2rem;
     }
 }

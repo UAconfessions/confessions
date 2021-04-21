@@ -5,14 +5,23 @@
 }
 
 .content{
-  max-width: 37rem;
   margin: 0 auto;
   background-color: #212735;
   color: white;
   padding: 2rem;
   box-sizing: border-box;
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: auto 41rem 37rem 41rem auto;
+  grid-template-areas:
+    '. . content . .'
+    '. footer footer footer .';
 }
 
+.adminContent{
+  composes: content;
+  padding: 6rem 2rem 1rem 6rem;
+}
 
 @media(max-width: 600px){
   .logo{

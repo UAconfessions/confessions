@@ -1,4 +1,4 @@
-import style from './navItem.module.css';
+import style from './../Nav.module.css';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 

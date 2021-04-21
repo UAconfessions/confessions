@@ -96,28 +96,28 @@ const Login = () => {
 					</div>
 				)}
 
-				<div className={style.card}>
-					<div className={style.header}>
-						<h3 className={style.title}>Verify your account</h3>
-						<span>Upload a clear picture of your student card to verify your student account.</span>
-					</div>
-					<div className={style.fileInputWrapper} disabled={verificationUploading}>
-						<label htmlFor={'verify-account'} className={style.fileField}>
-							{!verificationUploading && ('drop your file here')}
-							{verificationUploading && ('uploading...')}
-							<input
-								disabled={verificationUploading}
-								className={style.fileInput}
-								id={'verify-account'}
-								type={'file'}
-								onChange={(e) => uploadVerification(e.target.files)}
-								key={inputVersion}
-								accept="image/png, image/jpeg"
-							/>
-						</label>
-					</div>
-				</div>
-				<hr className={style.break}/>
+				{/*<div className={style.card}>*/}
+				{/*	<div className={style.header}>*/}
+				{/*		<h3 className={style.title}>Verify your account</h3>*/}
+				{/*		<span>Upload a clear picture of your student card to verify your student account.</span>*/}
+				{/*	</div>*/}
+				{/*	<div className={style.fileInputWrapper} disabled={verificationUploading}>*/}
+				{/*		<label htmlFor={'verify-account'} className={style.fileField}>*/}
+				{/*			{!verificationUploading && ('drop your file here')}*/}
+				{/*			{verificationUploading && ('uploading...')}*/}
+				{/*			<input*/}
+				{/*				disabled={verificationUploading}*/}
+				{/*				className={style.fileInput}*/}
+				{/*				id={'verify-account'}*/}
+				{/*				type={'file'}*/}
+				{/*				onChange={(e) => uploadVerification(e.target.files)}*/}
+				{/*				key={inputVersion}*/}
+				{/*				accept="image/png, image/jpeg"*/}
+				{/*			/>*/}
+				{/*		</label>*/}
+				{/*	</div>*/}
+				{/*</div>*/}
+				{/*<hr className={style.break}/>*/}
 				<button className={style.red} onClick={() => logout()}>
 					Log out
 				</button>
