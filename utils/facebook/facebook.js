@@ -1,9 +1,9 @@
 import request from 'request';
 import FormData from 'form-data';
 
-export const postToFacebook = async ({value, id, url}) => {
+export const postToFacebook = async ({value, id, url, triggerWarning}) => {
 	try{
-		const message = `#${id} ${value}`;
+		const message = `${triggerWarning ? `[TRIGGER WARNING: ${triggerWarning}]\n\n` : ''}#${id} ${value}`;
 
 		if (url){
 			const res = await postPhoto(message, url);

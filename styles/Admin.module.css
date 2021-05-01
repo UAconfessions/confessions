@@ -55,6 +55,16 @@
     background-color: #807255;
 }
 
+.blue {
+    composes: action;
+    background-color: #1c6e79;
+}
+
+.pink {
+    composes: action;
+    background-color: #845089;
+}
+
 .textLabel{
     display: flex;
     align-items: center;

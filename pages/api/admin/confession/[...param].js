@@ -5,7 +5,7 @@ import {
 	verifyIdTokenIsAdmin
 } from '../../../../utils/firebase/firebase';
 
-module.exports = async ({query: { param: [id, action] }, headers: { token }}, res) => {
+module.exports = async ({query: { param: [id, action], triggerWarning }, headers: { token }}, res) => {
 	try {
 		await verifyIdTokenIsAdmin(token);
 	}catch(error){
@@ -14,7 +14,7 @@ module.exports = async ({query: { param: [id, action] }, headers: { token }}, re
 	try {
 		switch (action) {
 			case 'accept': {
-				await publishItemFromQueue(id);
+				await publishItemFromQueue(id, triggerWarning);
 				return res.status(200).json({});
 			} // post to facebook now
 			case 'reject': {
