@@ -5,7 +5,7 @@ import Head from "../../components/head/head";
 // TODO: pagination
 
 export async function getStaticProps() {
-	const confessions = await getBinnedConfessions();
+	const confessions = await getBinnedConfessions(60);
 	return { props: { confessions } };
 }
 

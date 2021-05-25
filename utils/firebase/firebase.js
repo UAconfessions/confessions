@@ -203,8 +203,8 @@ export const getConfessions = async (amount = 50) => {
 	});
 }
 
-export const getBinnedConfessions = async () => {
-	const unfiltered = await bin.orderBy('submitted', 'desc').limit(200).get();
+export const getBinnedConfessions = async (amount = 50) => {
+	const unfiltered = await bin.orderBy('submitted', 'desc').limit(amount).get();
 	return unfiltered.docs.map(post => {
 		const { value, user, filename } = post.data();
 		if(filename){
