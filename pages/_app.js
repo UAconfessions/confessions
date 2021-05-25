@@ -32,24 +32,14 @@ const pages = [
 		getTitle: () => '#NoFilter',
 		className: style.bin
 	},
-	// {
-	// 	navItemProps: {
-	// 		key: 'wingit',
-	// 		href: '/wingit',
-	// 	},
-	// 	isActive: () => false,
-	// 	getTitle: () => 'Wing It',
-	// 	className: style.wingIt
-	// },
-	// {
-	// 	navItemProps: {
-	// 		key: 'polls',
-	// 		href: '/confessions/polls',
-	// 	},
-	// 	isActive: () => false,
-	// 	getTitle: () => 'Polls',
-	// 	className: style.polls
-	// },
+	{
+		navItemProps: {
+			key: 'help',
+			href: '/help',
+		},
+		getTitle: () => 'Help',
+		className: style.help
+	},
 	{
 		navItemProps: {
 			key: 'login',
@@ -88,7 +78,6 @@ export default function MyApp({ Component, pageProps }) {
 	const { asPath } = useRouter();
 
 	const activePage = [...pages, ...adminPages].find(page => asPath === page.navItemProps.href);
-
 
 	return (
 		<>
@@ -164,7 +153,7 @@ export default function MyApp({ Component, pageProps }) {
 					<h2>Support us</h2>
 					<div className={style.column}>
 						<a>Merch</a>
-						{/*<a>Products</a>*/}
+						<a>Products</a>
 						<a>advertisers</a>
 						<a>buy us a coffee</a>
 					</div>
