@@ -1,33 +1,18 @@
-export async function getServerSideProps(context) {
+import {getConfessions} from "../utils/firebase/firebase";
+import {getRssXml} from "../utils/RSS/rssHelper";
 
-	const res = context.res;
+export async function getServerSideProps({res}) {
 	if (!res) {
 		return;
 	}
-	// fetch your RSS data from somewhere here
-	const blogPosts = `<?xml version="1.0" ?>
-      <rss
-        xmlns:dc="http://purl.org/dc/elements/1.1/"
-        xmlns:content="http://purl.org/rss/1.0/modules/content/"
-        xmlns:atom="http://www.w3.org/2005/Atom"
-        version="2.0"
-      >
-        <channel>
-            <title><![CDATA[Frontend development articles by Rob Kendal]]></title>
-            <link>https://myamazingwebsite.com</link>
-            <description>
-              <![CDATA[A description about your own website that really shows off what it's all about]]>
-            </description>
-            <language>en</language>
-            <lastBuildDate></lastBuildDate>
-            <item></item>
-        </channel>
-      </rss>`;
+	const confessions = await getConfessions(100);
 	res.setHeader("Content-Type", "text/xml");
-	res.write(blogPosts);
+	res.write(getRssXml(confessions));
 	res.end();
-	return ({});
+	return ({ props: {} });
 }
 export default function Rss() {
 	return null;
 }
+
+
