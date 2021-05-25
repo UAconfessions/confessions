@@ -102,3 +102,7 @@ input:-webkit-autofill  {
 .firebaseui-button + .firebaseui-button{
 	margin-top: 11px !important;
 }
+
+section + section {
+	margin-top: 70px;
+}

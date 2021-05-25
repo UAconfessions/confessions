@@ -1,64 +1,100 @@
 import style from '../styles/Help.module.css';
-import Head from "../components/head/head";
+import Head from '../components/head/head';
+import Article from '../components/article/Article';
 
 export default function Help() {
 
-    const actions = {
-        stip: {
-            Description: "Heb je nood aan een babbel? \nContacteer dan gerust het STIP en leg vrijblijvend een gratis afspraak vast met een van de studentenpsychologen. Blijf niet met je zorgen zitten.\n\nDe universiteit biedt veel meer aan dan je zou verwachten, neem zeker een kijkje op het ondersteuningstablad van Blackboard.",
-            url: "https://www.uantwerpen.be/nl/studeren/hulp-bij-studentenvragen/stip/"
+    const sources = [
+        {
+            name: 'het STIP',
+            hook: 'Heb je nood aan een babbel?',
+            description: 'Contacteer dan gerust het STIP en leg vrijblijvend een gratis afspraak vast met een van de studentenpsychologen. Blijf niet met je zorgen zitten.\n\nDe universiteit biedt veel meer aan dan je zou verwachten, neem zeker een kijkje op het ondersteuningstablad van Blackboard.',
+            url: 'https://www.uantwerpen.be/nl/studeren/hulp-bij-studentenvragen/stip/'
         },
-        zelfmoordlijn: {
-            Description: "Vragen of gedachten over zelfmoord? \nBij de zelfmoordlijn ben je altijd welkom! Bel nu naar 1813 of ga naar 1813.be",
-            url: "https://1813.be/"
+        {
+            name: 'de zelfmoordlijn',
+            hook: 'Vragen of gedachten over zelfmoord?',
+            description: 'Bij de zelfmoordlijn ben je altijd welkom! Bel nu naar 1813 of ga naar 1813.be',
+            url: 'https://1813.be/'
         },
-        samensterk: {
-            Description: "Samen staan we sterk! Neem een kijkje naar het aanbod van de universiteit om nieuwe mensen te leren kennen.",
-            url: "https://www.uantwerpen.be/nl/studentenleven/samen-sterk-tijdens-corona/"
+        {
+            name: 'samen sterk',
+            hook: 'Samen staan we sterk!',
+            description: 'Neem een kijkje naar het aanbod van de universiteit om nieuwe mensen te leren kennen.',
+            url: 'https://www.uantwerpen.be/nl/studentenleven/samen-sterk-tijdens-corona/'
         },
-        JAC: {
-            Description: "Bij het Jongeren Advies Centrum kan je ook altijd een luisterend oor vinden.",
-            url: "https://www.caw.be/jac/contacteer-ons/"
+        {
+            name: 'JAC',
+            hook: 'Op zoek naar antwoorden?',
+            description: 'Bij het Jongeren Advies Centrum kan je naast een luisterend oor heel wat hulpbronnen raadplegen.',
+            url: 'https://www.caw.be/jac/contacteer-ons/'
         },
-        Tejo: {
-            Description: "Zie je het even niet meer zitten? Spring bij Tejo binnen en doe je verhaal!",
-            url: "https://tejo.be/"
+        {
+            name: 'Tejo',
+            hook: 'Zie je het even niet meer zitten?',
+            description: 'Spring bij Tejo binnen en doe je verhaal!',
+            url: 'https://tejo.be/'
         },
-        Teleonthaal: {
-            Description: "Zoek je een uitweg? Praten helpt. Via Tele-onthaal kan je bellen of chatten met iemand die naar je luistert.",
-            url: "https://www.tele-onthaal.be/"
+        {
+            name: 'Tele-onthaal',
+            hook: 'Zoek je een uitweg? Praten helpt.',
+            description: 'Via Tele-onthaal kan je bellen of chatten met iemand die naar je luistert.',
+            url: 'https://www.tele-onthaal.be/'
         }
-    };
+    ];
 
-    const advice = {
-        ween: "Ween wanneer je moet wenen, iedereen heeft daar soms nood aan, ook mannen.",
-        bezig: "Probeer je zo veel mogelijk bezig te houden. Wandelingetjes kunnen vaak deugd doen.",
-        psycholoog: "Contacteer een van de instellingen hierboven. Je moet je er nooit voor schamen om aan je mentale gezondheid te werken en dus ook niet om naar een psycholoog te gaan.",
-        gevoelensuiten: "Probeer je gevoelens op een creatieve manier te uiten. Bv. je gevoelens opschrijven kan soms helpen (je kan hiervan een gewoonte maken om elke avond drie positieve dingen op te schrijven, hoe klein ook).",
-        familie: "Onthoud dat je meestal ook bij je famillie terecht kan."
-    }
+    const advices = [
+        'Ween wanneer je moet wenen, iedereen heeft daar soms nood aan, ook mannen.',
+        'Probeer je zo veel mogelijk bezig te houden. Wandelingetjes kunnen vaak deugd doen.',
+        'Contacteer een van de instellingen hierboven. Je moet je er nooit voor schamen om aan je mentale gezondheid te werken en dus ook niet om naar een psycholoog te gaan.',
+        'Probeer je gevoelens op een creatieve manier te uiten. Bv. je gevoelens opschrijven kan soms helpen (je kan hiervan een gewoonte maken om elke avond drie positieve dingen op te schrijven, hoe klein ook).',
+        'Onthoud dat je meestal ook bij je famillie terecht kan.'
+    ];
+
+    const toClipBoard = linkToCopy => {
+        navigator.clipboard.writeText(linkToCopy)
+            .then(
+                () => alert('Copied link.'),
+                er => alert('Could not copy link.')
+            );
+    };
 
     return (
         <>
             <Head title={'Help'}/>
-            <h1>You're not alone</h1>
 
-            {Object.entries(actions).map(([action, {Description, url}]) => (
+            <section>
+                <h1>You're not alone</h1>
 
-                <a href={url}>
-                    <div className={style.confession}>
-                        <section>{Description}</section>
-                    </div>
-                </a>
-            ))}
+                {sources.map(({ name, hook, description, url}) => (
+                    <Article
+                        key={name}
+                        footer={
+                            <span>
+                            <span onClick={() => toClipBoard(url)}>copy link</span>
+                            <a href={url} target="_blank">
+                                naar de website van {name}
+                            </a>
+					    </span>
+                        }
+                    >
+                        <h2>{hook}</h2>
+                        <p>{description}</p>
+                    </Article>
 
-            <h1>Advice</h1>
+                ))}
+            </section>
 
-            {Object.entries(advice).map(([key, text]) => (
-                <div className={style.confession}>
-                    <section>{text}</section>
-                </div>
-            ))}
+            <section>
+                <h1>Advice</h1>
+
+                {advices.map((advice, index) => (
+                    <Article key={index}>
+                        {advice}
+                    </Article>
+                ))}
+            </section>
+
         </>
     );
 }
