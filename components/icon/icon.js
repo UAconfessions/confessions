@@ -11,7 +11,9 @@ import archiveSrc from './archive.svg';
 import playSrc from './play.svg';
 import stopSrc from './stop.svg';
 import tagSrc from './tag.svg';
-import helpSrc from './tag.svg'; // TODO
+import helpSrc from './help.svg';
+import moreSrc from './more.svg';
+import lessSrc from './less.svg';
 
 const Send = () => (
     <img src={sendSrc} alt={'versturen'} />
@@ -62,5 +64,13 @@ const Help = () => (
     <img src={helpSrc} alt={'help'} />
 );
 
-const icons = { Send, SetImage, Loading, Blocked, Poll, Reject, Accept, Archive, Start, Stop, Tag, Help};
+const More = () => (
+    <img src={moreSrc} alt={'more'} />
+);
+
+const Less = () => (
+    <img src={lessSrc} alt={'less'} />
+);
+
+const icons = { Send, SetImage, Loading, Blocked, Poll, Reject, Accept, Archive, Start, Stop, Tag, Help, More, Less};
 export default icons;

@@ -18,15 +18,19 @@ export default function Dashboard({}) {
     const actions = {
         reject: {ActionIcon: Icon.Reject, actionStyle: style.red, handle: true},
         archive: {ActionIcon: Icon.Archive, actionStyle: style.blue, handle: true},
-        toggleTriggerWarning: {ActionIcon: Icon.Tag, actionStyle: style.pink, handle: false},
-        toggleHelp: {ActionIcon: Icon.Help, actionStyle: style.pink, handle: false},
         accept: {ActionIcon: Icon.Accept, actionStyle: style.green, handle: true},
+        toggleActions: {ActionIcon : Icon.More, actionStyle : style.pink, handle: false}
     };
     const archiveActions = {
-        reject: {ActionIcon: Icon.Reject, actionStyle: style.red},
-        toggleTriggerWarning: {ActionIcon: Icon.Tag, actionStyle: style.pink},
-        accept: {ActionIcon: Icon.Accept, actionStyle: style.green},
+        reject: {ActionIcon: Icon.Reject, actionStyle: style.red, handle: true},
+        accept: {ActionIcon: Icon.Accept, actionStyle: style.green, handle: true},
+        toggleActions: {ActionIcon : Icon.More, actionStyle : style.pink, handle: false}
     };
+    const moreActions = {
+        toggleActions: {ActionIcon : Icon.Less, actionStyle: style.pink, handle : false},
+        toggleTriggerWarning: {ActionIcon: Icon.Tag, actionStyle: style.blue, handle: false},
+        toggleHelp: {ActionIcon: Icon.Help, actionStyle: style.green, handle: false}
+    }
 
     function toggleTriggerWarning(confession) {
         if (confession.triggerWarning) {
@@ -40,6 +44,10 @@ export default function Dashboard({}) {
         confession.help = !confession.help;
     }
 
+    function toggleActions(confession){
+        confession.actions = !confession.actions;
+    }
+
     const handleConfession = async (action, confession, stack) => {
         if (!confession?.queueId) return alert('no confession is found');
         if (!user.token) return alert('no user token found');
@@ -50,10 +58,12 @@ export default function Dashboard({}) {
             toggleTriggerWarning(confession);
         } else if (action === 'toggleHelp') {
             toggleHelp(confession);
+        } else if (action === 'toggleActions'){
+            toggleActions(confession);
         }
 
         if (action.handle) {
-            await handle(confession.queueId, action, user.token, confession.triggerWarning);
+            await handle(confession.queueId, action, user.token, confession.triggerWarning, confession.help);
 
             // update confessions after handle
             if (action === 'archive') {
@@ -86,7 +96,7 @@ export default function Dashboard({}) {
                                 <Confession {...data.confession} />
 
                                 <div className={style.actions}>
-                                    {Object.entries(actions).map(([action, {actionStyle, ActionIcon, handle, active}]) => (
+                                    {Object.entries(data.confession.actions ? moreActions : actions).map(([action, {actionStyle, ActionIcon, handle, active}]) => (
                                         <button key={action} disabled={fetching[data.confession.queueId]}
                                                 className={actionStyle}
                                                 onClick={() => handleConfession(action, data.confession, 'queue')}>
@@ -112,7 +122,7 @@ export default function Dashboard({}) {
                             <div className={style.archivedConfession}>
                                 <Confession {...confession} />
                                 <div className={style.actions}>
-                                    {Object.entries(archiveActions).map(([action, {
+                                    {Object.entries(confession.actions ? moreActions : archiveActions).map(([action, {
                                         actionStyle,
                                         ActionIcon
                                     }]) => (
