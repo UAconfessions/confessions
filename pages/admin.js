@@ -12,42 +12,85 @@ export default function Dashboard({}) {
 	const { data: archiveData, error: archiveError } = useSWR(user?.token ? ['api/admin/archive', user.token] : null, fetcher);
 	const { data, error } = useSWR(user?.token ? ['api/admin/confession', user.token] : null, fetcher);
 	const [fetching, setFetching] = useState({});
+	const [archiveIndex, setArchiveIndex] = useState(0);
+	const [stacked, setStacked] = useState({queue: true, archive: true});
+
 	const actions = {
-		reject: { ActionIcon: Icon.Reject, actionStyle: style.red},
-		archive: { ActionIcon: Icon.Archive, actionStyle: style.blue},
-		acceptWithTriggerWarning: { ActionIcon: Icon.Tag, actionStyle: style.pink},
-		accept: { ActionIcon: Icon.Accept, actionStyle: style.green},
-	};
-	const archiveActions = {
-		reject: { ActionIcon: Icon.Reject, actionStyle: style.red},
-		acceptWithTriggerWarning: { ActionIcon: Icon.Tag, actionStyle: style.pink},
-		accept: { ActionIcon: Icon.Accept, actionStyle: style.green},
-	};
+		queue: {
+			stack: {
+				reject: { ActionIcon: Icon.Reject, actionStyle: style.red},
+				archive: { ActionIcon: Icon.Archive, actionStyle: style.blue},
+				acceptWithTriggerWarning: { ActionIcon: Icon.Tag, actionStyle: style.pink},
+				accept: { ActionIcon: Icon.Accept, actionStyle: style.green},
+			}
+		},
+		archive: {
+			stack: {
+				reject: { ActionIcon: Icon.Reject, actionStyle: style.red},
+				archive: { ActionIcon: Icon.Archive, actionStyle: style.blue},
+				acceptWithTriggerWarning: { ActionIcon: Icon.Tag, actionStyle: style.pink},
+				accept: { ActionIcon: Icon.Accept, actionStyle: style.green},
+			},
+			list: {
+				reject: { ActionIcon: Icon.Reject, actionStyle: style.red},
+				acceptWithTriggerWarning: { ActionIcon: Icon.Tag, actionStyle: style.pink},
+				accept: { ActionIcon: Icon.Accept, actionStyle: style.green},
+			}
+		}
+	}
 
 	const handleConfession = async (action, confession, stack) => {
-		if(!confession?.queueId) return alert('no confession is found');
-		if(!user.token) return alert('no user token found');
+		if (stack === 'archive'){
+			if (action === 'archive') return setArchiveIndex((archiveIndex + 1) % archiveData.confessions.length);
+			setArchiveIndex((archiveIndex + 1) % (archiveData.confessions.length - 1));
+		}
+		if (!confession?.queueId) return alert('no confession is found');
+		if (!user.token) return alert('no user token found');
 		setFetching({...fetching, [confession.queueId]: true});
 
-		if (action === 'acceptWithTriggerWarning'){
+		if (action === 'acceptWithTriggerWarning') {
 			const triggerWarning = prompt('What about this confession could be a trigger?', 'verkrachting');
 			await handle(confession.queueId, 'accept', user.token, triggerWarning);
-		}else {
+		} else {
 			await handle(confession.queueId, action, user.token);
 		}
 
-		if (action === 'archive'){
+		if (action === 'archive') {
 			await mutate(['api/admin/confession', user.token]);
 			await mutate(['api/admin/archive', user.token]);
-		}else if (stack === 'queue') {
+		} else if (stack === 'queue') {
 			await mutate(['api/admin/confession', user.token]);
-		}else{
+		} else {
 			await mutate(['api/admin/archive', user.token]);
 		}
 
 		setFetching({...fetching, [confession.queueId]: false});
 
 	};
+
+	const renderCard = (confession, src, isStack) => {
+		const cardActions = actions[src][stacked[src] ? 'stack' : 'list'];
+		const renderContent = () => (
+			<>
+				<Confession {...confession} isStack={!!isStack} />
+				<div className={style.actions}>
+					{Object.entries(cardActions).map( ([action, {actionStyle, ActionIcon}]) => (
+						<button key={action} disabled={fetching[confession.queueId]} className={actionStyle} onClick={() => handleConfession(action, confession, src)}><ActionIcon /></button>
+					))}
+				</div>
+			</>
+
+		);
+
+		return isStack
+			?
+				renderContent()
+			:
+				<div className={style.archivedConfession}>
+					{renderContent()}
+				</div>
+		;
+	}
 
 	return (
 		<>
@@ -60,17 +103,7 @@ export default function Dashboard({}) {
 				{error?.code !== 404 && (
 					<>
 						<h1>{data?.amount ?? '-'} pending</h1>
-						{data?.confession && (
-							<>
-								<Confession {...data.confession} />
-
-								<div className={style.actions}>
-									{Object.entries(actions).map( ([action, {actionStyle, ActionIcon}]) => (
-										<button key={action} disabled={fetching[data.confession.queueId]} className={actionStyle} onClick={() => handleConfession(action, data.confession, 'queue')}><ActionIcon /></button>
-									))}
-								</div>
-							</>
-						)}
+						{data?.confession && renderCard(data.confession, 'queue', data?.amount > 1)}
 						{error && (
 							<div>
 								<span>An error occurred, try reloading this page.</span>
@@ -81,23 +114,17 @@ export default function Dashboard({}) {
 				)}
 			</section>
 			{archiveData?.confessions?.length > 0 && (
-				<>
-					<h1>Archive</h1>
-					<section>
-						{archiveData.confessions.map(confession => (
-							<div className={style.archivedConfession}>
-								<Confession {...confession} />
-								<div className={style.actions}>
-									{Object.entries(archiveActions).map( ([action, {actionStyle, ActionIcon}]) => (
-										<button key={action} disabled={fetching[confession.queueId]} className={actionStyle} onClick={() => handleConfession(action, confession, 'archive')}><ActionIcon /></button>
-									))}
-								</div>
-							</div>
-						))}
-					</section>
-				</>
+				<section>
+					<h1 onClick={() => setStacked({ ...stacked, archive: !stacked.archive })}>
+						<span>{archiveData.confessions.length} Archived</span>
+						{archiveData.confessions.length > 1 && (!stacked.archive ? (<Icon.Angle.Down />) : (<Icon.Angle.Right />)) }
+					</h1>
+					{!stacked.archive
+						? archiveData.confessions.map(confession => renderCard(confession, 'archive'))
+						: renderCard(archiveData.confessions[archiveIndex], 'archive', archiveData.confessions.length > 1)
+					}
+				</section>
 			)}
-
 		</>
 	);
 }
