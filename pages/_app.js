@@ -63,14 +63,14 @@ const adminPages = [
 		getTitle: () => 'Judge',
 		className: style.admin
 	},
-	{
-		navItemProps: {
-			key: 'dashboard',
-			href: '/admin/dashboard',
-		},
-		getTitle: () => 'Dashboard',
-		className: style.dashboard
-	},
+	// {
+	// 	navItemProps: {
+	// 		key: 'dashboard',
+	// 		href: '/admin/dashboard',
+	// 	},
+	// 	getTitle: () => 'Dashboard',
+	// 	className: style.dashboard
+	// },
 ];
 
 export default function MyApp({ Component, pageProps }) {
@@ -99,8 +99,8 @@ export default function MyApp({ Component, pageProps }) {
 				))}
 			</Nav>
 
-			<div className={`${user?.isAdmin ? style.adminContent : style.content} ${activePage?.className ?? ''}`}>
-				<section>
+			<div className={`${user?.isAdmin ? style.adminMain : style.main} ${activePage?.className ?? ''}`}>
+				<section className={style.content}>
 					<Component {...pageProps} />
 				</section>
 				<footer className={style.footer}>

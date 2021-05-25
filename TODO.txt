@@ -4,7 +4,6 @@ TODO: wingit
 TODO: psycholoog hulp: https://www.facebook.com/UAntwerpenConfessions/posts/2424710044341265
 TODO: notifications
 TODO: polls
-TODO: split nav for admins
 TODO: fix double render
 TODO: inbox
 TODO: presskit design pdf

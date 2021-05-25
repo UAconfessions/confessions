@@ -4,7 +4,7 @@
   user-select: none;
 }
 
-.content{
+.main{
   margin: 0 auto;
   background-color: #212735;
   color: white;
@@ -18,8 +18,8 @@
     '. footer footer footer .';
 }
 
-.adminContent{
-  composes: content;
+.adminMain{
+  composes: main;
   padding: 6rem 2rem 1rem 6rem;
 }
 
@@ -31,6 +31,9 @@
 
 }
 .bin{
+
+}
+.app{
 
 }
 .admin{
@@ -57,7 +60,12 @@
 
 }
 
+.content{
+  grid-area: content;
+}
+
 .footer{
+  grid-area: footer;
   border-radius: 13px;
   margin: auto auto 1rem;
 
