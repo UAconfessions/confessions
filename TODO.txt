@@ -1,7 +1,6 @@
 TODO: image upload
 TODO: changelist
 TODO: wingit
-TODO: psycholoog hulp: https://www.facebook.com/UAntwerpenConfessions/posts/2424710044341265
 TODO: notifications
 TODO: polls
 TODO: fix double render
