@@ -25,7 +25,7 @@ export default function Help() {
             url: "https://tejo.be/"
         },
         Teleonthaal: {
-            Description : "Zoek je een uitweg? Praten helpt. Via Tele-onthaal kan je bellen of chatten met iemand die naar je luistert.",
+            Description: "Zoek je een uitweg? Praten helpt. Via Tele-onthaal kan je bellen of chatten met iemand die naar je luistert.",
             url: "https://www.tele-onthaal.be/"
         }
     };
@@ -55,11 +55,9 @@ export default function Help() {
             <h1>Advice</h1>
 
             {Object.entries(advice).map(([key, text]) => (
-                <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">
-                    <div className={style.confession}>
-                        <section>{text}</section>
-                    </div>
-                </a>
+                <div className={style.confession}>
+                    <section>{text}</section>
+                </div>
             ))}
         </>
     );
