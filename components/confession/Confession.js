@@ -36,6 +36,9 @@ export default function Confession(props) {
 			{props.triggerWarning ? `[TRIGGER WARNING: ${props.triggerWarning}]\n\n` : ''}
 
 			<Id {...props} />{props.value}
+
+			{props.help ? `\n\n******************************************\nHulp nodig? https://ua.confessions.link/help\n******************************************` : ''}
+
 			{props?.url && (
 				<img className={style.image} src={props?.url} />
 			)}

@@ -72,7 +72,7 @@ export const resetItemInQueue = async (id) => {
 };
 
 // TODO: publish as reaction
-export const publishItemFromQueue = async (hash, triggerWarning) => {
+export const publishItemFromQueue = async (hash, triggerWarning, help) => {
 	const confession = await queue.doc(`${hash}`).get();
 
 	const { value, filename, user, submitted } = confession.data();
@@ -83,6 +83,9 @@ export const publishItemFromQueue = async (hash, triggerWarning) => {
 
 	if (triggerWarning){
 		post.triggerWarning = triggerWarning;
+	}
+	if (help) {
+		post.help = help;
 	}
 	if(filename){
 		post.url = getDownloadableUrl(filename, `pending/${user}`);

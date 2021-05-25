@@ -21,7 +21,8 @@ export default function Dashboard({}) {
 				reject: { ActionIcon: Icon.Reject, actionStyle: style.red, handle: true},
 				archive: { ActionIcon: Icon.Archive, actionStyle: style.blue, handle: true},
 				toggleTriggerWarning: {ActionIcon: Icon.Tag, actionStyle: style.pink, handle: false, active: false},
-        		accept: { ActionIcon: Icon.Accept, actionStyle: style.green, handle: true},
+        		toggleHelp: {ActionIcon: Icon.Help, actionStyle: style.pink, handle: false},
+                accept: { ActionIcon: Icon.Accept, actionStyle: style.green, handle: true},
 			}
 		},
 		archive: {
@@ -29,12 +30,14 @@ export default function Dashboard({}) {
 				reject: { ActionIcon: Icon.Reject, actionStyle: style.red, handle: true},
 				archive: { ActionIcon: Icon.Archive, actionStyle: style.blue, handle: true},
 				toggleTriggerWarning: {ActionIcon: Icon.Tag, actionStyle: style.pink, handle: false},
-        		accept: { ActionIcon: Icon.Accept, actionStyle: style.green, handle: true},
+        		toggleHelp: {ActionIcon: Icon.Help, actionStyle: style.pink, handle: false},
+                accept: { ActionIcon: Icon.Accept, actionStyle: style.green, handle: true},
 			},
 			list: {
 				reject: { ActionIcon: Icon.Reject, actionStyle: style.red, handle: true},
 				toggleTriggerWarning: {ActionIcon: Icon.Tag, actionStyle: style.pink, handle: false},
-        		accept: { ActionIcon: Icon.Accept, actionStyle: style.green, handle: true},
+        		toggleHelp: {ActionIcon: Icon.Help, actionStyle: style.pink, handle: false},
+                accept: { ActionIcon: Icon.Accept, actionStyle: style.green, handle: true},
 			}
 		}
 	}
@@ -45,7 +48,10 @@ export default function Dashboard({}) {
         } else {
             confession.triggerWarning = prompt('What about this confession could be a trigger?', 'verkrachting');
         }
+    }
 
+    function toggleHelp(confession){
+        confession.help = !confession.help;
     }
 
 	const handleConfession = async (action, confession, stack, isHandle) => {
@@ -59,6 +65,8 @@ export default function Dashboard({}) {
 
 		if (action === 'toggleTriggerWarning') {
             toggleTriggerWarning(confession);
+        } else if (action === 'toggleHelp') {
+            toggleHelp(confession);
         }
 
         if (isHandle) {
@@ -141,8 +149,8 @@ export default function Dashboard({}) {
 }
 
 
-const handle = async (id, action, token, triggerWarning) => {
-    await fetch(`/api/admin/confession/${id}/${action}${triggerWarning ? `?triggerWarning=${triggerWarning}` : ''}`, {
+const handle = async (id, action, token, triggerWarning, help) => {
+    await fetch(`/api/admin/confession/${id}/${action}${triggerWarning ? `?triggerWarning=${triggerWarning}` : ''}${help ? `?help=${help}` : ''}`, {
         method: 'POST',
         headers: new Headers({'Content-Type': 'application/json', token}),
         credentials: 'same-origin',
