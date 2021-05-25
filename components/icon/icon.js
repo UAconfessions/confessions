@@ -12,6 +12,9 @@ import playSrc from './play.svg';
 import stopSrc from './stop.svg';
 import tagSrc from './tag.svg';
 
+import angleRightSrc from './angleRight.svg';
+import angleDownSrc from './angleDown.svg';
+
 const Send = () => (
     <img src={sendSrc} alt={'versturen'} />
 );
@@ -57,5 +60,10 @@ const Tag = () => (
     <img src={tagSrc} alt={'tag'} />
 );
 
-const icons = { Send, SetImage, Loading, Blocked, Poll, Reject, Accept, Archive, Start, Stop, Tag};
+const Angle = {
+    Right: () => <img src={angleRightSrc} alt={'angle right'} />,
+    Down: () => <img src={angleDownSrc} alt={'angle down'} />
+};
+
+const icons = { Send, SetImage, Loading, Blocked, Poll, Reject, Accept, Archive, Start, Stop, Tag, Angle};
 export default icons;
