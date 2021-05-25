@@ -36,6 +36,15 @@ const pages = [
 	},
 	{
 		navItemProps: {
+			key: 'help',
+			href: '/help',
+		},
+		isActive: () => true,
+		getTitle: () => 'Help',
+		className: style.bin
+	},
+	{
+		navItemProps: {
 			key: 'wingit',
 			href: '/wingit',
 		},
