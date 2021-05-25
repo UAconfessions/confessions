@@ -11,6 +11,7 @@ import archiveSrc from './archive.svg';
 import playSrc from './play.svg';
 import stopSrc from './stop.svg';
 import tagSrc from './tag.svg';
+import helpSrc from './tag.svg'; // TODO
 
 const Send = () => (
     <img src={sendSrc} alt={'versturen'} />
@@ -57,5 +58,9 @@ const Tag = () => (
     <img src={tagSrc} alt={'tag'} />
 );
 
-const icons = { Send, SetImage, Loading, Blocked, Poll, Reject, Accept, Archive, Start, Stop, Tag};
+const Help = () => (
+    <img src={helpSrc} alt={'help'} />
+);
+
+const icons = { Send, SetImage, Loading, Blocked, Poll, Reject, Accept, Archive, Start, Stop, Tag, Help};
 export default icons;

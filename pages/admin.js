@@ -16,10 +16,11 @@ export default function Dashboard({}) {
     const {data, error} = useSWR(user?.token ? ['api/admin/confession', user.token] : null, fetcher);
     const [fetching, setFetching] = useState({});
     const actions = {
-        reject: {ActionIcon: Icon.Reject, actionStyle: style.red, handle: true, active: true},
-        archive: {ActionIcon: Icon.Archive, actionStyle: style.blue, handle: true, active: true},
-        toggleTriggerWarning: {ActionIcon: Icon.Tag, actionStyle: style.pink, handle: false, active: false},
-        accept: {ActionIcon: Icon.Accept, actionStyle: style.green, handle: true, active: true},
+        reject: {ActionIcon: Icon.Reject, actionStyle: style.red, handle: true},
+        archive: {ActionIcon: Icon.Archive, actionStyle: style.blue, handle: true},
+        toggleTriggerWarning: {ActionIcon: Icon.Tag, actionStyle: style.pink, handle: false},
+        toggleHelp: {ActionIcon: Icon.Help, actionStyle: style.pink, handle: false},
+        accept: {ActionIcon: Icon.Accept, actionStyle: style.green, handle: true},
     };
     const archiveActions = {
         reject: {ActionIcon: Icon.Reject, actionStyle: style.red},
@@ -33,7 +34,10 @@ export default function Dashboard({}) {
         } else {
             confession.triggerWarning = prompt('What about this confession could be a trigger?', 'verkrachting');
         }
+    }
 
+    function toggleHelp(confession){
+        confession.help = !confession.help;
     }
 
     const handleConfession = async (action, confession, stack) => {
@@ -44,6 +48,8 @@ export default function Dashboard({}) {
 
         if (action === 'toggleTriggerWarning') {
             toggleTriggerWarning(confession);
+        } else if (action === 'toggleHelp') {
+            toggleHelp(confession);
         }
 
         if (action.handle) {
@@ -127,8 +133,8 @@ export default function Dashboard({}) {
 }
 
 
-const handle = async (id, action, token, triggerWarning) => {
-    await fetch(`/api/admin/confession/${id}/${action}${triggerWarning ? `?triggerWarning=${triggerWarning}` : ''}`, {
+const handle = async (id, action, token, triggerWarning, help) => {
+    await fetch(`/api/admin/confession/${id}/${action}${triggerWarning ? `?triggerWarning=${triggerWarning}` : ''}${help ? `?help=${help}` : ''}`, {
         method: 'POST',
         headers: new Headers({'Content-Type': 'application/json', token}),
         credentials: 'same-origin',

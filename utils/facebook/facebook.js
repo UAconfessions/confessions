@@ -1,9 +1,11 @@
 import request from 'request';
 import FormData from 'form-data';
 
-export const postToFacebook = async ({value, id, url, triggerWarning}) => {
+export const postToFacebook = async ({value, id, url, triggerWarning, help}) => {
 	try{
-		const message = `${triggerWarning ? `[TRIGGER WARNING: ${triggerWarning}]\n\n` : ''}#${id} ${value}`;
+		const triggerWarningText = triggerWarning ? `[TRIGGER WARNING: ${triggerWarning}]\n\n` : '';
+		const helpText = help ? `\n\n******************************************\nHulp nodig? https://ua.confessions.link/help\n******************************************` : '';
+		const message = `${triggerWarningText}#${id} ${value}${helpText}`;
 
 		if (url){
 			const res = await postPhoto(message, url);
