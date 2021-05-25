@@ -188,8 +188,8 @@ export const getConfession = async id => {
 	}
 }
 // TODO: pagination ( .startAfter(lastId) )
-export const getConfessions = async () => {
-	const posted = await confessions.orderBy('id', 'desc').limit(50).get();
+export const getConfessions = async (amount = 50) => {
+	const posted = await confessions.orderBy('id', 'desc').limit(amount).get();
 	return posted.docs.map(post => {
 		const confession = post.data();
 		return {
