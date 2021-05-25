@@ -79,7 +79,7 @@ export default function Dashboard({}) {
         }
 
         if (isHandle) {
-            await handle(confession.queueId, action, user.token, confession.triggerWarning);
+            await handle(confession.queueId, action, user.token, confession.triggerWarning, confession.help);
 
             // update confessions after handle
             if (action === 'archive') {
