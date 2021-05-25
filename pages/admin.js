@@ -96,12 +96,16 @@ export default function Dashboard({}) {
 
     };
 
+	function getCardActions(confession, src) {
+		if (confession.actions) {
+			return actions['extra'];
+		} else {
+			return actions[src][stacked[src] ? 'stack' : 'list'];
+		}
+	}
+
 	const renderCard = (confession, src, isStack) => {
-	    if (confession.actions) {
-            const cardActions = actions['extra'];
-        } else {
-            const cardActions = actions[src][stacked[src] ? 'stack' : 'list'];
-        }
+	    const cardActions = getCardActions(confession, src);
 		const renderContent = () => (
 			<>
 				<Confession {...confession} isStack={!!isStack} />
