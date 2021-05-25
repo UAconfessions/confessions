@@ -14,6 +14,7 @@ export default function Confession(props) {
 	};
 	return (
 		<Article
+			isStack={props.isStack}
 			footer={
 				<>
 					{props.submitted && props.submitted !== 'unknown data' && (
