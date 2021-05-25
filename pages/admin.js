@@ -48,7 +48,7 @@ export default function Dashboard({}) {
         confession.actions = !confession.actions;
     }
 
-    const handleConfession = async (action, confession, stack) => {
+    const handleConfession = async (action, confession, stack, isHandle) => {
         if (!confession?.queueId) return alert('no confession is found');
         if (!user.token) return alert('no user token found');
 
@@ -62,7 +62,7 @@ export default function Dashboard({}) {
             toggleActions(confession);
         }
 
-        if (action.handle) {
+        if (isHandle) {
             await handle(confession.queueId, action, user.token, confession.triggerWarning, confession.help);
 
             // update confessions after handle
@@ -96,10 +96,10 @@ export default function Dashboard({}) {
                                 <Confession {...data.confession} />
 
                                 <div className={style.actions}>
-                                    {Object.entries(data.confession.actions ? moreActions : actions).map(([action, {actionStyle, ActionIcon, handle, active}]) => (
+                                    {Object.entries(data.confession.actions ? moreActions : actions).map(([action, {actionStyle, ActionIcon, handle}]) => (
                                         <button key={action} disabled={fetching[data.confession.queueId]}
                                                 className={actionStyle}
-                                                onClick={() => handleConfession(action, data.confession, 'queue')}>
+                                                onClick={() => handleConfession(action, data.confession, 'queue', handle)}>
                                             <ActionIcon/></button>
                                     ))}
                                 </div>
@@ -124,11 +124,12 @@ export default function Dashboard({}) {
                                 <div className={style.actions}>
                                     {Object.entries(confession.actions ? moreActions : archiveActions).map(([action, {
                                         actionStyle,
-                                        ActionIcon
+                                        ActionIcon,
+                                        handle
                                     }]) => (
                                         <button key={action} disabled={fetching[confession.queueId]}
                                                 className={actionStyle}
-                                                onClick={() => handleConfession(action, confession, 'archive')}>
+                                                onClick={() => handleConfession(action, confession, 'archive', handle)}>
                                             <ActionIcon/></button>
                                     ))}
                                 </div>
@@ -144,7 +145,7 @@ export default function Dashboard({}) {
 
 
 const handle = async (id, action, token, triggerWarning, help) => {
-    await fetch(`/api/admin/confession/${id}/${action}${triggerWarning ? `?triggerWarning=${triggerWarning}` : ''}${help ? `?help=${help}` : ''}`, {
+    await fetch(`/api/admin/confession/${id}/${action}${triggerWarning ? `?triggerWarning=${triggerWarning}` : ''}${help ? `&help=${help}` : ''}`, {
         method: 'POST',
         headers: new Headers({'Content-Type': 'application/json', token}),
         credentials: 'same-origin',
