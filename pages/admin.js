@@ -14,11 +14,13 @@ export default function Dashboard({}) {
 	const [fetching, setFetching] = useState({});
 	const actions = {
 		reject: { ActionIcon: Icon.Reject, actionStyle: style.red},
-		archive: { ActionIcon: Icon.Archive, actionStyle: style.action},
+		archive: { ActionIcon: Icon.Archive, actionStyle: style.blue},
+		acceptWithTriggerWarning: { ActionIcon: Icon.Tag, actionStyle: style.pink},
 		accept: { ActionIcon: Icon.Accept, actionStyle: style.green},
 	};
 	const archiveActions = {
 		reject: { ActionIcon: Icon.Reject, actionStyle: style.red},
+		acceptWithTriggerWarning: { ActionIcon: Icon.Tag, actionStyle: style.pink},
 		accept: { ActionIcon: Icon.Accept, actionStyle: style.green},
 	};
 
@@ -27,12 +29,17 @@ export default function Dashboard({}) {
 		if(!user.token) return alert('no user token found');
 		setFetching({...fetching, [confession.queueId]: true});
 
-		await handle(confession.queueId, action, user.token);
+		if (action === 'acceptWithTriggerWarning'){
+			const triggerWarning = prompt('What about this confession could be a trigger?', 'verkrachting');
+			await handle(confession.queueId, 'accept', user.token, triggerWarning);
+		}else {
+			await handle(confession.queueId, action, user.token);
+		}
 
 		if (action === 'archive'){
 			await mutate(['api/admin/confession', user.token]);
 			await mutate(['api/admin/archive', user.token]);
-		}else if (stack === 'queue'){
+		}else if (stack === 'queue') {
 			await mutate(['api/admin/confession', user.token]);
 		}else{
 			await mutate(['api/admin/archive', user.token]);
@@ -96,8 +103,8 @@ export default function Dashboard({}) {
 }
 
 
-const handle = async (id, action, token) => {
-	await fetch(`/api/admin/confession/${id}/${action}`, {
+const handle = async (id, action, token, triggerWarning) => {
+	await fetch(`/api/admin/confession/${id}/${action}${triggerWarning ? `?triggerWarning=${triggerWarning}` : ''}`, {
 		method: 'POST',
 		headers: new Headers({'Content-Type': 'application/json', token}),
 		credentials: 'same-origin',

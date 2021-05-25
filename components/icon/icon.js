@@ -10,6 +10,7 @@ import publishSrc from './publish.svg';
 import archiveSrc from './archive.svg';
 import playSrc from './play.svg';
 import stopSrc from './stop.svg';
+import tagSrc from './tag.svg';
 
 const Send = () => (
     <img src={sendSrc} alt={'versturen'} />
@@ -52,5 +53,9 @@ const Stop = () => (
     <img src={stopSrc} alt={'stop'} />
 );
 
-const icons = { Send, SetImage, Loading, Blocked, Poll, Reject, Accept, Archive, Start, Stop};
+const Tag = () => (
+    <img src={tagSrc} alt={'tag'} />
+);
+
+const icons = { Send, SetImage, Loading, Blocked, Poll, Reject, Accept, Archive, Start, Stop, Tag};
 export default icons;
