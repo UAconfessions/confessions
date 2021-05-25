@@ -33,6 +33,8 @@ export default function Confession(props) {
 				</>
 			}
 		>
+			{props.triggerWarning ? `[TRIGGER WARNING: ${props.triggerWarning}]\n\n` : ''}
+
 			<Id {...props} />{props.value}
 			{props?.url && (
 				<img className={style.image} src={props?.url} />

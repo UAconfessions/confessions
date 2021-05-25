@@ -18,28 +18,37 @@ export default function Dashboard({}) {
 	const actions = {
 		queue: {
 			stack: {
-				reject: { ActionIcon: Icon.Reject, actionStyle: style.red},
-				archive: { ActionIcon: Icon.Archive, actionStyle: style.blue},
-				acceptWithTriggerWarning: { ActionIcon: Icon.Tag, actionStyle: style.pink},
-				accept: { ActionIcon: Icon.Accept, actionStyle: style.green},
+				reject: { ActionIcon: Icon.Reject, actionStyle: style.red, handle: true},
+				archive: { ActionIcon: Icon.Archive, actionStyle: style.blue, handle: true},
+				toggleTriggerWarning: {ActionIcon: Icon.Tag, actionStyle: style.pink, handle: false, active: false},
+        		accept: { ActionIcon: Icon.Accept, actionStyle: style.green, handle: true},
 			}
 		},
 		archive: {
 			stack: {
-				reject: { ActionIcon: Icon.Reject, actionStyle: style.red},
-				archive: { ActionIcon: Icon.Archive, actionStyle: style.blue},
-				acceptWithTriggerWarning: { ActionIcon: Icon.Tag, actionStyle: style.pink},
-				accept: { ActionIcon: Icon.Accept, actionStyle: style.green},
+				reject: { ActionIcon: Icon.Reject, actionStyle: style.red, handle: true},
+				archive: { ActionIcon: Icon.Archive, actionStyle: style.blue, handle: true},
+				toggleTriggerWarning: {ActionIcon: Icon.Tag, actionStyle: style.pink, handle: false},
+        		accept: { ActionIcon: Icon.Accept, actionStyle: style.green, handle: true},
 			},
 			list: {
-				reject: { ActionIcon: Icon.Reject, actionStyle: style.red},
-				acceptWithTriggerWarning: { ActionIcon: Icon.Tag, actionStyle: style.pink},
-				accept: { ActionIcon: Icon.Accept, actionStyle: style.green},
+				reject: { ActionIcon: Icon.Reject, actionStyle: style.red, handle: true},
+				toggleTriggerWarning: {ActionIcon: Icon.Tag, actionStyle: style.pink, handle: false},
+        		accept: { ActionIcon: Icon.Accept, actionStyle: style.green, handle: true},
 			}
 		}
 	}
 
-	const handleConfession = async (action, confession, stack) => {
+	function toggleTriggerWarning(confession) {
+        if (confession.triggerWarning) {
+            confession.triggerWarning = '';
+        } else {
+            confession.triggerWarning = prompt('What about this confession could be a trigger?', 'verkrachting');
+        }
+
+    }
+
+	const handleConfession = async (action, confession, stack, isHandle) => {
 		if (stack === 'archive'){
 			if (action === 'archive') return setArchiveIndex((archiveIndex + 1) % archiveData.confessions.length);
 			setArchiveIndex((archiveIndex + 1) % (archiveData.confessions.length - 1));
@@ -48,25 +57,27 @@ export default function Dashboard({}) {
 		if (!user.token) return alert('no user token found');
 		setFetching({...fetching, [confession.queueId]: true});
 
-		if (action === 'acceptWithTriggerWarning') {
-			const triggerWarning = prompt('What about this confession could be a trigger?', 'verkrachting');
-			await handle(confession.queueId, 'accept', user.token, triggerWarning);
-		} else {
-			await handle(confession.queueId, action, user.token);
-		}
+		if (action === 'toggleTriggerWarning') {
+            toggleTriggerWarning(confession);
+        }
 
-		if (action === 'archive') {
-			await mutate(['api/admin/confession', user.token]);
-			await mutate(['api/admin/archive', user.token]);
-		} else if (stack === 'queue') {
-			await mutate(['api/admin/confession', user.token]);
-		} else {
-			await mutate(['api/admin/archive', user.token]);
-		}
+        if (isHandle) {
+            await handle(confession.queueId, action, user.token, confession.triggerWarning);
 
-		setFetching({...fetching, [confession.queueId]: false});
+            // update confessions after handle
+            if (action === 'archive') {
+                await mutate(['api/admin/confession', user.token]);
+                await mutate(['api/admin/archive', user.token]);
+            } else if (stack === 'queue') {
+                await mutate(['api/admin/confession', user.token]);
+            } else {
+                await mutate(['api/admin/archive', user.token]);
+            }
+        }
 
-	};
+        setFetching({...fetching, [confession.queueId]: false});
+
+    };
 
 	const renderCard = (confession, src, isStack) => {
 		const cardActions = actions[src][stacked[src] ? 'stack' : 'list'];
@@ -74,8 +85,8 @@ export default function Dashboard({}) {
 			<>
 				<Confession {...confession} isStack={!!isStack} />
 				<div className={style.actions}>
-					{Object.entries(cardActions).map( ([action, {actionStyle, ActionIcon}]) => (
-						<button key={action} disabled={fetching[confession.queueId]} className={actionStyle} onClick={() => handleConfession(action, confession, src)}><ActionIcon /></button>
+					{Object.entries(cardActions).map( ([action, {actionStyle, ActionIcon, handle}]) => (
+						<button key={action} disabled={fetching[confession.queueId]} className={actionStyle} onClick={() => handleConfession(action, confession, src, handle)}><ActionIcon /></button>
 					))}
 				</div>
 			</>
@@ -131,9 +142,9 @@ export default function Dashboard({}) {
 
 
 const handle = async (id, action, token, triggerWarning) => {
-	await fetch(`/api/admin/confession/${id}/${action}${triggerWarning ? `?triggerWarning=${triggerWarning}` : ''}`, {
-		method: 'POST',
-		headers: new Headers({'Content-Type': 'application/json', token}),
-		credentials: 'same-origin',
-	});
+    await fetch(`/api/admin/confession/${id}/${action}${triggerWarning ? `?triggerWarning=${triggerWarning}` : ''}`, {
+        method: 'POST',
+        headers: new Headers({'Content-Type': 'application/json', token}),
+        credentials: 'same-origin',
+    });
 }
