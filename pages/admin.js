@@ -62,7 +62,7 @@ export default function Dashboard({}) {
     }
 
 	const handleConfession = async (action, confession, stack, isHandle) => {
-		if (stack === 'archive'){
+		if (stack === 'archive' && isHandle){
 			if (action === 'archive') return setArchiveIndex((archiveIndex + 1) % archiveData.confessions.length);
 			setArchiveIndex((archiveIndex + 1) % (archiveData.confessions.length - 1));
 		}
