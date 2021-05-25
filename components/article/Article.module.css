@@ -1,0 +1,48 @@
+.article{
+    margin-bottom: 1rem;
+
+    background-color: #2a3143;
+    border-radius: 11px;
+
+    white-space: pre-wrap;
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12);
+    overflow: hidden;
+    color: rgba(255, 255, 255, .8);
+}
+
+.article section{
+    padding: 1rem 1.5rem;
+}
+
+.article h2{
+    font-family: 'Josefin Slab', serif;
+    color: rgba(255, 255, 255, .8);
+}
+.article footer{
+    background-color: #2e394c;
+    padding: 1rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+.article footer *{
+    margin: 0 .8rem;
+    font-size: .7rem;
+}
+.article footer *:hover{
+    text-decoration: underline;
+}
+
+.stack{
+    box-shadow:
+        /* The top layer shadow */
+            0 -1px 5px rgba(0,0,0,0.15),
+                /* The second layer */
+            0 -13px 0 -5px #272e3e,
+                /* The second layer shadow */
+            0 -13px 8px -5px rgba(0,0,0,0.15),
+                /* The third layer */
+            0 -25px 0 -11px #252b3b,
+                /* The third layer shadow */
+            0 -25px 3px -10px rgba(0,0,0,0.1);
+}

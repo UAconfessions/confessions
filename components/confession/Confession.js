@@ -1,5 +1,6 @@
 import style from './Confession.module.css';
 import Id from '../id/Id';
+import Article from '../article/Article';
 import {dateStringToReadable} from "../../utils/dateHelper";
 
 export default function Confession(props) {
@@ -12,30 +13,30 @@ export default function Confession(props) {
 			);
 	};
 	return (
-		<div className={style.confession}>
-			<section>
-				<Id {...props} />{props.value}
-				{props?.url && (
-					<img className={style.image} src={props?.url} />
-				)}
-			</section>
-			<footer>
-				{props.submitted && props.submitted !== 'unknown data' && (
-					<span className={style.submitted}>{dateStringToReadable(props.submitted)}</span>
-				)}
-				<span>
-					{(props.queueId || props.id) && (
-						<span onClick={toClipBoard}>copy link</span>
+		<Article
+			footer={
+				<>
+					{props.submitted && props.submitted !== 'unknown data' && (
+						<span className={style.submitted}>{dateStringToReadable(props.submitted)}</span>
 					)}
-					{props.facebook_post_id && (
-						<a href={`https://www.facebook.com/UAntwerpenConfessions/posts/${props.facebook_post_id?.split('_')[1]}`} target="_blank">
-							show on facebook
-						</a>
-					)}
-				</span>
-
-			</footer>
-		</div>
+					<span>
+						{(props.queueId || props.id) && (
+							<span onClick={toClipBoard}>copy link</span>
+						)}
+						{props.facebook_post_id && (
+							<a href={`https://www.facebook.com/UAntwerpenConfessions/posts/${props.facebook_post_id?.split('_')[1]}`} target="_blank">
+								show on facebook
+							</a>
+						)}
+					</span>
+				</>
+			}
+		>
+			<Id {...props} />{props.value}
+			{props?.url && (
+				<img className={style.image} src={props?.url} />
+			)}
+		</Article>
 	);
 }
 
