@@ -20,27 +20,30 @@ export default function Dashboard({}) {
 			stack: {
 				reject: { ActionIcon: Icon.Reject, actionStyle: style.red, handle: true},
 				archive: { ActionIcon: Icon.Archive, actionStyle: style.blue, handle: true},
-				toggleTriggerWarning: {ActionIcon: Icon.Tag, actionStyle: style.pink, handle: false, active: false},
-        		toggleHelp: {ActionIcon: Icon.Help, actionStyle: style.pink, handle: false},
                 accept: { ActionIcon: Icon.Accept, actionStyle: style.green, handle: true},
+                toggleActions: {ActionIcon : Icon.More, actionStyle : style.pink, handle: false}
 			}
 		},
 		archive: {
 			stack: {
 				reject: { ActionIcon: Icon.Reject, actionStyle: style.red, handle: true},
 				archive: { ActionIcon: Icon.Archive, actionStyle: style.blue, handle: true},
-				toggleTriggerWarning: {ActionIcon: Icon.Tag, actionStyle: style.pink, handle: false},
-        		toggleHelp: {ActionIcon: Icon.Help, actionStyle: style.pink, handle: false},
-                accept: { ActionIcon: Icon.Accept, actionStyle: style.green, handle: true},
+				accept: { ActionIcon: Icon.Accept, actionStyle: style.green, handle: true},
+                toggleActions: {ActionIcon : Icon.More, actionStyle : style.pink, handle: false}
 			},
 			list: {
 				reject: { ActionIcon: Icon.Reject, actionStyle: style.red, handle: true},
-				toggleTriggerWarning: {ActionIcon: Icon.Tag, actionStyle: style.pink, handle: false},
-        		toggleHelp: {ActionIcon: Icon.Help, actionStyle: style.pink, handle: false},
                 accept: { ActionIcon: Icon.Accept, actionStyle: style.green, handle: true},
+                toggleActions: {ActionIcon : Icon.More, actionStyle : style.pink, handle: false}
 			}
-		}
+		},
+        extra: {
+            toggleActions: {ActionIcon : Icon.Less, actionStyle: style.pink, handle : false},
+            toggleTriggerWarning: {ActionIcon: Icon.Tag, actionStyle: style.blue, handle: false},
+            toggleHelp: {ActionIcon: Icon.Help, actionStyle: style.green, handle: false}
+        }
 	}
+
 
 	function toggleTriggerWarning(confession) {
         if (confession.triggerWarning) {
@@ -52,6 +55,10 @@ export default function Dashboard({}) {
 
     function toggleHelp(confession){
         confession.help = !confession.help;
+    }
+
+    function toggleActions(confession){
+        confession.actions = !confession.actions;
     }
 
 	const handleConfession = async (action, confession, stack, isHandle) => {
@@ -67,6 +74,8 @@ export default function Dashboard({}) {
             toggleTriggerWarning(confession);
         } else if (action === 'toggleHelp') {
             toggleHelp(confession);
+        } else if (action === 'toggleActions'){
+            toggleActions(confession);
         }
 
         if (isHandle) {
@@ -88,7 +97,11 @@ export default function Dashboard({}) {
     };
 
 	const renderCard = (confession, src, isStack) => {
-		const cardActions = actions[src][stacked[src] ? 'stack' : 'list'];
+	    if (confession.actions) {
+            const cardActions = actions['extra'];
+        } else {
+            const cardActions = actions[src][stacked[src] ? 'stack' : 'list'];
+        }
 		const renderContent = () => (
 			<>
 				<Confession {...confession} isStack={!!isStack} />

@@ -11,7 +11,9 @@ import archiveSrc from './archive.svg';
 import playSrc from './play.svg';
 import stopSrc from './stop.svg';
 import tagSrc from './tag.svg';
-import helpSrc from './tag.svg'; // TODO
+import helpSrc from './help.svg';
+import moreSrc from './more.svg'; // TODO: Change to angleRight
+import lessSrc from './less.svg'; // TODO: Change to AngleLeft
 
 import angleRightSrc from './angleRight.svg';
 import angleDownSrc from './angleDown.svg';
@@ -65,10 +67,18 @@ const Help = () => (
     <img src={helpSrc} alt={'help'} />
 );
 
+const More = () => (
+    <img src={moreSrc} alt={'more'} />
+);
+
+const Less = () => (
+    <img src={lessSrc} alt={'less'} />
+);
+
 const Angle = {
     Right: () => <img src={angleRightSrc} alt={'angle right'} />,
     Down: () => <img src={angleDownSrc} alt={'angle down'} />
 };
 
-const icons = { Send, SetImage, Loading, Blocked, Poll, Reject, Accept, Archive, Start, Stop, Tag, Help, Angle};
+const icons = { Send, SetImage, Loading, Blocked, Poll, Reject, Accept, Archive, Start, Stop, Tag, Help, More, Less, Angle};
 export default icons;
