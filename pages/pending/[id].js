@@ -10,7 +10,7 @@ export async function getServerSideProps({params}) {
 // handle confession no longer pending
 export default function Pending({confession, queueId }) {
 	return (
-		<div className={style.confession}>
+		<div>
 			<Head title={'Pending Confession'} />
 			<Confession {...confession} queueId={queueId} />
 		</div>
