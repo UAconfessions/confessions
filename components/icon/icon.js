@@ -17,6 +17,8 @@ import lessSrc from './less.svg'; // TODO: Change to AngleLeft
 
 import angleRightSrc from './angleRight.svg';
 import angleDownSrc from './angleDown.svg';
+import angleLeftSrc from './angleLeft.svg';
+import angleUpSrc from './angleUp.svg';
 
 const Send = () => (
     <img src={sendSrc} alt={'versturen'} />
@@ -76,8 +78,10 @@ const Less = () => (
 );
 
 const Angle = {
-    Right: () => <img src={angleRightSrc} alt={'angle right'} />,
-    Down: () => <img src={angleDownSrc} alt={'angle down'} />
+    Right: (props) => <img src={angleRightSrc} alt={'angle right'} {...props} />,
+    Down: (props) => <img src={angleDownSrc} alt={'angle down'} {...props} />,
+    Left: (props) => <img src={angleLeftSrc} alt={'angle left'} {...props} />,
+    Up: (props) => <img src={angleUpSrc} alt={'angle up'} {...props} />
 };
 
 const icons = { Send, SetImage, Loading, Blocked, Poll, Reject, Accept, Archive, Start, Stop, Tag, Help, More, Less, Angle};
