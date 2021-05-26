@@ -7,7 +7,7 @@ import { useState } from 'react';
 import Head from '../components/head/head';
 import Confession from '../components/confession/Confession';
 
-export default function Dashboard({}) {
+export default function Admin({}) {
 	const { user } = useUser();
 	const { data: archiveData } = useSWR(user?.token ? ['api/admin/archive', user.token] : null, fetcher);
 	const { data, error } = useSWR(user?.token ? ['api/admin/confession', user.token] : null, fetcher);
