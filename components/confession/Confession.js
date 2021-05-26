@@ -2,6 +2,7 @@ import style from './Confession.module.css';
 import Id from '../id/Id';
 import Article from '../article/Article';
 import {dateStringToReadable} from "../../utils/dateHelper";
+import Link from 'next/link';
 
 export default function Confession(props) {
 	const toClipBoard = () => {
@@ -15,6 +16,7 @@ export default function Confession(props) {
 	return (
 		<Article
 			isStack={props.isStack}
+			sensitive={props.help || props.triggerWarning}
 			footer={
 				<>
 					{props.submitted && props.submitted !== 'unknown data' && (
@@ -29,15 +31,18 @@ export default function Confession(props) {
 								show on facebook
 							</a>
 						)}
+						{props.help && (
+							<Link href="/help">Hulp nodig?</Link>
+						)}
 					</span>
 				</>
 			}
 		>
-			{props.triggerWarning ? `[TRIGGER WARNING: ${props.triggerWarning}]\n\n` : ''}
+			{props.triggerWarning && <h2>TRIGGER WARNING: {props.triggerWarning}</h2>}
 
 			<Id {...props} />{props.value}
 
-			{props.help ? `\n\n******************************************\nHulp nodig? https://ua.confessions.link/help\n******************************************` : ''}
+
 
 			{props?.url && (
 				<img className={style.image} src={props?.url} />
