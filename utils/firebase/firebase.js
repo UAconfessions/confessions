@@ -1,6 +1,7 @@
 import admin from 'firebase-admin';
 import {postToFacebook} from "../facebook/facebook";
 import {rebuildProject} from "../vercel/vercel";
+import {removeEmpty} from "../objectHelper";
 
 try {
 	admin.initializeApp({
@@ -96,7 +97,7 @@ export const publishItemFromQueue = async (hash, triggerWarning, help) => {
 
 	const facebook_answer = await postToFacebook(post);
 
-	await confessions.doc(`${post.id}`).set({ value: post.value, id: post.id, ...facebook_answer, submitted, posted: new Date() });
+	await confessions.doc(`${post.id}`).set(removeEmpty({ value: post.value, id: post.id, ...facebook_answer, submitted, posted: new Date(), triggerWarning, help }));
 
 	await bin.doc(`${hash}`).set({...confession.data(), id: post.id, handled: new Date()});
 	await queue.doc(`${hash}`).delete();
