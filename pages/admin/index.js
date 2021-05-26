@@ -1,11 +1,11 @@
-import style from '../styles/Admin.module.css';
-import Icon from '../components/icon/icon';
+import style from '../../styles/Admin.module.css';
+import Icon from '../../components/icon/icon';
 import useSWR, {mutate} from 'swr';
-import fetcher from '../utils/api/fetcher';
-import { useUser } from '../utils/firebase/useUser';
+import fetcher from '../../utils/api/fetcher';
+import { useUser } from '../../utils/firebase/useUser';
 import { useState } from 'react';
-import Head from '../components/head/head';
-import Confession from '../components/confession/Confession';
+import Head from '../../components/head/head';
+import Confession from '../../components/confession/Confession';
 
 export default function Admin({}) {
 	const { user } = useUser();
@@ -15,7 +15,6 @@ export default function Admin({}) {
 	const [actionMenuOpen, setActionMenuOpen] = useState();
 	const [archiveIndex, setArchiveIndex] = useState(0);
 	const [stacked, setStacked] = useState({queue: true, archive: true});
-	console.log(archiveIndex);
 
 	const addDataFor = (queueId, data) => {
 		return setAddedData({
@@ -110,13 +109,10 @@ export default function Admin({}) {
         extra: {
             toggleTriggerWarning: {ActionIcon: Icon.Tag, actionStyle: style.pink, action: toggleTriggerWarning, hint: 'Toggle trigger warning' },
             toggleHelp: {ActionIcon: Icon.Help, actionStyle: style.pink, action: toggleHelp, hint: 'toggle help url' },
-            toggleActions: {ActionIcon : Icon.Angle.Left, actionStyle: style.pink, action: ({queueId}) => setActionMenuOpen(undefined), hint: 'Hide extra actions' },
+            toggleActions: {ActionIcon : Icon.Angle.Left, actionStyle: style.pink, action: () => setActionMenuOpen(undefined), hint: 'Hide extra actions' },
         }
 	}
 	// TODO: change style of toggles depending on their current state
-
-
-
 
 	const getCardActions = (confession, src) => {
 		if (confession?.queueId === actionMenuOpen) {
@@ -186,6 +182,8 @@ export default function Admin({}) {
 		</>
 	);
 }
+
+Admin.whyDidYouRender = true
 
 
 const handle = async (id, action, token, triggerWarning, help) => {
