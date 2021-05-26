@@ -12,69 +12,59 @@ import playSrc from './play.svg';
 import stopSrc from './stop.svg';
 import tagSrc from './tag.svg';
 import helpSrc from './help.svg';
-import moreSrc from './more.svg'; // TODO: Change to angleRight
-import lessSrc from './less.svg'; // TODO: Change to AngleLeft
 
 import angleRightSrc from './angleRight.svg';
 import angleDownSrc from './angleDown.svg';
 import angleLeftSrc from './angleLeft.svg';
 import angleUpSrc from './angleUp.svg';
 
-const Send = () => (
-    <img src={sendSrc} alt={'versturen'} />
+const Send = (props) => (
+    <img src={sendSrc} alt={'versturen'} {...props} />
 );
 
-const SetImage = ({cancel}) => {
-   if(!cancel) return <img src={imgSrc} alt={'zet een afbeelding'} />
-    return <img src={noImgSrc} alt={'afbeeldingselectie anuleren'} />
+const SetImage = ({cancel, ...props}) => {
+   if(!cancel) return <img src={imgSrc} alt={'zet een afbeelding'} {...props} />
+    return <img src={noImgSrc} alt={'afbeeldingselectie anuleren'} {...props} />
 }
 
-const Loading = () => (
-    <img src={blockedSrc} alt={'wachten'} className={style.spin} />
+const Loading = (props) => (
+    <img src={blockedSrc} alt={'wachten'} className={style.spin} {...props} />
 );
 
-const Blocked = ({loading}) => (
-    <img src={blockedSrc} alt={'nog niet beschikbaar'} className={loading ? style.spin : ''} />
+const Blocked = ({loading, ...props}) => (
+    <img src={blockedSrc} alt={'nog niet beschikbaar'} className={loading ? style.spin : ''} {...props} />
 );
 
-const Poll = () => (
-    <img src={pollSrc} alt={'poll'} />
+const Poll = (props) => (
+    <img src={pollSrc} alt={'poll'} {...props} />
 );
 
-const Reject = () => (
-    <img src={trashSrc} alt={'reject'} />
+const Reject = (props) => (
+    <img src={trashSrc} alt={'reject'} {...props} />
 );
 
-const Accept = () => (
-    <img src={publishSrc} alt={'publish'} />
+const Accept = (props) => (
+    <img src={publishSrc} alt={'publish'} {...props} />
 );
 
-const Archive = () => (
-    <img src={archiveSrc} alt={'archive'} />
+const Archive = (props) => (
+    <img src={archiveSrc} alt={'archive'} {...props} />
 );
 
-const Start = () => (
-    <img src={playSrc} alt={'start'} />
+const Start = (props) => (
+    <img src={playSrc} alt={'start'} {...props} />
 );
 
-const Stop = () => (
-    <img src={stopSrc} alt={'stop'} />
+const Stop = (props) => (
+    <img src={stopSrc} alt={'stop'} {...props} />
 );
 
-const Tag = () => (
-    <img src={tagSrc} alt={'tag'} />
+const Tag = (props) => (
+    <img src={tagSrc} alt={'tag'} {...props} />
 );
 
-const Help = () => (
-    <img src={helpSrc} alt={'help'} />
-);
-
-const More = () => (
-    <img src={moreSrc} alt={'more'} />
-);
-
-const Less = () => (
-    <img src={lessSrc} alt={'less'} />
+const Help = (props) => (
+    <img src={helpSrc} alt={'help'} {...props} />
 );
 
 const Angle = {
@@ -84,5 +74,5 @@ const Angle = {
     Up: (props) => <img src={angleUpSrc} alt={'angle up'} {...props} />
 };
 
-const icons = { Send, SetImage, Loading, Blocked, Poll, Reject, Accept, Archive, Start, Stop, Tag, Help, More, Less, Angle};
+const icons = { Send, SetImage, Loading, Blocked, Poll, Reject, Accept, Archive, Start, Stop, Tag, Help, Angle};
 export default icons;
