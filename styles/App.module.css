@@ -12,9 +12,10 @@
   box-sizing: border-box;
   min-height: 100vh;
   display: grid;
-  grid-template-columns: auto minmax(min-content, 37rem) auto;
+  grid-template-columns: auto 1fr minmax(min-content, 37rem) 1fr auto;
   grid-template-areas:
-    '. content .'
+    '. . content . .'
+    '. footer footer footer .'
 }
 
 .adminMain{
