@@ -6,6 +6,7 @@ import { useUser } from '../../utils/firebase/useUser';
 import { useState } from 'react';
 import Head from '../../components/head/head';
 import Confession from '../../components/confession/Confession';
+import { removeEmpty } from '../../utils/objectHelper';
 
 export default function Admin({}) {
 	const { user } = useUser();
@@ -188,7 +189,7 @@ Admin.whyDidYouRender = true
 
 const handle = async (id, action, token, triggerWarning, help) => {
 	const endpoint = new URL(`api/admin/confession/${id}/${action}`, window.location);
-	endpoint.search = new URLSearchParams(Object.fromEntries(Object.entries({ triggerWarning, help }).filter(([key, value]) => value )));
+	endpoint.search = new URLSearchParams(removeEmpty({ triggerWarning, help }));
     await fetch(endpoint, {
         method: 'POST',
         headers: new Headers({'Content-Type': 'application/json', token}),
