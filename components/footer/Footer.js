@@ -1,5 +1,6 @@
 import style from "../../styles/App.module.css";
 import Icon from "../icon/icon";
+import Link from 'next/link';
 
 export default function footer(){
 	return (
@@ -8,7 +9,7 @@ export default function footer(){
 				<h2>contact</h2>
 				<div className={style.column}>
 					<a href={'mailto:admin@confessions.link'}>admin@confessions.link</a>
-					<a>request a page</a>
+					<Link href={'/request/page'}>request a page</Link>
 					<a>presskit</a>
 					<a>request a feature</a>
 				</div>

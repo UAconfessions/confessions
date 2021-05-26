@@ -1,0 +1,63 @@
+.container {
+
+}
+
+.container h1 {
+	text-align: left;
+}
+
+.textScroller {
+	position: relative;
+	margin-left: .8rem;
+	--timing: 1s;
+	--spacing: 2rem;
+	--nSpacing: -2rem;
+}
+.textScroller > * {
+
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+.textScroller > :first-child {
+	animation: flyIn var(--timing) ease-in-out infinite;
+}
+
+.textScroller > :last-child {
+	animation: flyOut var(--timing) ease-in-out infinite;
+}
+
+@keyframes flyIn {
+	0% {
+		transform: translateY(var(--nSpacing));
+		opacity: 0;
+	}
+
+	50% {
+		transform: translateY(var(--nSpacing));
+		opacity: 0;
+	}
+
+	100% {
+		transform: translateY(0);
+		opacity: 1;
+	}
+}
+
+@keyframes flyOut {
+	0% {
+		transform: translateY(0);
+		opacity: 1;
+	}
+
+	50% {
+		transform: translateY(0);
+		opacity: 1;
+	}
+
+	100% {
+		transform: translateY(var(--spacing));
+		opacity: 0;
+	}
+}
