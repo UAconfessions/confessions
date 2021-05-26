@@ -72,7 +72,7 @@ export const resetItemInQueue = async (id) => {
 };
 
 // TODO: publish as reaction
-export const publishItemFromQueue = async (hash, triggerWarning) => {
+export const publishItemFromQueue = async (hash, triggerWarning, help) => {
 	const confession = await queue.doc(`${hash}`).get();
 
 	const { value, filename, user, submitted } = confession.data();
@@ -83,6 +83,9 @@ export const publishItemFromQueue = async (hash, triggerWarning) => {
 
 	if (triggerWarning){
 		post.triggerWarning = triggerWarning;
+	}
+	if (help) {
+		post.help = help;
 	}
 	if(filename){
 		post.url = getDownloadableUrl(filename, `pending/${user}`);
@@ -142,7 +145,7 @@ export const getQueuedConfession = async (id) => {
 	try{
 		const {docs: [post]} = await queue.where('archived', '==', false).orderBy('submitted', 'asc').limit(1).get();
 
-		if(!post?.exists) throw new Error('No queued confessions');
+		if(!post?.exists) return undefined;
 
 		const {value, filename, user, submitted} = post.data();
 		const confession = { queueId: post.id , value, submitted: submitted?.toDate()?.toISOString() ?? 'unknown data' };
