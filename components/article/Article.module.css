@@ -46,3 +46,10 @@
                 /* The third layer shadow */
             0 -25px 3px -10px rgba(0,0,0,0.1);
 }
+
+.sensitive{
+    background: #50304c;
+}
+.sensitive footer{
+    background: #5f3c5b;
+}
