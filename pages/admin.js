@@ -2,10 +2,10 @@ import style from '../styles/Admin.module.css';
 import Icon from '../components/icon/icon';
 import useSWR, {mutate} from 'swr';
 import fetcher from '../utils/api/fetcher';
-import {useUser} from '../utils/firebase/useUser';
-import {useState} from 'react';
-import Head from "../components/head/head";
-import Confession from "../components/confession/Confession";
+import { useUser } from '../utils/firebase/useUser';
+import { useState } from 'react';
+import Head from '../components/head/head';
+import Confession from '../components/confession/Confession';
 
 export default function Dashboard({}) {
 	const { user } = useUser();
