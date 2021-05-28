@@ -10,7 +10,7 @@ export async function getServerSideProps({params}) {
 export default function ConfessionById({confession}) {
 	return (
 		<>
-			<Head title={`UA Confession #${confession.id}`} />
+			<Head title={`#${confession.id} ${confession.value}`} />
 			<h1>Confession #{confession.id}</h1>
 		    <Confession {...confession} />
         </>
