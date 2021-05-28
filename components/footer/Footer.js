@@ -1,64 +1,59 @@
 import style from "../../styles/App.module.css";
-import Icon from "../icon/icon";
 import Link from 'next/link';
 
 export default function footer(){
+
 	return (
 		<footer className={style.footer}>
 			<section>
 				<h2>contact</h2>
 				<div className={style.column}>
-					<a href={'mailto:admin@confessions.link'}>admin@confessions.link</a>
+					<a target={'_blank'} href={'mailto:admin@confessions.link'}>admin@confessions.link</a>
 					<Link href={'/request/page'}>request a page</Link>
-					<a>presskit</a>
-					<a>request a feature</a>
+					{/*<a target={'_blank'} href={''}>presskit</a>*/}
+					{/* download zip with press material, logo's, contact information, manifesto, brand colors, slogan */}
 				</div>
 			</section>
-			<section>
-				<h2>legal</h2>
-				<div className={style.column}>
-					<a>Terms & Conditions</a>
-					<a>Privacy policy</a>
-					<a>Cookies</a>
-				</div>
-			</section>
+			{/*<section>*/}
+			{/*	<h2>legal</h2>*/}
+			{/*	<div className={style.column}>*/}
+			{/*		<Link href={''}>Terms & Conditions</Link>*/}
+			{/*		<Link href={''}>Privacy policy</Link>*/}
+			{/*		<Link href={''}>Cookies</Link>*/}
+			{/*	</div>*/}
+			{/*</section>*/}
 			<section>
 				<h2>support</h2>
 				<div className={style.column}>
-					<a>Getting started</a>
-					<a>FAQ</a>
-					<a>file a bug report</a>
-					<a>changelist</a>
+					{/*<Link href={''}>Getting started</Link>*/}
+					{/*<Link href={''}>FAQ</Link>*/}
+					<Link href={'/help'}>Looking for help?</Link>
+					<Link href={'/changelog'}>Changelog</Link>
 				</div>
 			</section>
 			<section>
 				<h2>Follow us</h2>
-				<div className={style.column}>
-					<a>facebook</a>
-					<a>snapchat</a>
-					<a>instagram</a>
-				</div>
-				<div className={style.column}>
-					<a>twitter</a>
-					<a>rss</a>
-					<a>email overview</a>
-				</div>
-				<span>
-						<input placeholder={'test@email.be'} className={style.textInput} type={'email'}/>
-						<button className={style.inputButton} onClick={() => alert('email')}>
-							<Icon.Send />
-						</button>
-					</span>
-			</section>
-			<section>
-				<h2>Support us</h2>
-				<div className={style.column}>
-					<a>Merch</a>
-					<a>Products</a>
-					<a>advertisers</a>
-					<a>buy us a coffee</a>
+				<div className={style.columns}>
+					<div className={style.column}>
+						<a target={'_blank'} href={'https://www.facebook.com/UAntwerpenConfessions'}>Facebook</a>
+						<a target={'_blank'} href={'https://www.snapchat.com/add/ua_confessions'}>Snapchat</a>
+						<a target={'_blank'} href={'https://www.instagram.com/uantwerpen_confessions/'}>Instagram</a>
+					</div>
+					<div className={style.column}>
+						<a target={'_blank'} href={'https://twitter.com/UAntConfessions'}>Twitter</a>
+						<Link href={'/rss'}>Rss</Link>
+						{/*<Link href={''}>Email</Link>*/}
+					</div>
 				</div>
 			</section>
+			{/*<section>*/}
+			{/*	<h2>Support us</h2>*/}
+			{/*	<div className={style.column}>*/}
+			{/*		<a target={'_blank'} href={'https://confessions.link'}>Store</a>*/}
+			{/*		<Link href={''}>Advertisers</Link>*/}
+			{/*		<Link href={''}>Sell your product</Link>*/}
+			{/*	</div>*/}
+			{/*</section>*/}
 		</footer>
 	);
 }

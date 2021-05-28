@@ -20,7 +20,7 @@
     "swr": "^0.5.5"
   },
   "devDependencies": {
-    "react-firebaseui": "^4.1.0",
+    "react-firebaseui": "^5.0.2",
     "request": "^2.88.2"
   }
 }

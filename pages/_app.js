@@ -3,6 +3,7 @@ import Nav from '../components/nav/nav';
 import style from '../styles/App.module.css';
 import NavItem from '../components/nav/navItem/navItem';
 import NavLogo from '../components/navLogo/navLogo';
+import Footer from '../components/footer/Footer';
 import { useUser } from '../utils/firebase/useUser';
 import { useRouter } from "next/router";
 
@@ -30,14 +31,6 @@ const pages = [
 		},
 		getTitle: () => '#NoFilter',
 		className: style.bin
-	},
-	{
-		navItemProps: {
-			key: 'help',
-			href: '/help',
-		},
-		getTitle: () => 'Help',
-		className: style.help
 	},
 	{
 		navItemProps: {
@@ -102,6 +95,7 @@ export default function MyApp({ Component, pageProps }) {
 				<section className={style.content}>
 					<Component {...pageProps} />
 				</section>
+				<Footer />
 			</div>
 		</>
 	);

@@ -1,4 +1,3 @@
-import style from '../styles/Help.module.css';
 import Head from '../components/head/head';
 import Article from '../components/article/Article';
 

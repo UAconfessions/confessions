@@ -12,24 +12,33 @@
 
 .article section{
     padding: 1rem 1.5rem;
+    word-wrap: break-word;
+    word-break: break-word;
 }
 
 .article h2{
     font-family: 'Josefin Slab', serif;
     color: rgba(255, 255, 255, .8);
+    margin: 0;
 }
-.article footer{
+.article footer, .article header{
     background-color: #2e394c;
     padding: 1rem 1.5rem;
     display: flex;
     justify-content: space-between;
+    white-space: nowrap;
 }
 
-.article footer *{
+.article footer *, .article header *{
     margin: 0 .8rem;
     font-size: .7rem;
 }
-.article footer *:hover{
+
+.article footer a, .article header a{
+    cursor: pointer;
+}
+
+.article footer a:hover, .article header a:hover{
     text-decoration: underline;
 }
 
@@ -50,6 +59,6 @@
 .sensitive{
     background: #50304c;
 }
-.sensitive footer{
+.sensitive footer, .sensitive header{
     background: #5f3c5b;
 }
