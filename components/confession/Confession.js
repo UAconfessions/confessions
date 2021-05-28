@@ -5,13 +5,10 @@ import {dateStringToReadable} from "../../utils/dateHelper";
 import Link from 'next/link';
 
 export default function Confession(props) {
-	const toClipBoard = () => {
+	const toClipBoard = async () => {
 		const linkToCopy = props.queueId ? `pending/${props.queueId}` : `confessions/${props.id}`
-		navigator.clipboard.writeText(`https://ua.confessions.link/${linkToCopy}`)
-			.then(
-				() => alert('Copied link.'),
-				er => alert('Could not copy link.')
-			);
+		const res = await navigator.share?.({title: `#${props.id ?? ''} ${props.value}`, url: `https://ua.confessions.link/${linkToCopy}`})
+		console.log(res);
 	};
 	const header = [];
 	if(props.triggerWarning) header.push(<span key={'trigger warning'}>TRIGGER WARNING: {props.triggerWarning}</span>);
@@ -27,7 +24,7 @@ export default function Confession(props) {
 					)}
 					<span>
 						{(props.queueId || props.id) && (
-							<a onClick={toClipBoard}>copy link</a>
+							<a onClick={toClipBoard}>share</a>
 						)}
 						{props.facebook_post_id && (
 							<a href={`https://www.facebook.com/UAntwerpenConfessions/posts/${props.facebook_post_id?.split('_')[1]}`} target="_blank">
