@@ -13,6 +13,9 @@ export default function Confession(props) {
 				er => alert('Could not copy link.')
 			);
 	};
+	const header = [];
+	if(props.triggerWarning) header.push(<span key={'trigger warning'}>TRIGGER WARNING: {props.triggerWarning}</span>);
+	if(props.help) header.push(<Link key={'mental help'} href="/help">Hulp nodig?</Link>);
 	return (
 		<Article
 			isStack={props.isStack}
@@ -24,25 +27,19 @@ export default function Confession(props) {
 					)}
 					<span>
 						{(props.queueId || props.id) && (
-							<span onClick={toClipBoard}>copy link</span>
+							<a onClick={toClipBoard}>copy link</a>
 						)}
 						{props.facebook_post_id && (
 							<a href={`https://www.facebook.com/UAntwerpenConfessions/posts/${props.facebook_post_id?.split('_')[1]}`} target="_blank">
 								show on facebook
 							</a>
 						)}
-						{props.help && (
-							<Link href="/help">Hulp nodig?</Link>
-						)}
 					</span>
 				</>
 			}
+			header={header.length > 0 && header }
 		>
-			{props.triggerWarning && <h2>TRIGGER WARNING: {props.triggerWarning}</h2>}
-
 			<Id {...props} />{props.value}
-
-
 
 			{props?.url && (
 				<img className={style.image} src={props?.url} />

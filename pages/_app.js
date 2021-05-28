@@ -34,14 +34,6 @@ const pages = [
 	},
 	{
 		navItemProps: {
-			key: 'help',
-			href: '/help',
-		},
-		getTitle: () => 'Help',
-		className: style.help
-	},
-	{
-		navItemProps: {
 			key: 'login',
 			href: '/login',
 			right: true,
