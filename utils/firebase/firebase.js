@@ -106,10 +106,13 @@ export const publishItemFromQueue = async (hash, triggerWarning, help) => {
 };
 
 export const saveUnsavedPosts = async (up) => {
-	const requests = up.map(({message: value, facebook_post_id, id}) => {
-		confessions.doc(`${id}`).set({ value, facebook_post_id, id});
+	// TODO: get unsaved posts from feed (how far can we go? will we find holes? probably )
+	// TODO: save posted date
+	// TODO: fetch comments, reactions
+	const requests = up.map(({ value, facebook_post_id, id, posted }) => {
+		confessions.doc(`${id}`).set(removeEmpty({ value, id, facebook_post_id, posted }));
 	});
-	await Promise.all(requests);
+	return await Promise.all(requests);
 };
 
 export const removeItemFromQueue = async (id) => {
@@ -246,25 +249,17 @@ export const setUserName = async (id, username) => {
 
 export const verifyIdToken = async (token) => {
 	try{
-		const decodedToken = await auth.verifyIdToken(token);
-		const uid = decodedToken.uid;
+		const { uid } = await auth.verifyIdToken(token);
 		return await auth.getUser(uid);
 	}catch(error){
-		console.log('unauthorised with token: ' + token)
 		throw error;
 	}
 }
 
 export const verifyIdTokenIsAdmin = async (token) => {
-	try{
-		const userFromToken = await verifyIdToken(token);
-		const userData = await getUser(userFromToken.email);
-		if (!userData.isAdmin) throw new Error('User `' + userFromToken.email + '` is not an Admin.');
-		return true;
-	}catch(error){
-		console.log(error);
-		throw error;
-	}
+	const userFromToken = await verifyIdToken(token);
+	const userData = await getUser(userFromToken.email);
+	if (!userData.isAdmin) throw new Error('User `' + userFromToken.email + '` is not an Admin.');
 }
 
 

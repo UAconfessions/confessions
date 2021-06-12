@@ -1,12 +1,12 @@
-import { useUser } from '../utils/firebase/useUser'
-import FirebaseAuth from "../components/firebaseAuth/firebaseAuth";
-import {useState} from "react";
-import {mutate} from "swr";
-import style from "../styles/Login.module.css";
-import Head from "../components/head/head";
+import FirebaseAuth from '../components/firebaseAuth/firebaseAuth';
+import { useState } from 'react';
+import { mutate } from 'swr';
+import style from '../styles/Login.module.css';
+import Head from '../components/head/head';
+import {useAuth} from '../utils/auth.context';
 
 const Login = () => {
-	const { user, logout } = useUser()
+	const { user, logout } = useAuth();
 	const [username, setUsername] = useState(null);
 	const [changingUsername, setChangingUsername] = useState(false);
 	const [verificationUploading, setVerificationUploading] = useState(null);

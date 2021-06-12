@@ -1,7 +1,7 @@
-import Head from '../components/head/head';
-import Article from '../components/article/Article';
+import Head from '../../components/head/head';
+import Article from '../../components/article/Article';
 
-export default function Help() {
+export default function Support() {
 
     const sources = [
         {

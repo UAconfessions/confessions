@@ -1,9 +1,9 @@
 import style from '../../styles/Admin.module.css';
 import Icon from '../../components/icon/icon';
-import {useUser} from '../../utils/firebase/useUser';
 import {useEffect, useRef, useState} from 'react';
-import Head from "../../components/head/head";
-import {getDownloadableUrl, listFiles} from "../../utils/firebase/firebase";
+import Head from '../../components/head/head';
+import {getDownloadableUrl, listFiles} from '../../utils/firebase/firebase';
+import {useAuth} from '../../utils/auth.context';
 
 export async function getServerSideProps() {
 	const fileNames = (await listFiles())[0];
@@ -13,7 +13,7 @@ export async function getServerSideProps() {
 }
 
 export default function Dashboard({files}) {
-	const { user } = useUser();
+	const { user } = useAuth();
 	const [fetching, setFetching] = useState(false);
 	const [html, setHtml] = useState('');
 	const [to, setTo] = useState('');
@@ -229,7 +229,7 @@ const sendMail = async (token, to, subject, html) => {
 	await fetch(`/api/admin/mail`, {
 		method: 'POST',
 		headers: new Headers({'Content-Type': 'application/json', token}),
-		body: JSON.stringify({to, subject, html}),
+		body: JSON.stringify({to, subject, text: html}),
 		credentials: 'same-origin',
 	});
 }

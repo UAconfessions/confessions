@@ -92,4 +92,7 @@
         line-height: 3.2rem;
         padding: 0 2rem;
     }
+    .navItemRight{
+        margin-top: unset;
+    }
 }

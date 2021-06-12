@@ -1,5 +1,4 @@
-TODO: image upload
-TODO: changelist
+TODO: use confession component for input
 TODO: wingit
 TODO: notifications
 TODO: polls
@@ -9,7 +8,6 @@ TODO: presskit design pdf
 TODO: github feature requests, bug report
 TODO: explaining the website for newbies
 TODO: FAQ
-TODO: snapchat
 TODO: instagram
 TODO: twitter
 TODO: email list
@@ -18,3 +16,8 @@ TODO: merchandise
 TODO: resources for advertisers (where can they advertise, what are our numbers)
 TODO: setup payconiq subscriptions and one time tips
 TODO: asynchronous admin actions
+TODO: sharing image
+TODO: hashtag browser
+TODO: index previous confessions
+TODO: get random confession
+TODO:

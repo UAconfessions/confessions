@@ -1,15 +1,16 @@
-import { useState } from 'react';
+import {useEffect, useState} from 'react';
 import style from '../styles/Home.module.css';
 import Icon from '../components/icon/icon';
-import { dateStringToReadable } from '../utils/dateHelper';
-import {useRouter} from "next/router";
-import Head from "../components/head/head";
+import {useRouter} from 'next/router';
+import Head from '../components/head/head';
 
-import {useUser} from "../utils/firebase/useUser";
+import Article from '../components/article/Article';
+import Link from 'next/link';
+import {useAuth} from '../utils/auth.context';
 
 export default function Home() {
 	const router = useRouter();
-	const { user } = useUser();
+	const { user } = useAuth();
 	const [confession, setConfession] = useState('');
 	const [isFetching, setFetching] = useState(false);
 	const [reactionId, setReactionId] = useState(null);
@@ -18,8 +19,11 @@ export default function Home() {
 	const [imageUploading, setImageUploading] = useState(false);
 	const [image, setImage] = useState(null);
 	const [filename, setFilename] = useState(null);
+	const [triggerWarning, setTriggerWarning] = useState(null);
+	const [help, setHelp] = useState(false);
+	const [notes, setNotes] = useState([]);
 
-	const minimumLength = 10;
+	const minimumLength = 1;
 
 	const getConfessionForReaction = async (e) => {
 		setFetching(true);
@@ -39,13 +43,8 @@ export default function Home() {
 	const submitConfession = async () => {
 		setFetching(true);
 		try {
-			if (reactingOn.value) {
-				const {id} = await postConfession({confession}, reactionId);
-				await router.push(`pending/${id}`);
-			} else {
-				const {id} = await postConfession({confession, filename}, null, user);
-				await router.push(`pending/${id}`);
-			}
+			const { id } = await postConfession({confession, filename}, reactionId, user);
+			await router.push(`pending/${id}`);
 			setConfession('');
 		}catch(e){
 			console.error(e);
@@ -61,6 +60,11 @@ export default function Home() {
 			setReactingOn({});
 		}
 	};
+
+	const toggleTriggerWarning = () => {
+		if (triggerWarning) return setTriggerWarning(null);
+		setTriggerWarning(prompt('What about this confession could be a trigger?'));
+	}
 
 	const uploadImage = async ([file]) => {
 		setImageUploading(true);
@@ -100,91 +104,118 @@ export default function Home() {
 		setImageUploading(false);
 	};
 
+	const navigateToLogin = () => {
+		router.push('/login')
+	}
+
+	const actions = {
+		toggleHelp: {ActionIcon: Icon.Help, actionStyle: style.teal, action: () => setHelp(!help), hint: 'Toggle help url', disabled: isFetching },
+		toggleTriggerWarning: {ActionIcon: Icon.Tag, actionStyle: style.pink, action: toggleTriggerWarning, hint: 'Toggle trigger warning', disabled: isFetching },
+		uploadImage: {ActionIcon: Icon.SetImage, actionStyle: style.blue, action: navigateToLogin, hint: 'Upload an Image', type: 'file', disabled: isFetching || imageUploading },
+		post: { ActionIcon: isFetching ? Icon.Loading : Icon.Accept, actionStyle: style.green, action: submitConfession, hint: 'Submit your confessions', disabled:  isFetching || confession.length < minimumLength || imageUploading},
+	}
+
+	const header = [];
+	if(triggerWarning) header.push(<span key={'trigger warning'}>TRIGGER WARNING: {triggerWarning}</span>);
+	if(help) header.push(<Link key={'mental help'} href="/help">Hulp nodig?</Link>);
+
+	useEffect(() => {
+		if (confession.length > 0){
+			const hashtags = confession.split('#')
+			// spaces in between hashtags
+			// camelcase hashtags
+			// use a popular hashtag
+			// react to a post
+		}
+	}, [confession]);
+
+	const renderActions = () => (
+		<div className={style.actions}>
+			{Object.entries(actions).map( ([name, { actionStyle, ActionIcon, action, hint, type, disabled }]) => {
+				if (type === 'file' && user?.token) {
+					if (!image){
+						return (
+							<button
+								className={actionStyle}
+								title={hint}
+								key={name}
+								disabled={disabled}
+							>
+								<input
+									type={'file'}
+									className={style.imageUpload}
+									disabled={disabled}
+									id={'upload-image'}
+									onChange={(e) => uploadImage(e.target.files)}
+									key={inputVersion}
+									accept="image/png, image/jpeg"
+								/>
+								<ActionIcon />
+							</button>
+						)
+					}
+					return (
+						<button
+							className={actionStyle}
+							title={hint}
+							onClick={()=>setImage(null)}
+							key={name}
+							disabled={disabled}
+						>
+							<ActionIcon cancel />
+						</button>
+					);
+				}
+				return (
+					<button
+						title={hint}
+						key={name}
+						disabled={disabled}
+						className={actionStyle}
+						onClick={() => action()}
+					>
+						<ActionIcon />
+					</button>
+				);
+			})}
+		</div>
+	);
+
 	return (
 		<>
 			<Head title={'Confess'} />
-			<h1>The truth will set you free</h1>
-			<div className={style.confession}>
-				<div className={style.confessionData}>
-					{reactionId !== null && (
-						<>
-							<label htmlFor={'reactionId'} className={style.label}>
-								reageer op een confession:
-								<span className={style.at}>
-                                <input
-	                                className={style.reactionId}
-	                                type={'number'}
-	                                id={'reactionId'}
-	                                name={'reactionId'}
-	                                placeholder={123456}
-	                                value={reactionId}
-	                                onChange={getConfessionForReaction}
-                                />
-                            </span>
-							</label>
-							{reactingOn.value && (
-								<div className={style.reactingOn}>
-                                <span className={style.reactingOnInfo}>
-                                    {dateStringToReadable(reactingOn.posted)}
-                                </span>
-									<p>{reactingOn.value}</p>
-								</div>
-							)}
-						</>
-					)}
-
+			<section>
+				<h1>The truth will set you free</h1>
+				<Article
+					header={header.length > 0 && header }
+					sensitive={help || triggerWarning}
+					footer={[ // TODO: implement tips and FAQ
+						<a key={'tips'}>Tips</a>,
+						<a key={'FAQ'}>FAQ</a>
+					]}
+				>
 					<textarea
 						className={style.confessionField}
 						onChange={e => setConfession(e.target.value)}
 						placeholder={'Jouw anonieme confession hier ...'}
 						value={confession}
 					/>
-				</div>
-				<div className={style.confessActions}>
-					{confession.length < minimumLength && (<span>- {minimumLength - confession.length}</span>)}
-					{user?.token && (
-						<div className={style.action}>
-							<input
-								type={'file'}
-							       className={style.imageUpload}
-							       disabled={imageUploading}
-							       id={'upload-image'}
-							       onChange={(e) => uploadImage(e.target.files)}
-							       key={inputVersion}
-							       accept="image/png, image/jpeg"
-							/>
-							<Icon.SetImage />
-						</div>
+					{image && (
+						<img
+							className={style.image}
+							src={image}
+							alt={'user upload'}
+						/>
 					)}
-					{/*<button*/}
-					{/*	className={style.action}*/}
-					{/*	onClick={toggleReaction}*/}
-					{/*>@</button>*/}
-					<button
-						className={style.cta}
-						onClick={submitConfession}
-						disabled={isFetching || confession.length < minimumLength}
-					>
-						<div>
-							<Icon.Send/>
-							<Icon.Blocked loading={isFetching}/>
-						</div>
-					</button>
-				</div>
-			</div>
-			<hr />
-			{image && (
-				<div className={style.imageDisplay}>
-					<button onClick={() => setImage(null)}>remove</button>
-					<br />
-					<img src={image} alt={'user upload'} />
-				</div>
-			)}
+				</Article>
+				{renderActions()}
+			</section>
 		</>
 	);
 }
 
 const postConfession = async (confession, id, user) => {
+	// TODO: save help and or triggerWarning
 	const headers = {'Content-Type': 'application/json'};
 	if(user?.token){
 		headers.token = user.token;

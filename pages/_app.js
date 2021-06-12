@@ -1,11 +1,12 @@
+import './../scripts/wdyr';
 import '../styles/globals.css';
 import Nav from '../components/nav/nav';
 import style from '../styles/App.module.css';
 import NavItem from '../components/nav/navItem/navItem';
 import NavLogo from '../components/navLogo/navLogo';
 import Footer from '../components/footer/Footer';
-import { useUser } from '../utils/firebase/useUser';
-import { useRouter } from "next/router";
+import {AuthProvider, useAuth} from '../utils/auth.context';
+import {useEffect, useState} from "react";
 
 const pages = [
 	{
@@ -13,16 +14,14 @@ const pages = [
 			key: 'submit',
 			href: '/',
 		},
-		getTitle: () => 'Confess',
-		className: style.submit
+		getTitle: () => 'Confess'
 	},
 	{
 		navItemProps: {
 			key: 'confessions',
 			href: '/confessions',
 		},
-		getTitle: () => 'Confessions',
-		className: style.confessions
+		getTitle: () => 'Confessions'
 	},
 	{
 		navItemProps: {
@@ -30,7 +29,6 @@ const pages = [
 			href: '/confessions/bin',
 		},
 		getTitle: () => '#NoFilter',
-		className: style.bin
 	},
 	{
 		navItemProps: {
@@ -41,8 +39,7 @@ const pages = [
 		getTitle: ({user}) => {
 			if (user?.id) return 'Account';
 			return 'Login'
-		},
-		className: style.login
+		}
 	}
 ];
 
@@ -52,8 +49,7 @@ const adminPages = [
 			key: 'admin',
 			href: '/admin',
 		},
-		getTitle: () => 'Judge',
-		className: style.admin
+		getTitle: () => 'Judge'
 	},
 	// {
 	// 	navItemProps: {
@@ -65,11 +61,30 @@ const adminPages = [
 	// },
 ];
 
-export default function MyApp({ Component, pageProps }) {
-	const { user } = useUser();
-	const { asPath } = useRouter();
+const getServerSideProps = async (ctx) => {
+	console.log(ctx);
+	return {props: {}};
+};
 
-	const activePage = [...pages, ...adminPages].find(page => asPath === page.navItemProps.href);
+export default function MyApp({ Component, pageProps }) {
+	return (
+		<AuthProvider>
+			<Main>
+				<Component {...pageProps} />
+			</Main>
+		</AuthProvider>
+	);
+}
+
+const Main = ({children}) => {
+	const { user } = useAuth();
+	const [mainClass, setMainClass] = useState(style.main)
+
+
+	useEffect(() => {
+		if (user?.isAdmin) return setMainClass(style.adminMain);
+		setMainClass(style.main);
+	}, [user]);
 
 	return (
 		<>
@@ -91,12 +106,13 @@ export default function MyApp({ Component, pageProps }) {
 				))}
 			</Nav>
 
-			<div className={`${user?.isAdmin ? style.adminMain : style.main} ${activePage?.className ?? ''}`}>
+			<div className={mainClass}>
 				<section className={style.content}>
-					<Component {...pageProps} />
+					{children}
 				</section>
 				<Footer />
 			</div>
 		</>
 	);
-}
+};
+

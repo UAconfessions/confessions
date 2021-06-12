@@ -6,7 +6,7 @@ export default function footer(){
 	return (
 		<footer className={style.footer}>
 			<section>
-				<h2>contact</h2>
+				<h2>Contact</h2>
 				<div className={style.column}>
 					<a target={'_blank'} href={'mailto:admin@confessions.link'}>admin@confessions.link</a>
 					{/*<Link href={''}>request a page</Link>*/}
@@ -15,7 +15,7 @@ export default function footer(){
 				</div>
 			</section>
 			{/*<section>*/}
-			{/*	<h2>legal</h2>*/}
+			{/*	<h2>Legal</h2>*/}
 			{/*	<div className={style.column}>*/}
 			{/*		<Link href={''}>Terms & Conditions</Link>*/}
 			{/*		<Link href={''}>Privacy policy</Link>*/}
@@ -23,11 +23,11 @@ export default function footer(){
 			{/*	</div>*/}
 			{/*</section>*/}
 			<section>
-				<h2>support</h2>
+				<h2>Resources</h2>
 				<div className={style.column}>
-					{/*<Link href={''}>Getting started</Link>*/}
-					{/*<Link href={''}>FAQ</Link>*/}
-					<Link href={'/help'}>Looking for help?</Link>
+					<Link href={'/help/FAQ'}>FAQ</Link>
+					<Link href={'/help/tips'}>How to write a confession?</Link>
+					<Link href={'/help/support'}>Looking for help?</Link>
 					<Link href={'/changelog'}>Changelog</Link>
 				</div>
 			</section>

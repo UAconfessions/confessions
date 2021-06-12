@@ -11,16 +11,21 @@ import {
 import { mapUserData } from './mapUserData'
 import useSWR from "swr";
 import fetcher from "../api/fetcher";
+import MyApp from "../../pages/_app";
 
 initFirebase()
 
 const useUser = () => {
-	const [user, setUser] = useState();
-	const { data, error } = useSWR(user?.token ? [`api/admin/user`, user.token] : null, fetcher);
+	const [user, setUser] = useState(getUserFromCookie());
+	// 	const localUser = JSON.parse(localStorage.getItem('user'));
+
+	// const { data } = useSWR(user?.token ? [`api/admin/user`, user.token] : null, fetcher);
+	const data = {};
 
 	const router = useRouter()
 
 	const logout = async () => {
+		localStorage.removeItem('user');
 		return firebase
 			.auth()
 			.signOut()
@@ -36,30 +41,39 @@ const useUser = () => {
 	useEffect(() => {
 		const cancelAuthListener = firebase
 			.auth()
-			.onIdTokenChanged(async (user) => {
-				if (user) {
-					const userData = await mapUserData(user)
-					setUserCookie(userData)
-					setUser(userData)
+			.onIdTokenChanged(async (fireBaseUser) => {
+				const cookieUser = getUserFromCookie();
+				if (fireBaseUser) {
+					const updatedUser = await mapUserData(fireBaseUser);
+					if (updatedUser?.token === cookieUser?.token) {
+						console.log( 'fixed this one');
+						return;
+					}
+
+					setUserCookie(updatedUser);
+					console.log({updatedUser: updatedUser.token.slice(-5), cookieUser: cookieUser?.token?.slice(-5)});
+					// localStorage.setItem('user', JSON.stringify({ ...user, ...data?.user }))
+					setUser(updatedUser);
 				} else {
-					removeUserCookie()
-					setUser()
+					if (user === undefined ) return;
+
+					removeUserCookie();
+					setUser();
+					localStorage.removeItem('user');
 				}
 			})
 
-		const userFromCookie = getUserFromCookie()
-		if (!userFromCookie) {
-			return
-		}
-		setUser(userFromCookie)
+		return cancelAuthListener;
+	}, []);
 
-		return () => {
-			cancelAuthListener()
-		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [])
+	useEffect(() => {
+		if( !user || !data?.user ) return;
+		localStorage.setItem('user', JSON.stringify({ ...user, ...data?.user }))
+	}, [user, data]);
 
-	return { user:{ ...user, ...data?.user}, logout }
+	// console.log({ user, firebaseUser: data?.user });
+
+	return { user: { ...user, ...data?.user }, logout }
 }
 
 export { useUser }

@@ -2,6 +2,7 @@ import {verifyIdTokenIsAdmin} from "../../../utils/firebase/firebase";
 import sgMail from '@sendgrid/mail';
 
 module.exports = async ({ headers: { token }, body }, res) => {
+	// maybe switch to https://www.mailgun.com in the future?
 	try {
 		await verifyIdTokenIsAdmin(token);
 		sgMail.setApiKey(process.env.SENDGRID_API_KEY);
