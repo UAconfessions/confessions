@@ -74,5 +74,5 @@ const Angle = {
     Up: (props) => <img src={angleUpSrc} alt={'angle up'} {...props} />
 };
 
-const icons = { Send, SetImage, Loading, Blocked, Poll, Reject, Accept, Archive, Start, Stop, Tag, Help, Angle};
+const icons = { Send, SetImage, Loading, Blocked, Poll, Reject, Accept, Archive, Start, Stop, Tag, Help, Angle, Trash: Reject};
 export default icons;

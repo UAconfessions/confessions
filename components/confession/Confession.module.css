@@ -1,8 +1,8 @@
-.submitted:hover{
+.submitted:hover {
     text-decoration: none !important;
 }
 
-.image{
+.image {
     display: block;
     margin: 1rem -1.5rem -1rem -1.5rem;
     width: calc(100% + 3rem);

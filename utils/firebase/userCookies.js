@@ -1,12 +1,12 @@
 import cookies from 'js-cookie'
 
 export const getUserFromCookie = () => {
-	const cookie = cookies.get('auth')
-	return cookie && JSON.parse(cookie)
+	const cookie = cookies.get('auth');
+	return cookie && JSON.parse(cookie);
 }
 
 export const setUserCookie = (user) => {
-	cookies.set('auth', user, {
+	cookies.set('auth', JSON.stringify(user), {
 		expires: 1 / 24,
 	})
 }

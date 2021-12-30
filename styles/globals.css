@@ -45,47 +45,50 @@ input[type=number] {
 
 
 @media only screen and (max-width: 700px) {
-	body{
+	body {
 		font-size: 10px;
 	}
 }
-input:-webkit-autofill  {
+
+input:-webkit-autofill {
 	 -webkit-text-fill-color: white !important;
 	 -webkit-box-shadow: 0 0 0 1rem #2a3143 inset !important;
 	 background-clip: content-box !important;
  }
 
-.firebaseui-container{
+.firebaseui-container {
 	background: #2a3143 !important;
 	border-radius: 11px !important;
 	color: white !important;
 }
-.firebaseui-title{
+.firebaseui-title {
 	color: white !important;
 }
 
-#ui-sign-in-email-input, #ui-sign-in-password-input, #ui-sign-in-new-password-input, #ui-sign-in-name-input{
+#ui-sign-in-email-input, #ui-sign-in-password-input, #ui-sign-in-new-password-input, #ui-sign-in-name-input {
 	color: white !important;
 	border-bottom-width: 2px !important;
 }
 
-.firebaseui-id-password-toggle{
+.firebaseui-id-password-toggle {
 	color: white !important;
 	transform: translateX(-2rem);
 }
 
-.firebaseui-label{
+.firebaseui-label {
 	color: white !important;
 }
-.firebaseui-label:after{
+
+.firebaseui-label:after {
 	left: 0 !important;
 	height: 2px !important;
 }
-.firebaseui-form-links{
+
+.firebaseui-form-links {
 	display: none !important;
 }
 
-.firebaseui-button{
+.firebaseui-button {
 	border-radius: 11px !important;
 	border: none !important;
 	background-color: #222836 !important;
@@ -99,6 +102,6 @@ input:-webkit-autofill  {
 	display: block !important;
 }
 
-.firebaseui-button + .firebaseui-button{
+.firebaseui-button + .firebaseui-button {
 	margin-top: 11px !important;
 }

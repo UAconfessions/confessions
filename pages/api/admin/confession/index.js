@@ -12,7 +12,7 @@ module.exports = async ({ headers: { token }}, res) => {
 	}
 	try {
 		const confession = await getQueuedConfession();
-		const amount = await getQueuedConfessionsAmount(); // TODO: improve this with a counter
+		const amount = await getQueuedConfessionsAmount();
 		return res.status(200).json({confession, amount});
 	}catch (error){
 		return res.status(404).json({message:'No queued confessions found.'});

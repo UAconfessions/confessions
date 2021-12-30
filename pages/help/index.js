@@ -76,9 +76,11 @@ export default function Support() {
                             </a>
 					    </span>
                         }
+                        header={
+                            <h2>{hook}</h2>
+                        }
                     >
-                        <h2>{hook}</h2>
-                        <p>{description}</p>
+                        {description}
                     </Article>
 
                 ))}

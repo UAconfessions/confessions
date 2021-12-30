@@ -1,9 +1,9 @@
-import FirebaseAuth from '../components/firebaseAuth/firebaseAuth';
+import FirebaseAuth from '../../components/firebaseAuth/firebaseAuth';
 import { useState } from 'react';
 import { mutate } from 'swr';
-import style from '../styles/Login.module.css';
-import Head from '../components/head/head';
-import {useAuth} from '../utils/auth.context';
+import style from '../../styles/Login.module.css';
+import Head from '../../components/head/head';
+import { useAuth } from '../../utils/auth.context';
 
 const Login = () => {
 	const { user, logout } = useAuth();

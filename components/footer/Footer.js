@@ -26,8 +26,7 @@ export default function footer(){
 				<h2>Resources</h2>
 				<div className={style.column}>
 					<Link href={'/help/FAQ'}>FAQ</Link>
-					<Link href={'/help/tips'}>How to write a confession?</Link>
-					<Link href={'/help/support'}>Looking for help?</Link>
+					<Link href={'/help'}>Looking for help?</Link>
 					<Link href={'/changelog'}>Changelog</Link>
 				</div>
 			</section>

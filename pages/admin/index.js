@@ -18,13 +18,13 @@ export default function Admin({}) {
 	const [stacked, setStacked] = useState({queue: true, archive: true});
 
 	const addDataFor = (queueId, data) => {
-		return setAddedData({
+		return setAddedData((addedData) => ({
 			...addedData,
 			[queueId]: {
 				...(addedData[queueId] ?? {}),
 				...data
 			}
-		});
+		}));
 	}
 
 	const toggleTriggerWarning = ({queueId}) => {

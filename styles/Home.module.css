@@ -1,4 +1,4 @@
-.input{
+.input {
   border-radius: 11px;
   border: none;
   padding: 1rem;
@@ -54,11 +54,11 @@
   top: -1rem;
   left: .7rem;
 }
-.reactingOn + .confessionField{
+.reactingOn + .confessionField {
   margin-left: 1rem;
 }
 
-.reactingOn + .confessionField::before{
+.reactingOn + .confessionField::before {
   position: absolute;
   content: '';
   width: 2px;
@@ -68,7 +68,7 @@
   background-color: #2a3143;
 }
 
-.confessionField{
+.confessionField {
   background: none;
   border: none;
   display: block;
@@ -95,7 +95,11 @@
   overflow: hidden;
 }
 
-.actions{
+.action:disabled {
+  cursor: default;
+}
+
+.actions {
   display: flex;
   flex-direction: row;
   /*flex-wrap: wrap;*/
@@ -103,7 +107,7 @@
   column-gap: .5rem;
 }
 
-.imageUpload{
+.imageUpload {
   position: absolute;
   top: 0;
   left: 0;
@@ -114,7 +118,7 @@
   cursor: pointer;
 }
 
-.red{
+.red {
   composes: action;
   background-color: #a63737;
 }
@@ -139,11 +143,11 @@
 }
 
 
-.action:hover{
+.action:hover {
   box-shadow: 0 0 0 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.2), 0 1px 5px 0 rgba(0,0,0,.12), inset 0 -3px 5px 0 rgba(0,0,0,.2), inset 0 0 20px 1.8rem rgba(0,0,0,.1);
 }
 
-.action:disabled{
+.action:disabled {
   box-shadow: none;
   opacity:.4;
 }

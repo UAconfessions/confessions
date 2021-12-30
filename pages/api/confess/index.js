@@ -1,6 +1,5 @@
 import {addToQueue, verifyIdToken} from '../../../utils/firebase/firebase';
-
-module.exports = async ({query, body, headers: { token }}, res) => {
+module.exports = async ({ body, headers: { token }}, res) => {
 	let user = null;
 	if (token){
 		try{

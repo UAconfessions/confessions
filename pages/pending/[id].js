@@ -1,4 +1,3 @@
-import style from '../../styles/Pending.module.css';
 import { getQueuedConfession } from "../../utils/firebase/firebase";
 import Confession from '../../components/confession/Confession';
 import Head from "../../components/head/head";

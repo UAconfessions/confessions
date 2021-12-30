@@ -1,14 +1,15 @@
 import {
 	createContext,
+	useCallback,
 	useContext,
 	useEffect,
 	useState
 } from 'react';
 
-import firebase from 'firebase/app';
-import 'firebase/auth';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
 import initFirebase from './firebase/initFirebase';
-import {getUserFromCookie, removeUserCookie, setUserCookie} from './firebase/userCookies';
+import { getUserFromCookie, removeUserCookie, setUserCookie } from './firebase/userCookies';
 import { mapUserData } from './firebase/mapUserData';
 import fetcher from './api/fetcher';
 
@@ -50,9 +51,9 @@ export const AuthProvider = ({ children }) => {
 		if (user?.token === basic.token) return;
 
 		const getUser = async () => {
-			const { user } = await fetcher(`api/admin/user`, basic.token);
-			setUser({ ...user, ...basic });
-			setUserCookie({ ...user, ...basic })
+			const { user: freshUser } = await fetcher(`api/admin/user`, basic.token);
+			if (JSON.stringify(user) !== JSON.stringify({ ...freshUser, ...basic })) setUser({ ...freshUser, ...basic });
+			setUserCookie({ ...freshUser, ...basic })
 		};
 
 		setFetching(true);
@@ -62,8 +63,22 @@ export const AuthProvider = ({ children }) => {
 			);
 	}, [basic]);
 
+	const logout = useCallback(async () => {
+		return firebase
+			.auth()
+			.signOut()
+			.then(() => {
+				// Sign-out successful.
+				setBasic(null);
+				setUser(null);
+			})
+			.catch((e) => {
+				console.error(e)
+			})
+	}, []);
+
 	return (
-		<AuthContext.Provider value={{ user }}>
+		<AuthContext.Provider value={{ user, logout }}>
 			{children}
 		</AuthContext.Provider>
 	);

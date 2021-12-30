@@ -1,12 +1,11 @@
-import './../scripts/wdyr';
 import '../styles/globals.css';
 import Nav from '../components/nav/nav';
 import style from '../styles/App.module.css';
 import NavItem from '../components/nav/navItem/navItem';
 import NavLogo from '../components/navLogo/navLogo';
 import Footer from '../components/footer/Footer';
-import {AuthProvider, useAuth} from '../utils/auth.context';
-import {useEffect, useState} from "react";
+import { AuthProvider, useAuth } from '../utils/auth.context';
+import { useEffect, useState } from 'react';
 
 const pages = [
 	{
@@ -51,20 +50,7 @@ const adminPages = [
 		},
 		getTitle: () => 'Judge'
 	},
-	// {
-	// 	navItemProps: {
-	// 		key: 'dashboard',
-	// 		href: '/admin/dashboard',
-	// 	},
-	// 	getTitle: () => 'Dashboard',
-	// 	className: style.dashboard
-	// },
 ];
-
-const getServerSideProps = async (ctx) => {
-	console.log(ctx);
-	return {props: {}};
-};
 
 export default function MyApp({ Component, pageProps }) {
 	return (
