@@ -45,14 +45,17 @@ export default function footer(){
 					</div>
 				</div>
 			</section>
-			{/*<section>*/}
-			{/*	<h2>Support us</h2>*/}
-			{/*	<div className={style.column}>*/}
-			{/*		<a target={'_blank'} href={'https://confessions.link'}>Store</a>*/}
-			{/*		<Link href={''}>Advertisers</Link>*/}
-			{/*		<Link href={''}>Sell your product</Link>*/}
-			{/*	</div>*/}
-			{/*</section>*/}
+			<section>
+				<h2>Support us</h2>
+				<div className={style.column}>
+					{/*<a target={'_blank'} href={'https://confessions.link'}>Store</a>*/}
+					{/*<Link href={''}>Advertisers</Link>*/}
+					{/*<Link href={''}>Sell your product</Link>*/}
+					<a target={'_blank'} href={'https://github.com/sponsors/Sam-Apostel'}>Buy us a beer</a>
+					<a target={'_blank'} href={'https://github.com/Sam-Apostel/confessions/issues/new?labels=bug&template=bug_report.md'}>Report a bug</a>
+					<a target={'_blank'} href={'https://github.com/Sam-Apostel/confessions/issues/new?labels=enhancement&template=feature_request.md'}>Propose a new feature</a>
+				</div>
+			</section>
 		</footer>
 	);
 }

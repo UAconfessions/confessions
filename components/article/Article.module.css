@@ -17,7 +17,6 @@
 }
 
 .article h2{
-    font-family: 'Josefin Slab', serif;
     color: rgba(255, 255, 255, .8);
     margin: 0;
 }
@@ -32,6 +31,11 @@
 .article footer *, .article header *{
     margin: 0 .8rem;
     font-size: .7rem;
+}
+
+.article footer h2, .article header h2{
+    font-size: 1rem;
+    white-space: normal;
 }
 
 .article footer a, .article header a{
@@ -61,4 +65,27 @@
 }
 .sensitive footer, .sensitive header{
     background: #5f3c5b;
+}
+
+
+
+@media print {
+    .article {
+        color: black;
+        box-shadow: none;
+        font-size: 12px;
+        margin-bottom: 15px;
+        background: none;
+        break-inside: avoid;
+        border-radius: 0;
+    }
+    .article footer, .article header {
+        display: none;
+
+    }
+    .article section{
+        padding: 0;
+        word-wrap: break-word;
+        word-break: break-word;
+    }
 }

@@ -14,7 +14,7 @@ FYI: This Log will be parsed and is end user facing.
 unreleased
 ----------
 ### Added
-
+- twitter
 ### Changed
 
 ### Fixed
@@ -26,7 +26,30 @@ unreleased
 ### Deprecated
 
 
-## 2020-05-28
+## 2021-12-30
+### Added
+- You can now submit a poll and follow the reactions through the website.
+- All 15k confessions are now displayed.
+- Frequently asked questions, answered on one handy page.
+- sponsorships through GitHub
+- feature requests and bug reports through GitHub
+
+### Changed
+- Confess input is prettier, the photo button is displayed for everyone (login is still required)
+- Default font is Recursive. used to be Josefin Slab
+- Confessions are paginated so that you are no longer limited to the last x confessions.
+- Links in confessions are clickable.
+- Hashtags are highlighted
+- Printable styling ( just try it out! )
+
+### Fixed
+- show status for pending confessions and redirect if posted
+- fix archive scrolling
+- 15k confessions
+- '#NoFilter' correctly displays dates and id's of posted confessions
+
+
+## 2021-05-28
 ### Added
  - Changelog
  - Footer

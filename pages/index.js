@@ -1,49 +1,50 @@
-import {useEffect, useState} from 'react';
+import { useState } from 'react';
+import Button, { COLORS, SIZES } from '../components/button/Button';
 import style from '../styles/Home.module.css';
 import Icon from '../components/icon/icon';
-import {useRouter} from 'next/router';
+import { useRouter } from 'next/router';
 import Head from '../components/head/head';
 
 import Article from '../components/article/Article';
 import Link from 'next/link';
-import {useAuth} from '../utils/auth.context';
+import { useAuth } from '../utils/auth.context';
+import { removeNullish } from '../utils/objectHelper';
 
 export default function Home() {
 	const router = useRouter();
 	const { user } = useAuth();
 	const [confession, setConfession] = useState('');
 	const [isFetching, setFetching] = useState(false);
-	const [reactionId, setReactionId] = useState(null);
-	const [reactingOn, setReactingOn] = useState({});
+	// const [reactionId, setReactionId] = useState(null);
+	// const [reactingOn, setReactingOn] = useState({});
 	const [inputVersion, setInputVersion] = useState(new Date());
 	const [imageUploading, setImageUploading] = useState(false);
 	const [image, setImage] = useState(null);
 	const [filename, setFilename] = useState(null);
-	const [triggerWarning, setTriggerWarning] = useState(null);
-	const [help, setHelp] = useState(false);
-	const [notes, setNotes] = useState([]);
-
+	const [pollOptions, setPollOptions] = useState(undefined);
+	const [pollFocus, setPollFocus] = useState(undefined);
 	const minimumLength = 1;
 
-	const getConfessionForReaction = async (e) => {
-		setFetching(true);
-		try {
-			setReactionId(e.target.value);
-			setReactingOn({});
-			if (e.target.value) {
-				const data = await Api.reaction.get({urlData: {id: e.target.value}});
-				setReactingOn(data);
-			}
-		}catch(e){
-			console.error(e);
-		}
-		setFetching(false);
-	}
+	// const getConfessionForReaction = async (e) => {
+	// 	setFetching(true);
+	// 	try {
+	// 		setReactionId(e.target.value);
+	// 		setReactingOn({});
+	// 		if (e.target.value) {
+	// 			const data = await Api.reaction.get({urlData: {id: e.target.value}});
+	// 			setReactingOn(data);
+	// 		}
+	// 	}catch(e){
+	// 		console.error(e);
+	// 	}
+	// 	setFetching(false);
+	// }
 
 	const submitConfession = async () => {
 		setFetching(true);
+		const poll = pollOptions ? { options: Object.values(pollOptions)} : null;
 		try {
-			const { id } = await postConfession({confession, filename}, reactionId, user);
+			const { id } = await postConfession(removeNullish({confession, filename, poll}), /*reactionId,*/ user);
 			await router.push(`pending/${id}`);
 			setConfession('');
 		}catch(e){
@@ -52,19 +53,15 @@ export default function Home() {
 		setFetching(false);
 	};
 
-	const toggleReaction = () => {
-		if(reactionId === null){
-			setReactionId('' );
-		}else{
-			setReactionId(null );
-			setReactingOn({});
-		}
-	};
+	// const toggleReaction = () => {
+	// 	if(reactionId === null){
+	// 		setReactionId('' );
+	// 	}else{
+	// 		setReactionId(null );
+	// 		setReactingOn({});
+	// 	}
+	// };
 
-	const toggleTriggerWarning = () => {
-		if (triggerWarning) return setTriggerWarning(null);
-		setTriggerWarning(prompt('What about this confession could be a trigger?'));
-	}
 
 	const uploadImage = async ([file]) => {
 		setImageUploading(true);
@@ -108,26 +105,50 @@ export default function Home() {
 		router.push('/login')
 	}
 
-	const actions = {
-		toggleHelp: {ActionIcon: Icon.Help, actionStyle: style.teal, action: () => setHelp(!help), hint: 'Toggle help url', disabled: isFetching },
-		toggleTriggerWarning: {ActionIcon: Icon.Tag, actionStyle: style.pink, action: toggleTriggerWarning, hint: 'Toggle trigger warning', disabled: isFetching },
-		uploadImage: {ActionIcon: Icon.SetImage, actionStyle: style.blue, action: navigateToLogin, hint: 'Upload an Image', type: 'file', disabled: isFetching || imageUploading },
-		post: { ActionIcon: isFetching ? Icon.Loading : Icon.Accept, actionStyle: style.green, action: submitConfession, hint: 'Submit your confessions', disabled:  isFetching || confession.length < minimumLength || imageUploading},
+	const togglePoll = () => {
+		setPollOptions(pollOptions => {
+			if (!pollOptions) return { 0: '' }
+			return undefined;
+		});
 	}
 
-	const header = [];
-	if(triggerWarning) header.push(<span key={'trigger warning'}>TRIGGER WARNING: {triggerWarning}</span>);
-	if(help) header.push(<Link key={'mental help'} href="/help">Hulp nodig?</Link>);
+	const addPollOption = () => {
+		setPollOptions(pollOptions => {
+			const nextKey = Math.max(...[-1, ...Object.keys(pollOptions)].map(key => +key)) + 1;
+			return { ...pollOptions, [nextKey]: '' };
+		});
+	}
 
-	useEffect(() => {
-		if (confession.length > 0){
-			const hashtags = confession.split('#')
-			// spaces in between hashtags
-			// camelcase hashtags
-			// use a popular hashtag
-			// react to a post
-		}
-	}, [confession]);
+	const removePollOption = key => {
+		setPollOptions(pollOptions => (removeNullish({ ...pollOptions, [key]: undefined })));
+	}
+
+	const setPollOption = (key, value) => {
+		setPollOptions(pollOptions => ({...pollOptions, [key]: value }))
+	}
+
+	const actions = {
+		togglePoll: {ActionIcon: Icon.Poll, actionStyle: style.teal, action: togglePoll, hint: 'poll', disabled: isFetching },
+		uploadImage: {ActionIcon: Icon.SetImage, actionStyle: style.blue, action: navigateToLogin, hint: 'Upload an Image', type: 'file', disabled: isFetching || imageUploading },
+		post: {
+			ActionIcon: isFetching ? Icon.Loading : Icon.Accept,
+			actionStyle: style.green,
+			action: submitConfession,
+			hint: 'Submit your confessions',
+			disabled:  isFetching || confession.length < minimumLength || imageUploading || (Object.values(pollOptions ?? {}).filter(option => (option.trim() !== '')).length === 1)
+		},
+	};
+
+	// useEffect(() => {
+	// 	if (confession.length > 0){
+	// 		const hashtags = confession.split('#')
+	// 		// spaces in between hashtags
+	// 		// camelcase hashtags
+	// 		// use a popular hashtag
+	// 		// react to a post
+	// 	}
+	// }, [confession]);
+
 
 	const renderActions = () => (
 		<div className={style.actions}>
@@ -180,6 +201,7 @@ export default function Home() {
 			})}
 		</div>
 	);
+	const emojis = ['👍', '❤️', '😂', '😮', '😢', '😡'];
 
 	return (
 		<>
@@ -187,11 +209,8 @@ export default function Home() {
 			<section>
 				<h1>The truth will set you free</h1>
 				<Article
-					header={header.length > 0 && header }
-					sensitive={help || triggerWarning}
-					footer={[ // TODO: implement tips and FAQ
-						<a key={'tips'}>Tips</a>,
-						<a key={'FAQ'}>FAQ</a>
+					footer={[
+						<Link key={'faq'} href={'/help/FAQ'}>FAQ</Link>
 					]}
 				>
 					<textarea
@@ -200,6 +219,52 @@ export default function Home() {
 						placeholder={'Jouw anonieme confession hier ...'}
 						value={confession}
 					/>
+					{pollOptions && (
+						<div className={style.poll}>
+							{Object.entries(pollOptions).map(([key, value], index) => (
+								<div key={key} className={value.trim() === '' ? style.pollOptionEmpty : style.pollOption}>
+									<span className={style.pollOptionEmoji}>{emojis[index]}</span>
+									<input
+										className={style.pollOptionInput}
+										type="text"
+										value={value ?? ''}
+										onChange={e => setPollOption(key, e.target.value)}
+										onKeyDown={e => {
+											switch (e.key) {
+												case 'Enter': {
+													if (Object.keys(pollOptions).length < 6)
+														addPollOption()
+													break;
+												}
+												case 'Backspace': {
+													if (value === '') {
+														if (Object.keys(pollOptions).length === 1) togglePoll();
+														else {
+															removePollOption(key);
+															setPollFocus(index - 1);
+														}
+													}
+													break;
+												}
+												default: break;
+											}
+										}}
+										ref={ref => {
+											if (pollFocus === index && ref) {
+												ref?.focus();
+												setPollFocus(undefined);
+											}
+										}}
+										autoFocus
+									/>
+									<Button textOnly color={COLORS.RED} onClick={() => removePollOption(key)} size={SIZES.SMALL} >⨉</Button>
+								</div>
+							))}
+							{Object.keys(pollOptions).length < 6 && (
+								<Button color={COLORS.LIGHTBLUE} onClick={addPollOption} size={SIZES.STRETCH}>Add poll option</Button>
+							)}
+						</div>
+					)}
 					{image && (
 						<img
 							className={style.image}
@@ -214,17 +279,29 @@ export default function Home() {
 	);
 }
 
-const postConfession = async (confession, id, user) => {
-	// TODO: save help and or triggerWarning
-	const headers = {'Content-Type': 'application/json'};
-	if(user?.token){
-		headers.token = user.token;
-	}
+const postConfession = async (confession, user) => {
+	const headers = {
+		'Content-Type': 'application/json',
+		token: user?.token
+	};
 
-	return await fetch(`/api/confess${ id ? `/${id}` : '' }`, {
+	return await fetch(`/api/confess`, {
 		method: 'POST',
-		headers: new Headers(headers),
+		headers: new Headers(removeNullish(headers)),
 		credentials: 'same-origin',
 		body: JSON.stringify(confession)
 	}).then(res => res.json()).catch(e => console.error(e));
 }
+// const postConfession = async (confession, id, user) => {
+// 	const headers = {
+// 		'Content-Type': 'application/json',
+// 		token: user?.token
+// 	};
+//
+// 	return await fetch(`/api/confess${ id ? `/${id}` : '' }`, {
+// 		method: 'POST',
+// 		headers: new Headers(removeNullish(headers)),
+// 		credentials: 'same-origin',
+// 		body: JSON.stringify(confession)
+// 	}).then(res => res.json()).catch(e => console.error(e));
+// }

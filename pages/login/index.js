@@ -1,5 +1,6 @@
 import FirebaseAuth from '../../components/firebaseAuth/firebaseAuth';
 import { useState } from 'react';
+import Button, { COLORS as BUTTON_COLORS, SIZES as BUTTON_SIZES } from '../../components/button/Button';
 import { mutate } from 'swr';
 import style from '../../styles/Login.module.css';
 import Head from '../../components/head/head';
@@ -9,9 +10,9 @@ const Login = () => {
 	const { user, logout } = useAuth();
 	const [username, setUsername] = useState(null);
 	const [changingUsername, setChangingUsername] = useState(false);
-	const [verificationUploading, setVerificationUploading] = useState(null);
+	// const [verificationUploading, setVerificationUploading] = useState(null);
 	const [fetching, setFetching] = useState(false);
-	const [inputVersion, setInputVersion] = useState(Date.now());
+	// const [inputVersion, setInputVersion] = useState(Date.now());
 
 	if (!user?.id) {
 		return (
@@ -24,7 +25,7 @@ const Login = () => {
 	}
 
 	const saveName = async () => {
-		if(!username || username === '') return alert('cannot set username empty');
+		if (!username || username === '') return alert('cannot set username empty');
 		setFetching(true);
 		const response = await fetch(`/api/admin/user`, {
 			method: 'POST',
@@ -35,6 +36,11 @@ const Login = () => {
 		setUsername(null);
 		await mutate([`api/admin/user`, user.token]);
 		setFetching(false);
+	};
+
+	const cancelChangeName = () => {
+		setChangingUsername(false);
+		setUsername(null);
 	};
 
 	const uploadVerification = async ([file]) => {
@@ -71,12 +77,12 @@ const Login = () => {
 
 	};
 
-	return (
-		<div>
-			<Head />
-			<div>
-				<h1 className={style.greeting}>Hi {user.name ?? user.email}</h1>
-				{!changingUsername && (<button className={style.smallButton} onClick={() => setChangingUsername(true)}>change username</button>)}
+	return [
+		<Head />,
+		<div className={style.page}>
+			<h1 className={style.greeting}>Hi {user.name ?? user.email}</h1>
+			<section className={style.changeName}>
+				{!changingUsername && (<Button size={BUTTON_SIZES.STRETCH} onClick={() => setChangingUsername(true)}>change username</Button>)}
 				{changingUsername && (
 					<div className={style.card}>
 						<div className={style.header}>
@@ -86,44 +92,46 @@ const Login = () => {
 								<h3  className={style.title}>Change your name</h3>
 							)}
 						</div>
-
 						<div className={style.inputWrapper}>
-							<input className={style.input} id={'change-name'} placeholder={' '} type={'text'} value={username ?? ''} onChange={(e) => setUsername(e.target.value) }/>
+							<input className={style.input} id={'change-name'} placeholder={' '} type={'text'} value={username ?? ''} onChange={(e) => setUsername(e.target.value)} />
 							<label htmlFor={'change-name'} className={style.label}>Username</label>
 						</div>
-						<button className={style.button} disabled={fetching} onClick={() => saveName()}>save</button>
-						<button className={style.button} onClick={() => {setChangingUsername(false); setUsername(null);}}>cancel</button>
+						<div className={style.actions}>
+							<Button size={BUTTON_SIZES.SMALL} color={BUTTON_COLORS.DARKBLUE} disabled={fetching ? 'aan het doorsturen.' : (!username || username === '') ? 'Username cannot be empty' : false} onClick={saveName}>save</Button>
+							<Button size={BUTTON_SIZES.SMALL} color={BUTTON_COLORS.DARKBLUE} disabled={fetching ? 'aan het doorsturen.' : false} onClick={cancelChangeName}>cancel</Button>
+						</div>
 					</div>
 				)}
-
-				{/*<div className={style.card}>*/}
-				{/*	<div className={style.header}>*/}
-				{/*		<h3 className={style.title}>Verify your account</h3>*/}
-				{/*		<span>Upload a clear picture of your student card to verify your student account.</span>*/}
-				{/*	</div>*/}
-				{/*	<div className={style.fileInputWrapper} disabled={verificationUploading}>*/}
-				{/*		<label htmlFor={'verify-account'} className={style.fileField}>*/}
-				{/*			{!verificationUploading && ('drop your file here')}*/}
-				{/*			{verificationUploading && ('uploading...')}*/}
-				{/*			<input*/}
-				{/*				disabled={verificationUploading}*/}
-				{/*				className={style.fileInput}*/}
-				{/*				id={'verify-account'}*/}
-				{/*				type={'file'}*/}
-				{/*				onChange={(e) => uploadVerification(e.target.files)}*/}
-				{/*				key={inputVersion}*/}
-				{/*				accept="image/png, image/jpeg"*/}
-				{/*			/>*/}
-				{/*		</label>*/}
-				{/*	</div>*/}
-				{/*</div>*/}
-				{/*<hr className={style.break}/>*/}
-				<button className={style.red} onClick={() => logout()}>
+			</section>
+			<section className={style.logout}>
+				<Button size={BUTTON_SIZES.STRETCH} color={BUTTON_COLORS.RED} onClick={() => logout()}>
 					Log out
-				</button>
-			</div>
+				</Button>
+			</section>
 		</div>
-	)
+	]
 }
+
+// <div className={style.card}>
+// 	<div className={style.header}>
+// 		<h3 className={style.title}>Verify your account</h3>
+// 		<span>Upload a clear picture of your student card to verify your student account.</span>
+// 	</div>
+// 	<div className={style.fileInputWrapper} disabled={verificationUploading}>
+// 		<label htmlFor={'verify-account'} className={style.fileField}>
+// 			{!verificationUploading && ('drop your file here')}
+// 			{verificationUploading && ('uploading...')}
+// 			<input
+// 				disabled={verificationUploading}
+// 				className={style.fileInput}
+// 				id={'verify-account'}
+// 				type={'file'}
+// 				onChange={(e) => uploadVerification(e.target.files)}
+// 				key={inputVersion}
+// 				accept="image/png, image/jpeg"
+// 			/>
+// 		</label>
+// 	</div>
+// </div>
 
 export default Login

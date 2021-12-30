@@ -15,9 +15,11 @@
     transition: .2s background-color;
     padding: 0 2rem;
     color: rgba(255, 255, 255, 0.62);
-    font-family: 'Josefin Slab', serif;
-    font-weight: 500;
-    font-size: 1.2rem;
+    font-family: 'Recursive', cursive;
+    --wght: "wght" 300;
+    --casl: "CASL" .7;
+    font-variation-settings: var(--mono), var(--casl), var(--wght), var(--slnt), var(--CRSV);
+    font-size: 1rem;
     text-decoration: none;
     display: grid;
     place-items: center;
@@ -36,7 +38,7 @@
 }
 
 .adminHeader{
-    background-color: rgb(124, 49, 53);
+    background-color: #93252CFF;
     height: 100vh;
     top: 4rem;
     width: 4rem;
@@ -81,7 +83,7 @@
         width: 100%;
         writing-mode: vertical-lr;
         transform: rotate(-180deg);
-        padding: 2rem 0;
+        padding: 1.2rem 0;
         line-height: 3rem;
     }
     .adminHeader .navItem {
@@ -94,5 +96,11 @@
     }
     .navItemRight{
         margin-top: unset;
+    }
+}
+
+@media print {
+    .header {
+        display: none;
     }
 }

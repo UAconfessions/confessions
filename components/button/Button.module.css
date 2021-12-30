@@ -1,0 +1,92 @@
+.Button {
+	--color-hue: 223;
+	--color-saturation: 23%;
+	--color-lightness: 25%;
+	--color: hsl(var(--color-hue), var(--color-saturation), calc(var(--color-lightness) + var(--adapted-lightness, 0%)));
+
+	background-color: var(--color);
+	color: rgba(255,255,255, .7);
+	box-shadow: 0 0 .5rem .2rem rgba(0, 0, 0, .2);
+	border: none;
+
+	border-radius: .7rem;
+	cursor: pointer;
+	transition: 0.2s ease all;
+
+	padding: 1rem 2rem;
+	font-size: 1rem;
+	position: relative;
+	display: inline-block;
+
+	margin: 0;
+	text-decoration: none;
+}
+
+.Button:hover {
+	--adapted-lightness: -4%;
+	box-shadow: 0 0 .6rem .2rem rgba(0, 0, 0, .2);
+	outline: none;
+}
+
+.Button:active {
+	--adapted-lightness: -6%;
+	box-shadow: 0 0 .4rem .1rem rgba(0, 0, 0, .2);
+}
+
+.Button[disabled] {
+	--adapted-lightness: 0%;
+	box-shadow: none;
+	cursor: default;
+	opacity: 0.4;
+}
+
+.Button:visited {
+	color: inherit;
+}
+
+
+/* ## Content */
+
+.content {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	--icon-margin: 1.2rem;
+}
+.noContent {
+	composes: content;
+	--icon-margin: 0;
+}
+
+/* ### Icons */
+
+.icon {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.iconLeft {
+	composes: icon;
+	margin-right: var(--icon-margin);
+}
+
+.iconRight {
+	composes: icon;
+	margin-left: var(--icon-margin);
+}
+
+.sizeSmall {
+	padding: 0.5rem 1rem;
+	font-size: .8rem;
+	box-shadow: 0 0 .5rem .2rem rgba(0, 0, 0, .1);
+}
+
+.sizeStretch {
+	display: block;
+	width: 100%;
+}
+
+
+
+

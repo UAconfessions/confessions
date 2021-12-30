@@ -78,6 +78,7 @@
   padding: 0;
   width: 100%;
   color: white;
+  font-family: 'Recursive', cursive;
 }
 
 .image{
@@ -150,4 +151,34 @@
 .action:disabled {
   box-shadow: none;
   opacity:.4;
+}
+
+.poll {
+  display: flex;
+  flex-direction: column;
+  gap: .6rem;
+  margin-top: 1rem;
+}
+
+.pollOption {
+  display: flex;
+  gap: .6rem;
+}
+
+.pollOptionEmpty {
+  composes: pollOption;
+  opacity: 0.6;
+}
+
+.pollOptionEmoji {
+  display: block;
+  font-size: 1.8rem;
+  line-height: 45px;
+  width: 45px;
+}
+
+.pollOptionInput {
+  composes: input;
+  margin: 0;
+  background-color: #2e394c;
 }

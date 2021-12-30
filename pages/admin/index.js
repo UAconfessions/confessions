@@ -5,7 +5,7 @@ import fetcher from '../../utils/api/fetcher';
 import { useState } from 'react';
 import Head from '../../components/head/head';
 import Confession from '../../components/confession/Confession';
-import { removeEmpty } from '../../utils/objectHelper';
+import { removeNullish } from '../../utils/objectHelper';
 import {useAuth} from '../../utils/auth.context';
 
 export default function Admin({}) {
@@ -14,7 +14,7 @@ export default function Admin({}) {
 	const { data, error } = useSWR(user?.token ? ['api/admin/confession', user.token] : null, fetcher);
 	const [addedData, setAddedData] = useState({});
 	const [actionMenuOpen, setActionMenuOpen] = useState();
-	const [archiveIndex, setArchiveIndex] = useState(0);
+	const [archiveIndex, setArchiveIndex] = useState(null);
 	const [stacked, setStacked] = useState({queue: true, archive: true});
 
 	const addDataFor = (queueId, data) => {
@@ -28,18 +28,30 @@ export default function Admin({}) {
 	}
 
 	const toggleTriggerWarning = ({queueId}) => {
+		if (addedData[queueId] && addedData[queueId].triggerWarning === undefined) {
+			const triggerWarning = prompt('What about this confession could be a trigger?', 'verkrachting');
+			if (triggerWarning) addDataFor(queueId, { triggerWarning });
+			return;
+		}
+
 		if (addedData[queueId]?.triggerWarning) return addDataFor(queueId, { triggerWarning: undefined });
+		if ([data.confession, ...archiveData.confessions].find(confession => confession.queueId === queueId)?.triggerWarning) return addDataFor(queueId, { triggerWarning: undefined });
 
 		const triggerWarning = prompt('What about this confession could be a trigger?', 'verkrachting');
-		addDataFor(queueId, { triggerWarning });
+		if (triggerWarning) addDataFor(queueId, { triggerWarning });
 	}
 
 	const toggleHelp = ({queueId}) => {
-		addDataFor(queueId, { help: !addedData[queueId]?.help });
+		const thisConfession = [data.confession, ...archiveData.confessions].find(confession => confession.queueId === queueId);
+		const currentState = addedData[queueId] ? addedData[queueId].help : thisConfession.help;
+		addDataFor(queueId, { help: !currentState });
 	}
 
-	const scrollArchive = (direction = 1) => {
-		setArchiveIndex((archiveIndex + direction) % archiveData.confessions.length);
+	const scrollArchive = () => {
+		const nextConfession = archiveIndex ? archiveData.confessions.find((_, index, confessions) =>
+			archiveIndex === confessions[(confessions.length + index - 1) % confessions.length].queueId
+		) : archiveData.confessions[1];
+		setArchiveIndex( nextConfession?.queueId ?? null);
 	};
 
 	const initializeFetch = ({queueId}, stack) => {
@@ -58,7 +70,6 @@ export default function Admin({}) {
 		}
 		if (stack === 'archive') {
 			await mutate(['api/admin/archive', user.token]);
-			scrollArchive(-1);
 		}
 		addDataFor(queueId, {fetching: false}); // TODO: show errors
 	};
@@ -176,7 +187,7 @@ export default function Admin({}) {
 					</h1>
 					{!stacked.archive
 						? archiveData.confessions.map(confession => renderCard(confession, 'archive'))
-						: renderCard(archiveData.confessions[archiveIndex], 'archive', archiveData.confessions.length > 1)
+						: renderCard(archiveIndex ? archiveData.confessions.find(({ queueId }) => queueId === archiveIndex) : archiveData.confessions[0], 'archive', archiveData.confessions.length > 1)
 					}
 				</section>
 			)}
@@ -184,15 +195,12 @@ export default function Admin({}) {
 	);
 }
 
-Admin.whyDidYouRender = true
-
-
 const handle = async (id, action, token, triggerWarning, help) => {
 	const endpoint = new URL(`api/admin/confession/${id}/${action}`, window.location);
-	endpoint.search = new URLSearchParams(removeEmpty({ triggerWarning, help }));
     await fetch(endpoint, {
         method: 'POST',
         headers: new Headers({'Content-Type': 'application/json', token}),
         credentials: 'same-origin',
+	    body: JSON.stringify(removeNullish({ triggerWarning, help }))
     });
 }

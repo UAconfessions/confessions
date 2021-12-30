@@ -2,3 +2,13 @@
     padding-right: .5rem;
     color: #787a9f
 }
+
+@media print {
+    .id{
+        padding-bottom: .3rem;
+        color: black;
+        font-weight: 500;
+        display: block;
+        font-size: 14px;
+    }
+}
