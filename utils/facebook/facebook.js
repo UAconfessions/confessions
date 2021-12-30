@@ -13,11 +13,11 @@ Hulp nodig? https://ua.confessions.link/help
 ******************************************` : '';
 
 		const emojis = ['👍', '❤️', '😂', '😮', '😢', '😡'];
-		const pollOptions = poll.options.map((option, index) => {
+		const pollOptions = poll?.options?.map((option, index) => {
 			if (!option || option.trim() === '') return null;
 			return `${emojis[index]}: ${option}`;
 		}).filter(Boolean).join('\n');
-		const pollText = poll?.options ? `
+		const pollText = pollOptions ? `
 
 ${pollOptions}` : '';
 
