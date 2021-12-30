@@ -23,6 +23,20 @@ export default function Support() {
             url: 'https://www.uantwerpen.be/nl/studentenleven/samen-sterk-tijdens-corona/'
         },
         {
+            name: 'Teleblok',
+            hook: 'Chat tijdens de examens met Teleblok.',
+            description: 'Een chat-service van de christelijke mutualiteit. Elke avond bereikbaar van 6 januari tot en met 28 januari, tussen 18u en 23u.',
+            url: 'https://www.teleblok.be/chat/chat-met-teleblok'
+        },
+        {
+            name: 'Younk FENIX',
+            hook: 'Alles draait om jou.',
+            description: `Young FENIX is de hulplijn van alle jongeren. Wat je gender, huidskleur, geloofsovertuiging, of seksuele oriëntatie ook mag zijn. Op ons kan je rekenen!
+
+Effe bellen of chatten? Wij staan je te woord. En wij doen dat gratis en anoniem!`,
+            url: 'https://youngfenix.be'
+        },
+        {
             name: 'JAC',
             hook: 'Op zoek naar antwoorden?',
             description: 'Bij het Jongeren Advies Centrum kan je naast een luisterend oor heel wat hulpbronnen raadplegen.',
