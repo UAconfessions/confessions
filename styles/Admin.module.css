@@ -1,4 +1,4 @@
-.input{
+.input {
     border-radius: 11px;
     border: none;
     padding: 1rem;
@@ -12,12 +12,14 @@
     box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12);
     transition: box-shadow .2s;
 }
-.actions{
+
+.actions {
     display: flex;
     flex-direction: row;
     margin-top: -1rem;
 }
-.action{
+
+.action {
     composes: input;
     padding: .8rem 1.5rem;
     cursor: pointer;
@@ -25,31 +27,34 @@
     text-align: center;
 }
 
-.action:disabled{
+.action:disabled {
     box-shadow: none;
     opacity:.4;
 }
 
-.action:hover{
+.action:hover {
     box-shadow: 0 0 0 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.2), 0 1px 5px 0 rgba(0,0,0,.12), inset 0 -3px 5px 0 rgba(0,0,0,.2), inset 0 0 20px 1.8rem rgba(0,0,0,.1);
 
 }
 
-.actionAlt{
+.actionAlt {
     composes: action;
     background: #242a38;
 }
 
-.action:disabled{
+.action:disabled {
     filter: brightness(0.8);
 }
-.actions button + button{
+
+.actions button + button {
     margin-left: .5rem;
 }
-.red{
+
+.red {
     composes: action;
     background-color: #a63737;
 }
+
 .green {
     composes: action;
     background-color: #807255;
@@ -69,11 +74,12 @@
     display: flex;
     align-items: center;
 }
-.textLabel span{
+
+.textLabel span {
     width: 15%;
 }
 
-.textInput{
+.textInput {
     flex: 1;
     width: unset;
     display: inline-block;
@@ -82,7 +88,7 @@
     font-size: 1rem;
 }
 
-.htmlInput{
+.htmlInput {
     display: block;
     composes: input;
     height: 14rem;
@@ -92,7 +98,7 @@
     font-size: 1rem;
 }
 
-.imageUpload, .htmlLoad{
+.imageUpload, .htmlLoad {
     position: absolute;
     top: 0;
     left: 0;
@@ -102,13 +108,22 @@
     cursor: pointer;
 }
 
-.imageList{
+.list {
     padding: 0;
     margin-bottom: 2rem;
     margin-top: -.2rem;
 }
 
-.imageList li{
+.sponsorList,
+.imageList {
+    composes: list
+}
+
+.sponsorList .actionAlt {
+    width: 5rem;
+}
+
+.list li {
     list-style-type: none;
     background: #2a3143;
     border-radius: 11px;
@@ -117,29 +132,35 @@
     padding: 10px;
     align-items: center;
     margin-top: .7rem;
+    justify-content: space-between;
 }
 
-.imageList li > img{
+.list li > img{
     max-height: 80px;
     max-width: 80px;
     margin: -10px 10px -10px -10px;
 }
-.imageList div, .imageList a{
+
+.list li > span{
+    white-space: nowrap;
+}
+.list div, .list a{
     margin: 0 .5rem;
 }
 
-.section{
+.section {
     border: 1px solid rgba(255, 255, 255, 0.18);
     border-radius: 21px;
     padding: 0.5rem 1rem 1rem;
 }
 
-.download{
+.download {
     composes: actionAlt;
     display: block;
     text-decoration: none;
 }
-.previewContainer{
+
+.previewContainer {
     margin-top: .5rem;
     border: 1px solid rgba(255, 255, 255, 0.18);
     border-radius:11px;
@@ -149,7 +170,8 @@
     height:30rem;
     transform: translateZ(0px);
 }
-.preview{
+
+.preview {
     border: none;
     width: 200%;
     height: 60rem;
@@ -157,23 +179,23 @@
     transform: scale(.5);
 }
 
-.htmlInputContainer{
+.htmlInputContainer {
     position: relative;
 }
 
-.sectionContainer{
+.sectionContainer {
     display: inline-block;
     width: 33rem;
     margin: 0 auto;
 }
 
-.containedConfession{
+.containedConfession {
     margin-bottom: 1rem;
     border: 1px solid rgba(255, 255, 255, 0.18);
     border-radius:16px;
     padding: .7rem;
 }
 
-.queue{
+.queue {
     margin-bottom: 4rem;
 }

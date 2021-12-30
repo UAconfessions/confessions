@@ -1,11 +1,27 @@
 import request from 'request';
 import FormData from 'form-data';
 
-export const postToFacebook = async ({value, id, url, triggerWarning, help}) => {
+export const postToFacebook = async ({value, id, url, triggerWarning, help, poll}) => {
 	try{
-		const triggerWarningText = triggerWarning ? `[TRIGGER WARNING: ${triggerWarning}]\n\n` : '';
-		const helpText = help ? `\n\n******************************************\nHulp nodig? https://ua.confessions.link/help\n******************************************` : '';
-		const message = `${triggerWarningText}#${id} ${value}${helpText}`;
+		const triggerWarningText = triggerWarning ? `[TRIGGER WARNING: ${triggerWarning}]
+
+` : '';
+		const helpText = help ? `
+		
+******************************************
+Hulp nodig? https://ua.confessions.link/help
+******************************************` : '';
+
+		const emojis = ['👍', '❤️', '😂', '😮', '😢', '😡'];
+		const pollOptions = poll.options.map((option, index) => {
+			if (!option || option.trim() === '') return null;
+			return `${emojis[index]}: ${option}`;
+		}).filter(Boolean).join('\n');
+		const pollText = poll?.options ? `
+
+${pollOptions}` : '';
+
+		const message = `${triggerWarningText}#${id} ${value}${pollText}${helpText}`;
 
 		if (url){
 			const res = await postPhoto(message, url);

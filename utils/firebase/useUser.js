@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
-import firebase from 'firebase/app'
-import 'firebase/auth'
+import firebase from 'firebase/compat/app'
+import 'firebase/compat/auth'
 import initFirebase from './initFirebase'
 import {
 	removeUserCookie,
@@ -9,18 +9,17 @@ import {
 	getUserFromCookie,
 } from './userCookies'
 import { mapUserData } from './mapUserData'
-import useSWR from "swr";
-import fetcher from "../api/fetcher";
 
 initFirebase()
 
 const useUser = () => {
-	const [user, setUser] = useState();
-	const { data, error } = useSWR(user?.token ? [`api/admin/user`, user.token] : null, fetcher);
+	const [user, setUser] = useState(getUserFromCookie());
+	const data = {};
 
 	const router = useRouter()
 
 	const logout = async () => {
+		localStorage.removeItem('user');
 		return firebase
 			.auth()
 			.signOut()
@@ -36,30 +35,36 @@ const useUser = () => {
 	useEffect(() => {
 		const cancelAuthListener = firebase
 			.auth()
-			.onIdTokenChanged(async (user) => {
-				if (user) {
-					const userData = await mapUserData(user)
-					setUserCookie(userData)
-					setUser(userData)
+			.onIdTokenChanged(async (fireBaseUser) => {
+				const cookieUser = getUserFromCookie();
+				if (fireBaseUser) {
+					const updatedUser = await mapUserData(fireBaseUser);
+					if (updatedUser?.token === cookieUser?.token) {
+						console.log( 'fixed this one');
+						return;
+					}
+
+					setUserCookie(updatedUser);
+					console.log({updatedUser: updatedUser.token.slice(-5), cookieUser: cookieUser?.token?.slice(-5)});
+					setUser(updatedUser);
 				} else {
-					removeUserCookie()
-					setUser()
+					if (user === undefined ) return;
+
+					removeUserCookie();
+					setUser();
+					localStorage.removeItem('user');
 				}
 			})
 
-		const userFromCookie = getUserFromCookie()
-		if (!userFromCookie) {
-			return
-		}
-		setUser(userFromCookie)
+		return cancelAuthListener;
+	}, []);
 
-		return () => {
-			cancelAuthListener()
-		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [])
+	useEffect(() => {
+		if( !user || !data?.user ) return;
+		localStorage.setItem('user', JSON.stringify({ ...user, ...data?.user }))
+	}, [user, data]);
 
-	return { user:{ ...user, ...data?.user}, logout }
+	return { user: { ...user, ...data?.user }, logout }
 }
 
 export { useUser }

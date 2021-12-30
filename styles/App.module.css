@@ -6,50 +6,22 @@
 
 .main{
   margin: 0 auto;
-  background-color: #212735;
   color: white;
-  padding: 6rem 2rem 0rem 2rem;
+  padding: 6rem 2rem 0 2rem;
   box-sizing: border-box;
   min-height: 100vh;
   display: grid;
   grid-template-columns: auto 1fr minmax(min-content, 37rem) 1fr auto;
+  grid-template-rows: auto 4rem auto;
   grid-template-areas:
     '. . content . .'
+    '. . . . .'
     '. footer footer footer .'
 }
 
 .adminMain{
   composes: main;
-  padding: 6rem 2rem 0rem 6rem;
-}
-
-
-.submit{
-
-}
-.confessions{
-
-}
-.bin{
-
-}
-.app{
-
-}
-.admin{
-
-}
-
-.login{
-
-}
-
-.polls{
-
-}
-
-.wingIt{
-
+  padding: 6rem 2rem 0 6rem;
 }
 
 .content{
@@ -82,15 +54,14 @@
 
 .footer section h2 {
   color: rgba(255, 255, 255, 0.7);
-  font-family: 'Josefin Slab', serif;
-  font-weight:500;
+  --casl: "CASL" .7;
+  --wght: "wght" 400;
   font-size: 2rem;
   margin: 1rem 0;
   white-space: nowrap;
 }
 
 .footer section a{
-  font-family: 'Josefin Slab', serif;
   color: rgba(255, 255, 255, 0.51);
   border-left: 2px solid rgba(255, 255, 255, 0.51);
 
@@ -99,7 +70,7 @@
 
   transition: .2s;
   cursor: pointer;
-  font-size: 1.2rem;
+  font-size: 1rem;
   display: block;
   white-space: nowrap;
 }
@@ -173,6 +144,18 @@
   }
 
   .adminMain{
-    padding: 4rem 1rem 0 4rem;
+    padding: 4rem .5rem 0 3.5rem;
+  }
+}
+
+@media print {
+  .main{
+    margin: 0;
+    background-color: unset;
+    display: block;
+    padding: 0;
+  }
+  .footer{
+   display: none;
   }
 }

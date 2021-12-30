@@ -1,6 +1,6 @@
-import {addToQueue, getConfession} from '../../../utils/firebase/firebase';
-module.exports = async ({query, method, body}, res) => {
-	const {id} = query;
+import {addToQueue, getConfession, verifyIdToken} from '../../../utils/firebase/firebase';
+
+module.exports = async ({query: { id }, method, body, headers: { token }}, res) => {
 	switch (method){
 		case 'GET':
 			try{
@@ -10,8 +10,14 @@ module.exports = async ({query, method, body}, res) => {
 				return res.status(404).json(e);
 			}
 		case 'POST':
-			const {confession} = body;
-			const newId = await addToQueue(confession, id);
+			let user = null;
+			if (token){
+				try{
+					user = await verifyIdToken(token);
+				}catch(e){}
+			}
+			const {confession, filename, help, triggerWarning} = body;
+			const newId = await addToQueue(confession, id, filename, user?.uid, { help, triggerWarning });
 			return res.json({id: newId});
 		default:
 			return res.status(404).json({message: `method ${method} not supported.`});

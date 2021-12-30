@@ -14,7 +14,8 @@ export default function Head({title}){
 			<link rel="manifest" href="/site.webmanifest"/>
 			<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#bd3531"/>
 			<meta name="msapplication-TileColor" content="#b91d47"/>
-			<meta name="theme-color" content="#BD3531"/>
+			<meta name="theme-color" content="#161923FF" media="(min-width: 700px)"/>
+			<meta name="theme-color" content="#93252CFF" media="(max-width: 700px)"/>
 			<meta
 				name="UAntwerpen confessions"
 				content="Deel hier je diepste geheimen"

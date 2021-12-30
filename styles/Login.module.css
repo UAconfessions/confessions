@@ -1,35 +1,19 @@
+.page {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+
 .card{
 	background: #2a3143;
 	border-radius: 11px;
 	margin: 0 auto 24px;
 	max-width: 360px;
 	box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12);
-	padding: 24px;
-}
-
-.button{
-	border-radius: 11px;
-	border: none;
-	background-color: #222836;
-	color: white;
-	box-sizing: border-box;
-	height: 50px;
-	cursor: pointer;
-	width: 100%;
-	box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12);
-}
-.button + .button{
-	margin-top: 1rem;
-}
-.smallButton{
-	display: block;
-	composes: button;
-	background-color: #2a3143;
 	padding: 1rem 2rem;
-	margin: 0 auto 24px;
-	max-width: 360px;
-
 }
+
 .header{
 	padding: 0 0 0;
 }
@@ -117,22 +101,32 @@
 	visibility: visible;
 	width: 100%;
 }
-.break{
-	border: 1px solid #2a3143;
-	max-width: 360px;
-	margin: 0 auto 24px;
-	border-radius: 11px;
-	box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12);
-}
-.red{
-	display: block;
-	composes: button;
-	background: #a63737;
-	max-width: 360px;
-	margin: 0 auto;
-}
+
 
 .greeting{
 	max-width: 360px;
 	margin: 0 auto 24px;
+}
+
+.section {
+	width: 100%;
+	max-width: 360px;
+
+}
+.section + .section {
+	margin-top: 2rem;
+}
+
+.changeName {
+	composes: section;
+}
+
+.logout {
+	composes: section;
+}
+
+.actions {
+	display: flex;
+	flex-direction: row-reverse;
+	gap: .8rem;
 }

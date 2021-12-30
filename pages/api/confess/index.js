@@ -1,6 +1,5 @@
 import {addToQueue, verifyIdToken} from '../../../utils/firebase/firebase';
-
-module.exports = async ({query, body, headers: { token }}, res) => {
+module.exports = async ({ body, headers: { token }}, res) => {
 	let user = null;
 	if (token){
 		try{
@@ -8,8 +7,8 @@ module.exports = async ({query, body, headers: { token }}, res) => {
 		}catch(e){}
 	}
 	try {
-		const {confession, filename} = body;
-		const id = await addToQueue(confession, null, filename, user?.uid);
+		const {confession, filename, poll} = body;
+		const id = await addToQueue(confession, null, filename, user?.uid, { poll });
 		return res.json({id});
 	}catch(error){
 		console.error(error);

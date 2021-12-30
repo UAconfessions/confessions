@@ -1,9 +1,56 @@
-.submitted:hover{
+.submitted:hover {
     text-decoration: none !important;
 }
 
-.image{
+.image {
     display: block;
     margin: 1rem -1.5rem -1rem -1.5rem;
     width: calc(100% + 3rem);
+}
+
+.link {
+    color: #a1a13d;
+    text-decoration: underline;
+}
+
+.hashtag {
+    color: #428da0;
+}
+
+
+.poll {
+    display: flex;
+    flex-direction: column;
+    gap: .6rem;
+    margin-top: 1rem;
+    --reactions: 0;
+}
+
+.pollOption {
+    display: flex;
+    gap: .4rem;
+    align-items: center;
+    border-radius: 11px;
+    background: linear-gradient(to right, #428da0 calc(var(--reactions) * 100%), #2e394c calc(var(--reactions) * 100%));
+    background-color: #2e394c;
+    padding: .2rem 1rem;
+}
+
+.pollOptionEmoji {
+    display: block;
+    font-size: 1.8rem;
+    line-height: 45px;
+    width: 45px;
+}
+
+
+
+@media print {
+    .image {
+        width: 300px;
+        margin: 0 auto;
+    }
+    .link {
+        color: rgba(0,0,0,.8);
+    }
 }

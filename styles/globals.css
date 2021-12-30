@@ -1,11 +1,22 @@
-@import url('https://fonts.googleapis.com/css2?family=Josefin+Slab:wght@100;200;300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Recursive:slnt,wght,CASL,CRSV,MONO@-15..0,300..1000,0..1,0..1,0..1&display=swap');
+
+:root {
+	--mono: "MONO" 0; /* Monospace: Sans (natural-width) or Mono (fixed-width) */
+	--casl: "CASL" 0; /* Casual: Linear to Casual */
+	--wght: "wght" 300; /* Weight: Light to ExtraBlack; usually set with `font-weight` */
+	--slnt: "slnt" 0; /* Slant: 0 to -15 degrees, auto cursive at -14 */
+	--CRSV: "CRSV" 0; /* Cursive: always roman, auto substitution, or always cursive */
+}
 
 html,
 body {
 	padding: 0;
 	margin: 0;
-	font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-	Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+	/*font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,*/
+	/*Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;*/
+	font-family: 'Recursive', cursive;
+	--casl: "CASL" 0;
+	font-variation-settings: var(--mono), var(--casl), var(--wght), var(--slnt), var(--CRSV);
 	background-color: #212735;
 	font-size: 16px;
 }
@@ -25,10 +36,19 @@ a {
 }
 
 h1{
-	font-family: 'Josefin Slab', serif;
+	--casl: "CASL" .7;
+	--wght: "wght" 700;
 	font-size: 2rem;
 	color: rgba(255, 255, 255, 0.3);
 	text-align: center;
+}
+h2{
+	--wght: "wght" 500;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: 'Recursive', cursive;
+	font-variation-settings: var(--mono), var(--casl), var(--wght), var(--slnt), var(--CRSV);
 }
 
 input::-webkit-outer-spin-button,
@@ -45,47 +65,50 @@ input[type=number] {
 
 
 @media only screen and (max-width: 700px) {
-	body{
+	body {
 		font-size: 10px;
 	}
 }
-input:-webkit-autofill  {
+
+input:-webkit-autofill {
 	 -webkit-text-fill-color: white !important;
 	 -webkit-box-shadow: 0 0 0 1rem #2a3143 inset !important;
 	 background-clip: content-box !important;
  }
 
-.firebaseui-container{
+.firebaseui-container {
 	background: #2a3143 !important;
 	border-radius: 11px !important;
 	color: white !important;
 }
-.firebaseui-title{
+.firebaseui-title {
 	color: white !important;
 }
 
-#ui-sign-in-email-input, #ui-sign-in-password-input, #ui-sign-in-new-password-input, #ui-sign-in-name-input{
+#ui-sign-in-email-input, #ui-sign-in-password-input, #ui-sign-in-new-password-input, #ui-sign-in-name-input {
 	color: white !important;
 	border-bottom-width: 2px !important;
 }
 
-.firebaseui-id-password-toggle{
+.firebaseui-id-password-toggle {
 	color: white !important;
 	transform: translateX(-2rem);
 }
 
-.firebaseui-label{
+.firebaseui-label {
 	color: white !important;
 }
-.firebaseui-label:after{
+
+.firebaseui-label:after {
 	left: 0 !important;
 	height: 2px !important;
 }
-.firebaseui-form-links{
+
+.firebaseui-form-links {
 	display: none !important;
 }
 
-.firebaseui-button{
+.firebaseui-button {
 	border-radius: 11px !important;
 	border: none !important;
 	background-color: #222836 !important;
@@ -99,6 +122,13 @@ input:-webkit-autofill  {
 	display: block !important;
 }
 
-.firebaseui-button + .firebaseui-button{
+.firebaseui-button + .firebaseui-button {
 	margin-top: 11px !important;
+}
+
+@media print {
+	html,
+	body {
+		background-color: unset;
+	}
 }

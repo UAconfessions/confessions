@@ -1,0 +1,81 @@
+.container {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	flex-direction: row;
+	margin-bottom: .8rem;
+	--size: 2.5rem;
+	--gap: .8rem;
+}
+
+.container button {
+	font-size: 1rem;
+	height: var(--size);
+	width: var(--size);
+	padding: 0;
+	box-sizing: border-box;
+	border-radius: 0.7rem;
+	transition: none;
+	cursor: pointer;
+	background: #2f394b;
+	border: none;
+	color: rgba(255, 255, 255, 0.66);
+}
+
+.container button:hover {
+	transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.container button + button {
+	margin-left: var(--gap);
+}
+.container button:disabled:hover {
+	color: gray;
+	background: none;
+}
+
+.container button.selected {
+	color: white;
+	background: rgb(66, 77, 99);
+}
+
+
+
+.ellipsis {
+	height: var(--size);
+	width: var(--size);
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	font-size: 1.2rem;
+	margin: 0 var(--gap);
+	text-align: center;
+}
+
+.ellipsis + .ellipsis {
+	display: none;
+}
+
+.arrow {
+	display: block;
+}
+
+@media only screen and (max-width: 700px) {
+	.container {
+		--size: 1.8rem;
+		--gap: .6rem;
+	}
+	.container button {
+		font-size: .8rem;
+		border-radius: 0.5rem;
+	}
+	.ellipsis {
+		font-size: .8rem;
+	}
+}
+
+@media only screen and (max-width: 400px) {
+	.arrow {
+		display: none;
+	}
+}
