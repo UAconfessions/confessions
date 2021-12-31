@@ -15,7 +15,9 @@ module.exports = async ({ headers: { token }}, res) => {
 		const amount = await getQueuedConfessionsAmount();
 		return res.status(200).json({confession, amount});
 	}catch (error){
-		return res.status(404).json({message:'No queued confessions found.'});
+		return res.status(500).json({
+			message: 'Something went wrong while fetching the queued confessions.',
+			error: error.message
+		});
 	}
-
 };

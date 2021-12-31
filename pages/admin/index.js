@@ -173,7 +173,7 @@ export default function Admin({}) {
 						{error && (
 							<div>
 								<span>An error occurred, try reloading this page.</span>
-								{JSON.stringify(error)}
+								<pre>{JSON.stringify(error, null, ' ')}</pre>
 							</div>
 						)}
 					</>

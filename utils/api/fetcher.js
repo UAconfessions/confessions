@@ -1,11 +1,10 @@
-export default function fetcher(url, token ) {
+export default function fetcher(url, token) {
 	return fetch(`${location.origin}/${url}`, {
 		method: 'GET',
 		headers: new Headers({'Content-Type': 'application/json', token}),
 		credentials: 'same-origin',
-	}).then((res) => {
+	}).then(async (res) => {
 		if(res.ok) return res.json();
-		// console.log(res);
-		throw {code: res.status, message: res.json()};
+		throw { http: res.status, ...(await res.json()) };
 	});
 }

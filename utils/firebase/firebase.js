@@ -150,78 +150,72 @@ export const getQueuedConfession = async (id) => {
 		}
 
 	}
-	try{
-		const {docs: [post]} = await queue.where('archived', '==', false).orderBy('submitted', 'asc').limit(1).get();
+	const {docs: [post]} = await queue.where('archived', '==', false).orderBy('submitted', 'asc').limit(1).get();
 
-		if(!post?.exists) return undefined;
-
-		const {value, filename, user, submitted, help, triggerWarning, poll} = post.data();
-		const confession = { queueId: post.id , value, submitted: submitted?.toDate()?.toISOString() ?? 'unknown data', help, triggerWarning, poll };
-		if(filename){
-			confession.url = getDownloadableUrl(filename, `pending/${user}`);
-		}
-		return confession;
-	}catch(e){
-		throw(e);
-	}
-
-
+	if(!post?.exists) return null;
+	return convertConfession(post, 'queue');
 }
 
 export const getArchivedConfessions = async () => {
-	try{
-		const {docs} = await queue.where('archived', '==', true).orderBy('submitted', 'asc').get();
-
-		return docs?.map(post => {
-			const {value, filename, user, submitted} = post.data();
-			const confession = {queueId: post.id, value, submitted: submitted?.toDate()?.toISOString() ?? 'unknown data'}
-			if (filename) {
-				confession.url = getDownloadableUrl(filename, `pending/${user}`);
-			}
-			return confession;
-		});
-	}catch(e){
-		console.log(e);
-		throw(e);
-	}
+	const {docs} = await queue.where('archived', '==', true).orderBy('submitted', 'asc').get();
+	return Promise.all(docs?.map(post => convertConfession(post, 'queue')));
 }
 
 export const getQueuedConfessionsAmount = () => {
-	// TODO: improve this with a counter
 	return queue.where('archived', '==', false).get().then(snap => snap.size);
 }
 
 const REACTIONS = ['LIKE', 'LOVE', 'HAHA', 'WOW', 'SAD', 'ANGRY'];
-const convertConfession = async post => {
-	const confession = post.data();
+const convertConfession = async (post, source) => {
 
-	let poll = confession.poll?.options ?? null;
-	if (poll && confession.facebook_post_id) {
-		const results = await Promise.all(poll.map((_, index) => {
-			return fetch(`https://graph.facebook.com/v12.0/${confession.facebook_post_id}?fields=reactions.type(${REACTIONS[index]}).summary(total_count)&access_token=${process.env.FACEBOOK_ACCESS_TOKEN}`);
-		}));
-		const jsons = await Promise.all(results.map(res => res.json()));
-		const reactions = jsons.map(json => json.reactions.summary.total_count);
+	const { filename, user, poll, ...confession } = post.data();
 
-		poll = poll.map((option, index) => ({
-			option,
-			reaction: reactions[index]
-		}));
+
+	const getUrl = (filename, user) => {
+		if (!filename || !user) return null;
+		return getDownloadableUrl(filename, `pending/${user}`);
 	}
 
-	return {
+	const getPoll = (poll, fetchReactions = true) => {
+		if (!(poll?.options?.length >= 2)) return null;
+		poll = poll.options.map(option => ({ option }));
+		if (!confession.facebook_post_id || !fetchReactions) return poll;
+
+		poll = Promise.all(poll.map(({ option }, index) => {
+			if (!option || option.trim() === '') return {};
+			return fetch(`https://graph.facebook.com/v12.0/${confession.facebook_post_id}?fields=reactions.type(${REACTIONS[index]}).summary(total_count)&access_token=${process.env.FACEBOOK_ACCESS_TOKEN}`)
+				.then(res => res.json())
+				.then(res => ({
+					option,
+					reaction: res?.reactions?.summary?.total_count ?? null
+				}));
+		}));
+		return poll;
+	}
+	if (source === 'queue') {
+		return removeNullish({
+			...confession,
+			queueId: post.id,
+			poll: await getPoll(poll, false),
+			url: getUrl(filename, user),
+			submitted: confession.submitted?.toDate()?.toISOString() ?? null
+		});
+	}
+
+	return removeNullish({
 		...confession,
-		poll,
-		posted: confession.posted?.toDate()?.toISOString() ?? 'unknown data',
-		submitted: confession.submitted?.toDate()?.toISOString() ?? 'unknown data'
-	};
+		poll: await getPoll(poll),
+		url: getUrl(filename, user),
+		posted: confession.posted?.toDate()?.toISOString() ?? null,
+		submitted: confession.submitted?.toDate()?.toISOString() ?? null,
+		handled: confession.handled?.toDate()?.toISOString() ?? null
+	});
 };
 
 export const getConfession = async id => {
 	const post = await confessions.doc(`${id}`).get();
-	if (post.exists) {
-		return convertConfession(post)
-	}
+	if (!post?.exists) return null;
+	return convertConfession(post)
 }
 
 export const getConfessions = async (amount = 50, cursor) => {
@@ -236,18 +230,7 @@ export const getConfessions = async (amount = 50, cursor) => {
 
 export const getBinnedConfessions = async (amount = 50) => {
 	const unfiltered = await bin.orderBy('submitted', 'desc').limit(amount).get();
-	return unfiltered.docs.map(post => {
-		const { value, user, filename, submitted, id } = post.data();
-		if(filename){
-			const url = getDownloadableUrl(filename, `pending/${user}`);
-			return {value, url};
-		}
-		return removeNullish({
-			value,
-			submitted: submitted?.toDate()?.toISOString() ?? 'unknown data',
-			id
-		});
-	});
+	return Promise.all(unfiltered.docs.map(convertConfession));
 }
 
 export const getUser = async id => {
